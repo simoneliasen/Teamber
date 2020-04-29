@@ -54,26 +54,38 @@ namespace ContosoUniversity.Pages.Employees {
             {
                 return NotFound();
             }
-
-            var employee = await _context.Employees.FindAsync(id);
+            Employee employee = await _context.Employees
+               .Include(i => i.Enrollments)
+               .SingleAsync(i => i.ID == id);
 
             if (employee == null)
             {
-                return NotFound();
+                return RedirectToPage("./Index");
             }
 
+
+            _context.Employees.Remove(employee);
+
+            await _context.SaveChangesAsync();
+
+
+
+
+            /*
             try
             {
                 _context.Employees.Remove(employee);
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
             }
-            catch (DbUpdateException /* ex */)
+            catch (DbUpdateException  //ex//)
             {
                 //Log the error (uncomment ex variable name and write a log.)
                 return RedirectToAction("./Delete",
                                      new { id, saveChangesError = true });
             }
+            */
+            return RedirectToPage("./Index");
         }
     }
 }
