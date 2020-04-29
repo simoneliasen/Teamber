@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ContosoUniversity.Data;
 using ContosoUniversity.Models;
-
+  
 namespace ContosoUniversity.Pages.Employees {
     public class DetailsModel : PageModel {
         private readonly ContosoUniversity.Data.SchoolContext _context;
@@ -29,8 +29,10 @@ namespace ContosoUniversity.Pages.Employees {
             Employee = await _context.Employees
        .Include(s => s.Enrollments)
        .ThenInclude(e => e.Team)
+       .Include(x => x.EmpQuestionnaires)
        .AsNoTracking()
        .FirstOrDefaultAsync(m => m.ID == id);
+
 
             if (Employee == null)
             {

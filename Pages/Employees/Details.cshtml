@@ -51,6 +51,22 @@
                 }
             </table>
         </dd>
+        <dd class="col-sm-10">
+            <table class="table">
+                <tr>
+                    <th>Team Title</th>
+                    <th>Grade</th>
+                </tr>
+                @foreach (var item in Model.Employee.EmpQuestionnaires)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Questionnaire.Title)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
     </dl>
 </div>
 <div>

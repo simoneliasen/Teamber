@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ContosoUniversity.Migrations
 {
     [DbContext(typeof(SchoolContext))]
-    [Migration("20200428125615_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20200428143544_MigrationTing")]
+    partial class MigrationTing
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,28 @@ namespace ContosoUniversity.Migrations
                 .HasAnnotation("ProductVersion", "3.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("ContosoUniversity.Models.EmpQuestionnaire", b =>
+                {
+                    b.Property<int>("EmpQuestionnaireID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("EmployeeID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuestionnaireID")
+                        .HasColumnType("int");
+
+                    b.HasKey("EmpQuestionnaireID");
+
+                    b.HasIndex("EmployeeID");
+
+                    b.HasIndex("QuestionnaireID");
+
+                    b.ToTable("EmpQuestionnaire");
+                });
 
             modelBuilder.Entity("ContosoUniversity.Models.Employee", b =>
                 {
@@ -72,6 +94,23 @@ namespace ContosoUniversity.Migrations
                     b.ToTable("Enrollment");
                 });
 
+            modelBuilder.Entity("ContosoUniversity.Models.Questionnaire", b =>
+                {
+                    b.Property<int>("QuestionnaireID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Cycle")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("QuestionnaireID");
+
+                    b.ToTable("Questionnaire");
+                });
+
             modelBuilder.Entity("ContosoUniversity.Models.Team", b =>
                 {
                     b.Property<int>("TeamID")
@@ -87,6 +126,21 @@ namespace ContosoUniversity.Migrations
                     b.HasKey("TeamID");
 
                     b.ToTable("Team");
+                });
+
+            modelBuilder.Entity("ContosoUniversity.Models.EmpQuestionnaire", b =>
+                {
+                    b.HasOne("ContosoUniversity.Models.Employee", "Employee")
+                        .WithMany("EmpQuestionnaires")
+                        .HasForeignKey("EmployeeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ContosoUniversity.Models.Questionnaire", "Questionnaire")
+                        .WithMany("EmpQuestionnaires")
+                        .HasForeignKey("QuestionnaireID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ContosoUniversity.Models.Enrollment", b =>

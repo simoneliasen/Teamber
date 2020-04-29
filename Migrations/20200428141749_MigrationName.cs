@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ContosoUniversity.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class MigrationName : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,6 +20,19 @@ namespace ContosoUniversity.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employee", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Questionnaire",
+                columns: table => new
+                {
+                    QuestionnaireID = table.Column<int>(nullable: false),
+                    Title = table.Column<string>(maxLength: 50, nullable: true),
+                    Cycle = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Questionnaire", x => x.QuestionnaireID);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,6 +90,9 @@ namespace ContosoUniversity.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Enrollment");
+
+            migrationBuilder.DropTable(
+                name: "Questionnaire");
 
             migrationBuilder.DropTable(
                 name: "Employee");
