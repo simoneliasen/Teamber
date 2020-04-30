@@ -55,7 +55,7 @@ namespace ContosoUniversity.Pages.Employees {
                 return NotFound();
             }
             Employee employee = await _context.Employees
-               .Include(i => i.Enrollments)
+               .Include(i => i.EmpTeams)
                .SingleAsync(i => i.ID == id);
 
             if (employee == null)

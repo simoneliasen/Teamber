@@ -10,7 +10,7 @@ namespace ContosoUniversity.Data
         }
 
         public DbSet<Team> Teams { get; set; }
-        public DbSet<Enrollment> Enrollments { get; set; }
+        public DbSet<EmpTeam> EmpTeams { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Questionnaire> Questionnaires { get; set; }
         public DbSet<EmpQuestionnaire> EmpQuestionnaires { get; set; }
@@ -19,7 +19,7 @@ namespace ContosoUniversity.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Team>().ToTable("Team");
-            modelBuilder.Entity<Enrollment>().ToTable("Enrollment");
+            modelBuilder.Entity<EmpTeam>().ToTable("EmpTeam");
             modelBuilder.Entity<Employee>().ToTable("Employee");
             modelBuilder.Entity<Questionnaire>().ToTable("Questionnaire");
             modelBuilder.Entity<EmpQuestionnaire>().ToTable("EmpQuestionnaire");

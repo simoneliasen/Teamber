@@ -16,7 +16,7 @@ namespace ContosoUniversity.Pages.Employees {
         {
             var allTeams = context.Teams;
             var employeeTeams = new HashSet<int>(
-                employee.Enrollments.Select(c => c.TeamID));
+                employee.EmpTeams.Select(c => c.TeamID));
             AssignedTeamDataList = new List<AssignedTeamData>();
             foreach (var team in allTeams)
             {
@@ -52,21 +52,21 @@ namespace ContosoUniversity.Pages.Employees {
         {
             if (selectedTeams == null)
             {
-                employeeToUpdate.Enrollments = new List<Enrollment>();
+                employeeToUpdate.EmpTeams = new List<EmpTeam>();
                 return;
             }
 
             var selectedTeamsHS = new HashSet<string>(selectedTeams);
             var employeeTeams = new HashSet<int>
-                (employeeToUpdate.Enrollments.Select(c => c.Team.TeamID));
+                (employeeToUpdate.EmpTeams.Select(c => c.Team.TeamID));
             foreach (var team in context.Teams)
             {
                 if (selectedTeamsHS.Contains(team.TeamID.ToString()))
                 {
                     if (!employeeTeams.Contains(team.TeamID))
                     {
-                        employeeToUpdate.Enrollments.Add(
-                            new Enrollment
+                        employeeToUpdate.EmpTeams.Add(
+                            new EmpTeam
                             {
                                 EmployeeID = employeeToUpdate.ID,
                                 TeamID = team.TeamID
@@ -77,9 +77,9 @@ namespace ContosoUniversity.Pages.Employees {
                 {
                     if (employeeTeams.Contains(team.TeamID))
                     {
-                        Enrollment teamToRemove
+                        EmpTeam teamToRemove
                             = employeeToUpdate
-                                .Enrollments
+                                .EmpTeams
                                 .SingleOrDefault(i => i.TeamID == team.TeamID);
                         context.Remove(teamToRemove);
                     }

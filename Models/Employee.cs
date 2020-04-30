@@ -19,8 +19,8 @@ namespace ContosoUniversity.Models
         public string FirstMidName { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Enrollment Date")]
-        public DateTime EnrollmentDate { get; set; }
+        [Display(Name = "EmpTeam Date")]
+        public DateTime EmpTeamDate { get; set; }
         [Display(Name = "Full Name")]
         public string FullName
         {
@@ -30,7 +30,35 @@ namespace ContosoUniversity.Models
             }
         }
 
-        public ICollection<Enrollment> Enrollments { get; set; }
+        [Required]
+        [Column("JobTitle")]
+        [Display(Name = "Job title")]
+        public string JobTitle { get; set; }
+
+        [Required]
+        [Column("PersonalityType")]
+        [Display(Name = "Personality type")]
+        public string PersonalityType { get; set; }
+
+        [Required]
+        [Column("IsManager")]
+        [Display(Name = "Is Manager")]
+        public bool IsManager { get; set; }
+
+        [Required]
+        [Column("Username")]
+        [Display(Name = "Username")]
+        public string Username { get; set; }
+
+        [Required]
+        [Column("Password")]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
+
+
+
+        public ICollection<EmpTeam> EmpTeams { get; set; }
         public ICollection<EmpQuestionnaire> EmpQuestionnaires { get; set; }
     }
 }

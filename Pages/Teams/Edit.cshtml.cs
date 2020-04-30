@@ -31,7 +31,7 @@ namespace ContosoUniversity.Pages.Teams {
             }
 
             Team = await _context.Teams
-                .Include(i => i.Enrollments).ThenInclude(i => i.Employee)
+                .Include(i => i.EmpTeams).ThenInclude(i => i.Employee)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.TeamID == id);
 
@@ -55,8 +55,8 @@ namespace ContosoUniversity.Pages.Teams {
             }
 
             var teamToUpdate = await _context.Teams
-                .Include(i => i.Enrollments)
-                    .ThenInclude(i => i.Employee)
+                .Include(i => i.EmpTeams)
+                .ThenInclude(i => i.Employee)
                 .FirstOrDefaultAsync(s => s.TeamID == id);
 
             if (teamToUpdate == null)

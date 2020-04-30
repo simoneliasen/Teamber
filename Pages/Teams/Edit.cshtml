@@ -42,7 +42,8 @@
                                                name="selectedEmployees"
                                                value="@employee.EmployeeID"
                                                @(Html.Raw(employee.Assigned ? "checked=\"checked\"" : "")) />
-                                        @employee.EmployeeID @:  @employee.FullName
+                                        @employee.EmployeeID @:  @employee.FullName  <!-- Employee.Fullname skal måske tilføjes her-->
+                        
                                     @:</td>
                                 }
                             @:</tr>

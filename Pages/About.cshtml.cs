@@ -18,16 +18,16 @@ namespace ContosoUniversity.Pages
             _context = context;
         }
 
-        public IList<EnrollmentDateGroup> Employees { get; set; }
+        public IList<EmpTeamDateGroup> Employees { get; set; }
 
         public async Task OnGetAsync()
         {
-            IQueryable<EnrollmentDateGroup> data =
+            IQueryable<EmpTeamDateGroup> data =
                 from employee in _context.Employees
-                group employee by employee.EnrollmentDate into dateGroup
-                select new EnrollmentDateGroup()
+                group employee by employee.EmpTeamDate into dateGroup
+                select new EmpTeamDateGroup()
                 {
-                    EnrollmentDate = dateGroup.Key,
+                    EmpTeamDate = dateGroup.Key,
                     EmployeeCount = dateGroup.Count()
                 };
 

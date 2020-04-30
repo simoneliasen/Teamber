@@ -17,7 +17,7 @@ namespace ContosoUniversity.Pages.Teams
         {
             var allEmployees = context.Employees;
             var teamEmployees = new HashSet<int>(
-                team.Enrollments.Select(c => c.EmployeeID));
+                team.EmpTeams.Select(c => c.EmployeeID));
             AssignedEmployeeDataList = new List<AssignedEmployeeData>();
             foreach (var employee in allEmployees)
             {
@@ -25,6 +25,8 @@ namespace ContosoUniversity.Pages.Teams
                 {
                     EmployeeID = employee.ID,
                     FullName = employee.FullName,
+                    JobTitle = employee.JobTitle,
+                    PersonalityType = employee.PersonalityType,
                     Assigned = teamEmployees.Contains(employee.ID)
                 });
             }
@@ -35,21 +37,21 @@ namespace ContosoUniversity.Pages.Teams
         {
             if (selectedEmployees == null)
             {
-                teamToUpdate.Enrollments = new List<Enrollment>();
+                teamToUpdate.EmpTeams = new List<EmpTeam>();
                 return;
             }
 
             var selectedEmployeesHS = new HashSet<string>(selectedEmployees);
             var teamEmployees = new HashSet<int>
-                (teamToUpdate.Enrollments.Select(c => c.Employee.ID));
+                (teamToUpdate.EmpTeams.Select(c => c.Employee.ID));
             foreach (var employee in context.Employees)
             {
                 if (selectedEmployeesHS.Contains(employee.ID.ToString()))
                 {
                     if (!teamEmployees.Contains(employee.ID))
                     {
-                        teamToUpdate.Enrollments.Add(
-                            new Enrollment
+                        teamToUpdate.EmpTeams.Add(
+                            new EmpTeam
                             {
                                 TeamID = teamToUpdate.TeamID,
                                 EmployeeID = employee.ID
@@ -60,9 +62,9 @@ namespace ContosoUniversity.Pages.Teams
                 {
                     if (teamEmployees.Contains(employee.ID))
                     {
-                        Enrollment employeeToRemove
+                        EmpTeam employeeToRemove
                             = teamToUpdate
-                                .Enrollments
+                                .EmpTeams
                                 .SingleOrDefault(i => i.EmployeeID == employee.ID);
                         context.Remove(employeeToRemove);
                     }

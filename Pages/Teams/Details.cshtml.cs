@@ -29,7 +29,7 @@ namespace ContosoUniversity.Pages.Teams {
             }
 
             Team = await _context.Teams
-       .Include(s => s.Enrollments)
+       .Include(s => s.EmpTeams)
        .ThenInclude(e => e.Employee)
        .AsNoTracking()
        .FirstOrDefaultAsync(m => m.TeamID == id);

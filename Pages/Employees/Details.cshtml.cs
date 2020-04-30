@@ -27,7 +27,7 @@ namespace ContosoUniversity.Pages.Employees {
             }
 
             Employee = await _context.Employees
-       .Include(s => s.Enrollments)
+       .Include(s => s.EmpTeams)
        .ThenInclude(e => e.Team)
        .Include(x => x.EmpQuestionnaires)
        .ThenInclude(k => k.Questionnaire)

@@ -24,20 +24,23 @@
             @Html.DisplayFor(model => model.Team.Credits)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Team.Enrollments)
+            @Html.DisplayNameFor(model => model.Team.EmpTeams)
         </dt>
         <dd class="col-sm-10">
             <table class="table">
                 <tr>
-                    <th>Teammembers</th>
+                    <th>Team members</th>
                 </tr>
-                @foreach (var item in Model.Team.Enrollments)
+                @foreach (var item in Model.Team.EmpTeams)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Employee.FullName)
-                        </td>
-                    </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Employee.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Employee.JobTitle)
+                </td>
+            </tr>
                 }
             </table>
         </dd>

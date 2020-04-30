@@ -24,9 +24,19 @@
                 <span asp-validation-for="Employee.FirstMidName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Employee.EnrollmentDate" class="control-label"></label>
-                <input asp-for="Employee.EnrollmentDate" class="form-control" />
-                <span asp-validation-for="Employee.EnrollmentDate" class="text-danger"></span>
+                <label asp-for="Employee.EmpTeamDate" class="control-label"></label>
+                <input asp-for="Employee.EmpTeamDate" class="form-control" />
+                <span asp-validation-for="Employee.EmpTeamDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Employee.JobTitle" class="control-label"></label>
+                <input asp-for="Employee.JobTitle" class="form-control" />
+                <span asp-validation-for="Employee.JobTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Employee.PersonalityType" class="control-label"></label>
+                <input asp-for="Employee.PersonalityType" class="form-control" />
+                <span asp-validation-for="Employee.PersonalityType" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <div class="table">
@@ -53,9 +63,10 @@
                             }
                         </table>
                     </div>
-                    <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
-                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
             </form>
     </div>
 </div>

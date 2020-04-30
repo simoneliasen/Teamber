@@ -16,6 +16,6 @@ namespace ContosoUniversity.Models
         [Range(0, 5)]
         public int Credits { get; set; }
  
-        public ICollection<Enrollment> Enrollments { get; set; }
+        public ICollection<EmpTeam> EmpTeams { get; set; }
     }
 }

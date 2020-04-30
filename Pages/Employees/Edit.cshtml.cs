@@ -32,7 +32,7 @@ namespace ContosoUniversity.Pages.Employees {
             }
 
             Employee = await _context.Employees
-                .Include(i => i.Enrollments).ThenInclude(i => i.Team)
+                .Include(i => i.EmpTeams).ThenInclude(i => i.Team)
                 .AsNoTracking()
                 .Include(k => k.EmpQuestionnaires).ThenInclude(k => k.Questionnaire)
                 .FirstOrDefaultAsync(m => m.ID == id);
@@ -58,7 +58,7 @@ namespace ContosoUniversity.Pages.Employees {
             }
 
             var employeeToUpdate = await _context.Employees
-                .Include(i => i.Enrollments)
+                .Include(i => i.EmpTeams)
                     .ThenInclude(i => i.Team)
                 .Include(k => k.EmpQuestionnaires)
                     .ThenInclude(k => k.Questionnaire)
@@ -73,7 +73,7 @@ namespace ContosoUniversity.Pages.Employees {
                 employeeToUpdate,
                 "Employee",
                 i => i.FirstMidName, i => i.LastName,
-                i => i.EnrollmentDate))
+                i => i.EmpTeamDate, i => i.JobTitle, i => i.PersonalityType))
                 {
            
                 UpdateEmployeeTeams(_context, selectedTeams, employeeToUpdate);

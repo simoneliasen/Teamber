@@ -22,7 +22,7 @@ namespace ContosoUniversity.Pages.Teams {
         public IActionResult OnGet()
         {
             var team = new Team();
-            team.Enrollments = new List<Enrollment>();
+            team.EmpTeams = new List<EmpTeam>();
             // Provides an empty collection for the foreach loop
             // foreach (var course in Model.AssignedCourseDataList)
             // in the Create Razor page.
@@ -42,14 +42,14 @@ namespace ContosoUniversity.Pages.Teams {
             var newTeam = new Team();
             if (selectedEmployees != null)
             {
-                newTeam.Enrollments = new List<Enrollment>();
+                newTeam.EmpTeams = new List<EmpTeam>();
                 foreach (var employee in selectedEmployees)
                 {
-                    var employeeToAdd = new Enrollment
+                    var employeeToAdd = new EmpTeam
                     {
                         EmployeeID = int.Parse(employee)
                     };
-                    newTeam.Enrollments.Add(employeeToAdd);
+                    newTeam.EmpTeams.Add(employeeToAdd);
                 }
             }
 
