@@ -9,6 +9,7 @@ namespace ContosoUniversity.Pages.Employees {
     public class EmployeeTeamsPageModel : PageModel {
 
         public List<AssignedTeamData> AssignedTeamDataList;
+        public List<AssignedQuestionnaireData> AssignedQuestionnaireDataList;
 
         public void PopulateAssignedTeamData(SchoolContext context,
                                                Employee employee)
@@ -24,6 +25,24 @@ namespace ContosoUniversity.Pages.Employees {
                     TeamID = team.TeamID,
                     Title = team.Title,
                     Assigned = employeeTeams.Contains(team.TeamID) 
+                });
+            }
+        }
+
+        public void PopulateAssignedQuestionnaireData(SchoolContext context,
+                                               Employee employee)
+        {
+            var allQuestionnaires = context.Questionnaires;
+            var employeeQuestionnaires = new HashSet<int>(
+                employee.EmpQuestionnaires.Select(c => c.QuestionnaireID));
+            AssignedQuestionnaireDataList = new List<AssignedQuestionnaireData>();
+            foreach (var questionnaire in allQuestionnaires)
+            {
+                AssignedQuestionnaireDataList.Add(new AssignedQuestionnaireData
+                {
+                    QuestionnaireID = questionnaire.QuestionnaireID,
+                    Title = questionnaire.Title,
+                    Assigned = employeeQuestionnaires.Contains(questionnaire.QuestionnaireID)
                 });
             }
         }
@@ -63,6 +82,46 @@ namespace ContosoUniversity.Pages.Employees {
                                 .Enrollments
                                 .SingleOrDefault(i => i.TeamID == team.TeamID);
                         context.Remove(teamToRemove);
+                    }
+                }
+            }
+        }
+
+        public void UpdateEmployeeQuestionnaires(SchoolContext context,
+            string[] selectedQuestionnaires, Employee employeeToUpdate)
+        {
+            if (selectedQuestionnaires == null)
+            {
+                employeeToUpdate.EmpQuestionnaires = new List<EmpQuestionnaire>();
+                return;
+            }
+
+            var selectedQuestionnairesHS = new HashSet<string>(selectedQuestionnaires);
+            var employeeQuestionnaires = new HashSet<int>
+                (employeeToUpdate.EmpQuestionnaires.Select(c => c.Questionnaire.QuestionnaireID));
+            foreach (var questionnaire in context.Questionnaires)
+            {
+                if (selectedQuestionnairesHS.Contains(questionnaire.QuestionnaireID.ToString()))
+                {
+                    if (!employeeQuestionnaires.Contains(questionnaire.QuestionnaireID))
+                    {
+                        employeeToUpdate.EmpQuestionnaires.Add(
+                            new EmpQuestionnaire
+                            {
+                                EmployeeID = employeeToUpdate.ID,
+                                QuestionnaireID = questionnaire.QuestionnaireID
+                            });
+                    }
+                }
+                else
+                {
+                    if (employeeQuestionnaires.Contains(questionnaire.QuestionnaireID))
+                    {
+                        EmpQuestionnaire questionnaireToRemove
+                            = employeeToUpdate
+                                .EmpQuestionnaires
+                                .SingleOrDefault(i => i.QuestionnaireID == questionnaire.QuestionnaireID);
+                        context.Remove(questionnaireToRemove);
                     }
                 }
             }

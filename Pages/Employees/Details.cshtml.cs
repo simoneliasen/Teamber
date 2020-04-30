@@ -30,6 +30,7 @@ namespace ContosoUniversity.Pages.Employees {
        .Include(s => s.Enrollments)
        .ThenInclude(e => e.Team)
        .Include(x => x.EmpQuestionnaires)
+       .ThenInclude(k => k.Questionnaire)
        .AsNoTracking()
        .FirstOrDefaultAsync(m => m.ID == id);
 

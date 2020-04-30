@@ -34,6 +34,7 @@ namespace ContosoUniversity.Pages.Employees {
             Employee = await _context.Employees
                 .Include(i => i.Enrollments).ThenInclude(i => i.Team)
                 .AsNoTracking()
+                .Include(k => k.EmpQuestionnaires).ThenInclude(k => k.Questionnaire)
                 .FirstOrDefaultAsync(m => m.ID == id);
 
 
@@ -44,11 +45,12 @@ namespace ContosoUniversity.Pages.Employees {
                 return NotFound();
             }
             PopulateAssignedTeamData(_context, Employee);
+            PopulateAssignedQuestionnaireData(_context, Employee);
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id, string[] selectedTeams)
+        public async Task<IActionResult> OnPostAsync(int? id, string[] selectedTeams, string[] selectedQuestionnaires)
         {
             if (id == null)
             {
@@ -58,6 +60,8 @@ namespace ContosoUniversity.Pages.Employees {
             var employeeToUpdate = await _context.Employees
                 .Include(i => i.Enrollments)
                     .ThenInclude(i => i.Team)
+                .Include(k => k.EmpQuestionnaires)
+                    .ThenInclude(k => k.Questionnaire)
                 .FirstOrDefaultAsync(s => s.ID == id);
 
             if (employeeToUpdate == null)
@@ -73,11 +77,14 @@ namespace ContosoUniversity.Pages.Employees {
                 {
            
                 UpdateEmployeeTeams(_context, selectedTeams, employeeToUpdate);
+                UpdateEmployeeQuestionnaires(_context, selectedQuestionnaires, employeeToUpdate);
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
             }
             UpdateEmployeeTeams(_context, selectedTeams, employeeToUpdate);
+            UpdateEmployeeQuestionnaires(_context, selectedQuestionnaires, employeeToUpdate);
             PopulateAssignedTeamData(_context, employeeToUpdate);
+            PopulateAssignedQuestionnaireData(_context, employeeToUpdate);
             return Page();
         }
 

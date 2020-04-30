@@ -55,6 +55,33 @@
                         </table>
                     </div>
                 </div>
+            
+            <div class="form-group">
+                <div class="table">
+                    <table>
+                        <tr>
+                            @{
+                                int cnt2 = 0;
+
+                                foreach (var questionnaire in Model.AssignedQuestionnaireDataList)
+                                {
+                                    if (cnt2++ % 3 == 0)
+                                    {
+                                    @:</tr><tr>
+                                    }
+                                    @:<td>
+                                        <input type="checkbox"
+                                               name="selectedQuestionnaires"
+                                               value="@questionnaire.QuestionnaireID"
+                                               @(Html.Raw(questionnaire.Assigned ? "checked=\"checked\"" : "")) />
+                                        @questionnaire.QuestionnaireID @:  @questionnaire.Title
+                                    @:</td>
+                                }
+                            @:</tr>
+                            }
+                        </table>
+                    </div>
+                </div>
                 <div class="form-group">
                     <input type="submit" value="Save" class="btn btn-primary" />
                 </div>
