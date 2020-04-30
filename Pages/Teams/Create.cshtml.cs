@@ -9,6 +9,67 @@ using ContosoUniversity.Data;
 using ContosoUniversity.Models;
 
 namespace ContosoUniversity.Pages.Teams {
+
+    public class CreateModel : TeamEmployeesPageModel
+    {
+        private readonly ContosoUniversity.Data.SchoolContext _context;
+
+        public CreateModel(ContosoUniversity.Data.SchoolContext context)
+        {
+            _context = context;
+        }
+
+        public IActionResult OnGet()
+        {
+            var team = new Team();
+            team.Enrollments = new List<Enrollment>();
+            // Provides an empty collection for the foreach loop
+            // foreach (var course in Model.AssignedCourseDataList)
+            // in the Create Razor page.
+            PopulateAssignedEmployeeData(_context, team);
+            return Page();
+        }
+
+
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see https://aka.ms/RazorPagesCRUD.
+        [BindProperty]
+        public Team Team { get; set; }
+
+
+        public async Task<IActionResult> OnPostAsync(string[] selectedEmployees)
+        {
+            var newTeam = new Team();
+            if (selectedEmployees != null)
+            {
+                newTeam.Enrollments = new List<Enrollment>();
+                foreach (var employee in selectedEmployees)
+                {
+                    var employeeToAdd = new Enrollment
+                    {
+                        EmployeeID = int.Parse(employee)
+                    };
+                    newTeam.Enrollments.Add(employeeToAdd);
+                }
+            }
+
+            if (await TryUpdateModelAsync<Team>(
+                newTeam,
+                "Team",
+                i => i.Title))
+            {
+
+                _context.Teams.Add(newTeam);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+
+            PopulateAssignedEmployeeData(_context, newTeam);
+            return Page();
+        }
+    }
+
+    /*
     public class CreateModel : PageModel
     {
         private readonly ContosoUniversity.Data.SchoolContext _context;
@@ -41,4 +102,5 @@ namespace ContosoUniversity.Pages.Teams {
             return RedirectToPage("./Index");
         }
     }
+    */
 }

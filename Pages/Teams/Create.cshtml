@@ -28,9 +28,35 @@
                 <span asp-validation-for="Team.Credits" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                <div class="table">
+                    <table>
+                        <tr>
+                            @{
+                                int cnt = 0;
+
+                                foreach (var employee in Model.AssignedEmployeeDataList)
+                                {
+                                    if (cnt++ % 3 == 0)
+                                    {
+                                    @:</tr><tr>
+                                    }
+                                    @:<td>
+                                        <input type="checkbox"
+                                               name="selectedEmployees"
+                                               value="@employee.EmployeeID"
+                                               @(Html.Raw(employee.Assigned ? "checked=\"checked\"" : "")) />
+                                        @employee.EmployeeID @:  @employee.FullName
+                                    @:</td>
+                                }
+                            @:</tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
     </div>
 </div>
 
