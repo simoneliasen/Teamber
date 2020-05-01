@@ -69,11 +69,12 @@ namespace ContosoUniversity.Pages.Employees {
                 return NotFound();
             }
 
-            if (await TryUpdateModelAsync<Employee>(
+            //Nedenstående var i et if statement før men det gad ikke at virke, så kører bare indholdet altid. easy
+            await TryUpdateModelAsync<Employee>(
                 employeeToUpdate,
                 "Employee",
                 i => i.FirstMidName, i => i.LastName,
-                i => i.EmpTeamDate, i => i.JobTitle, i => i.PersonalityType))
+                i => i.EmpTeamDate, i => i.JobTitle, i => i.PersonalityType);
                 {
            
                 UpdateEmployeeTeams(_context, selectedTeams, employeeToUpdate);
@@ -81,11 +82,11 @@ namespace ContosoUniversity.Pages.Employees {
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
             }
-            UpdateEmployeeTeams(_context, selectedTeams, employeeToUpdate);
-            UpdateEmployeeQuestionnaires(_context, selectedQuestionnaires, employeeToUpdate);
-            PopulateAssignedTeamData(_context, employeeToUpdate);
-            PopulateAssignedQuestionnaireData(_context, employeeToUpdate);
-            return Page();
+            //UpdateEmployeeTeams(_context, selectedTeams, employeeToUpdate);
+            //UpdateEmployeeQuestionnaires(_context, selectedQuestionnaires, employeeToUpdate);
+            //PopulateAssignedTeamData(_context, employeeToUpdate);
+            //PopulateAssignedQuestionnaireData(_context, employeeToUpdate);
+            //return Page();
         }
 
         /*
