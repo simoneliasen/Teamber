@@ -6,16 +6,16 @@ namespace ContosoUniversity.Models
 {
     public class Team
         {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [Display(Name = "Number")]
+ 
         public int TeamID { get; set; }
 
         [StringLength(50, MinimumLength = 3)]
-        public string Title { get; set; }
+        public string Title { get; set; } 
 
-        [Range(0, 5)]
-        public int Credits { get; set; }
+        [Range(0, 101)]
+        public int Synergy { get; set; } //synergy
  
         public ICollection<EmpTeam> EmpTeams { get; set; }
+        public ICollection<TeamQuestionnaire> TeamQuestionnaires { get; set; }
     }
 }

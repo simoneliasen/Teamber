@@ -20,9 +20,9 @@
                 <span asp-validation-for="Team.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Team.Credits" class="control-label"></label>
-                <input asp-for="Team.Credits" class="form-control" />
-                <span asp-validation-for="Team.Credits" class="text-danger"></span>
+                <label asp-for="Team.Synergy" class="control-label"></label>
+                <input asp-for="Team.Synergy" class="form-control" />
+                <span asp-validation-for="Team.Synergy" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <div class="table">
@@ -43,7 +43,7 @@
                                                value="@employee.EmployeeID"
                                                @(Html.Raw(employee.Assigned ? "checked=\"checked\"" : "")) />
                                         @employee.EmployeeID @:  @employee.FullName  <!-- Employee.Fullname skal måske tilføjes her-->
-                        
+
                                     @:</td>
                                 }
                             @:</tr>
@@ -52,9 +52,35 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-primary" />
-                </div>
-            </form>
+                    <div class="table">
+                        <table>
+                            <tr>
+                                @{
+                                    int cnt2 = 0;
+
+                                    foreach (var questionnaire in Model.AssignedQuestionnaireDataList)
+                                    {
+                                        if (cnt2++ % 3 == 0)
+                                        {
+                                        @:</tr><tr>
+                                        }
+                                        @:<td>
+                                            <input type="checkbox"
+                                                   name="selectedQuestionnaires"
+                                                   value="@questionnaire.QuestionnaireID"
+                                                   @(Html.Raw(questionnaire.Assigned ? "checked=\"checked\"" : "")) />
+                                            @questionnaire.QuestionnaireID @:  @questionnaire.Title
+                                        @:</td>
+                                    }
+                                @:</tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
     </div>
 </div>
 

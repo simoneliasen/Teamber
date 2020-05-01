@@ -35,10 +35,9 @@ namespace ContosoUniversity.Models
         [Display(Name = "Job title")]
         public string JobTitle { get; set; }
 
-        [Required]
         [Column("PersonalityType")]
         [Display(Name = "Personality type")]
-        public string PersonalityType { get; set; }
+        public string? PersonalityType { get; set; }
 
         [Required]
         [Column("IsManager")]
@@ -54,8 +53,6 @@ namespace ContosoUniversity.Models
         [Column("Password")]
         [Display(Name = "Password")]
         public string Password { get; set; }
-
-
 
 
         public ICollection<EmpTeam> EmpTeams { get; set; }

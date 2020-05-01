@@ -21,10 +21,12 @@ namespace ContosoUniversity.Pages.Employees {
         {
             var employee = new Employee();
             employee.EmpTeams = new List<EmpTeam>();
+            employee.EmpQuestionnaires = new List<EmpQuestionnaire>();
             // Provides an empty collection for the foreach loop
             // foreach (var course in Model.AssignedCourseDataList)
             // in the Create Razor page.
             PopulateAssignedTeamData(_context, employee);
+            PopulateAssignedQuestionnaireData(_context, employee);
             return Page();
         }
 
@@ -35,7 +37,7 @@ namespace ContosoUniversity.Pages.Employees {
         public Employee Employee { get; set; }
 
 
-        public async Task<IActionResult> OnPostAsync(string[] selectedTeams)
+        public async Task<IActionResult> OnPostAsync(string[] selectedTeams, string[] selectedQuestionnaires)
         {
             var newEmployee = new Employee();
             if (selectedTeams != null)
@@ -50,12 +52,26 @@ namespace ContosoUniversity.Pages.Employees {
                     newEmployee.EmpTeams.Add(teamToAdd);
                 }
             }
-
-            if (await TryUpdateModelAsync<Employee>(
+            if (selectedQuestionnaires != null)
+            {
+                newEmployee.EmpQuestionnaires = new List<EmpQuestionnaire>();
+                foreach (var questionnaire in selectedQuestionnaires)
+                {
+                    var questionnaireToAdd = new EmpQuestionnaire
+                    {
+                        QuestionnaireID = int.Parse(questionnaire)
+                    };
+                    newEmployee.EmpQuestionnaires.Add(questionnaireToAdd);
+                }
+            }
+            // If statement slettet
+            await TryUpdateModelAsync<Employee>(
                 newEmployee,
                 "Employee",
                 i => i.FirstMidName, i => i.LastName,
-                i => i.EmpTeamDate, i => i.JobTitle, i => i.PersonalityType))
+                i => i.EmpTeamDate, i => i.JobTitle,
+                i => i.PersonalityType, i => i.IsManager,
+                i => i.Username, i => i.Password);
             {
 
                 _context.Employees.Add(newEmployee);
@@ -64,6 +80,7 @@ namespace ContosoUniversity.Pages.Employees {
             }
 
             PopulateAssignedTeamData(_context, newEmployee);
+            PopulateAssignedQuestionnaireData(_context, newEmployee);
             return Page();
         }
     }

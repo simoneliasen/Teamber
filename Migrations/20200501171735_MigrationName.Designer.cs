@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ContosoUniversity.Migrations
 {
     [DbContext(typeof(SchoolContext))]
-    [Migration("20200430150351_EMpTeams")]
-    partial class EMpTeams
+    [Migration("20200501171735_MigrationName")]
+    partial class MigrationName
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -81,10 +81,33 @@ namespace ContosoUniversity.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
+                    b.Property<bool>("IsManager")
+                        .HasColumnName("IsManager")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("JobTitle")
+                        .IsRequired()
+                        .HasColumnName("JobTitle")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnName("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PersonalityType")
+                        .HasColumnName("PersonalityType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnName("Username")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
@@ -94,7 +117,9 @@ namespace ContosoUniversity.Migrations
             modelBuilder.Entity("ContosoUniversity.Models.Questionnaire", b =>
                 {
                     b.Property<int>("QuestionnaireID")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Cycle")
                         .HasColumnType("int");
@@ -111,9 +136,11 @@ namespace ContosoUniversity.Migrations
             modelBuilder.Entity("ContosoUniversity.Models.Team", b =>
                 {
                     b.Property<int>("TeamID")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Credits")
+                    b.Property<int>("Synergy")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -123,6 +150,28 @@ namespace ContosoUniversity.Migrations
                     b.HasKey("TeamID");
 
                     b.ToTable("Team");
+                });
+
+            modelBuilder.Entity("ContosoUniversity.Models.TeamQuestionnaire", b =>
+                {
+                    b.Property<int>("TeamQuestionnaireID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("QuestionnaireID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeamID")
+                        .HasColumnType("int");
+
+                    b.HasKey("TeamQuestionnaireID");
+
+                    b.HasIndex("QuestionnaireID");
+
+                    b.HasIndex("TeamID");
+
+                    b.ToTable("TeamQuestionnaire");
                 });
 
             modelBuilder.Entity("ContosoUniversity.Models.EmpQuestionnaire", b =>
@@ -150,6 +199,21 @@ namespace ContosoUniversity.Migrations
 
                     b.HasOne("ContosoUniversity.Models.Team", "Team")
                         .WithMany("EmpTeams")
+                        .HasForeignKey("TeamID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ContosoUniversity.Models.TeamQuestionnaire", b =>
+                {
+                    b.HasOne("ContosoUniversity.Models.Questionnaire", "Questionnaire")
+                        .WithMany("TeamQuestionnaires")
+                        .HasForeignKey("QuestionnaireID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ContosoUniversity.Models.Team", "Team")
+                        .WithMany("TeamQuestionnaires")
                         .HasForeignKey("TeamID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

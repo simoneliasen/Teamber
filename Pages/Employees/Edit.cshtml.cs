@@ -70,13 +70,19 @@ namespace ContosoUniversity.Pages.Employees {
             }
 
             //Nedenstående var i et if statement før men det gad ikke at virke, så kører bare indholdet altid. easy
+            // se i teams filen
             await TryUpdateModelAsync<Employee>(
                 employeeToUpdate,
                 "Employee",
                 i => i.FirstMidName, i => i.LastName,
-                i => i.EmpTeamDate, i => i.JobTitle, i => i.PersonalityType);
-                {
-           
+                i => i.EmpTeamDate, i => i.JobTitle, 
+                i => i.PersonalityType, i => i.IsManager,
+                i => i.Username, i => i.Password);
+            {
+
+
+             
+
                 UpdateEmployeeTeams(_context, selectedTeams, employeeToUpdate);
                 UpdateEmployeeQuestionnaires(_context, selectedQuestionnaires, employeeToUpdate);
                 await _context.SaveChangesAsync();

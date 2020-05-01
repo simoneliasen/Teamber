@@ -31,7 +31,8 @@ namespace ContosoUniversity.Pages.Teams {
             }
 
             Team = await _context.Teams
-                .Include(i => i.EmpTeams).ThenInclude(i => i.Employee)
+                .Include(i => i.EmpTeams).ThenInclude(i => i.Employee).
+                Include(k => k.TeamQuestionnaires).ThenInclude(k => k.Questionnaire)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.TeamID == id);
 
@@ -43,11 +44,12 @@ namespace ContosoUniversity.Pages.Teams {
                 return NotFound();
             }
             PopulateAssignedEmployeeData(_context, Team);
+            PopulateAssignedQuestionnaireData(_context, Team);
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id, string[] selectedEmployees)
+        public async Task<IActionResult> OnPostAsync(int? id, string[] selectedEmployees, string[] selectedQuestionnaires )
         {
             if (id == null)
             {
@@ -57,20 +59,25 @@ namespace ContosoUniversity.Pages.Teams {
             var teamToUpdate = await _context.Teams
                 .Include(i => i.EmpTeams)
                 .ThenInclude(i => i.Employee)
+                .Include(k => k.TeamQuestionnaires).ThenInclude(k => k.Questionnaire)
                 .FirstOrDefaultAsync(s => s.TeamID == id);
+
+
 
             if (teamToUpdate == null)
             {
                 return NotFound();
             }
 
-            if (await TryUpdateModelAsync<Team>(
+            //  if (await TryUpdateModelAsync<Team>( ????
+            await TryUpdateModelAsync<Team>(
                 teamToUpdate,
                 "Team",
-                i => i.Title))
+                i => i.Title, i => i.Synergy);
             {
 
                 UpdateTeamEmployees(_context, selectedEmployees, teamToUpdate);
+                UpdateTeamQuestionnaires(_context, selectedQuestionnaires, teamToUpdate);
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
             }
@@ -83,75 +90,4 @@ namespace ContosoUniversity.Pages.Teams {
             return _context.Teams.Any(e => e.TeamID == id);
         }
     }
-
-
-
-
-
-
-
-
-    /*public class EditModel : PageModel
-   {
-       private readonly ContosoUniversity.Data.SchoolContext _context;
-
-       public EditModel(ContosoUniversity.Data.SchoolContext context)
-       {
-           _context = context;
-       }
-
-       [BindProperty]
-       public Team Team { get; set; }
-
-       public async Task<IActionResult> OnGetAsync(int? id)
-       {
-           if (id == null)
-           {
-               return NotFound();
-           }
-
-           Team = await _context.Teams.FirstOrDefaultAsync(m => m.TeamID == id);
-
-           if (Team == null)
-           {
-               return NotFound();
-           }
-           return Page();
-       }
-
-       // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-       // more details see https://aka.ms/RazorPagesCRUD.
-       public async Task<IActionResult> OnPostAsync()
-       {
-           if (!ModelState.IsValid)
-           {
-               return Page();
-           }
-
-           _context.Attach(Team).State = EntityState.Modified;
-
-           try
-           {
-               await _context.SaveChangesAsync();
-           }
-           catch (DbUpdateConcurrencyException)
-           {
-               if (!TeamExists(Team.TeamID))
-               {
-                   return NotFound();
-               }
-               else
-               {
-                   throw;
-               }
-           }
-
-           return RedirectToPage("./Index");
-       }
-
-       private bool TeamExists(int id)
-       {
-           return _context.Teams.Any(e => e.TeamID == id);
-       }
-   } */
 }

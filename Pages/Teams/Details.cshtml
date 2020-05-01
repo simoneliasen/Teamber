@@ -18,10 +18,10 @@
             @Html.DisplayFor(model => model.Team.Title)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Team.Credits)
+            @Html.DisplayNameFor(model => model.Team.Synergy)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Team.Credits)
+            @Html.DisplayFor(model => model.Team.Synergy)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Team.EmpTeams)
@@ -33,14 +33,31 @@
                 </tr>
                 @foreach (var item in Model.Team.EmpTeams)
                 {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Employee.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Employee.JobTitle)
-                </td>
-            </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Employee.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Employee.JobTitle)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+        <dt class="col-sm-2">
+        </dt>
+        <dd class="col-sm-10">
+            <table class="table">
+                <tr>
+                    <th>Questionnaire Title</th>
+                </tr>
+                @foreach (var item in Model.Team.TeamQuestionnaires)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Questionnaire.Title)
+                        </td>
+                    </tr>
                 }
             </table>
         </dd>

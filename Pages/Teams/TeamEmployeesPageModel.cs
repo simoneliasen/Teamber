@@ -11,6 +11,7 @@ namespace ContosoUniversity.Pages.Teams
     {
 
         public List<AssignedEmployeeData> AssignedEmployeeDataList;
+        public List<AssignedQuestionnaireData> AssignedQuestionnaireDataList;
 
         public void PopulateAssignedEmployeeData(SchoolContext context,
                                                Team team)
@@ -29,6 +30,68 @@ namespace ContosoUniversity.Pages.Teams
                     PersonalityType = employee.PersonalityType,
                     Assigned = teamEmployees.Contains(employee.ID)
                 });
+            }
+        }
+
+        public void PopulateAssignedQuestionnaireData(SchoolContext context,
+                                              Team team)
+        {
+            var allQuestionnaires = context.Questionnaires;
+            var teamQuestionnaires = new HashSet<int>(
+                team.TeamQuestionnaires.Select(c => c.QuestionnaireID));
+            AssignedQuestionnaireDataList = new List<AssignedQuestionnaireData>();
+            foreach (var questionnaire in allQuestionnaires)
+            {
+                AssignedQuestionnaireDataList.Add(new AssignedQuestionnaireData
+                {
+                    QuestionnaireID = questionnaire.QuestionnaireID,
+                    Title = questionnaire.Title,
+                    Assigned = teamQuestionnaires.Contains(questionnaire.QuestionnaireID)
+                });
+            }
+        }
+
+
+
+
+
+        public void UpdateTeamQuestionnaires(SchoolContext context,
+            string[] selectedQuestionnaires, Team teamToUpdate)
+        {
+            if (selectedQuestionnaires == null)
+            {
+                teamToUpdate.TeamQuestionnaires = new List<TeamQuestionnaire>();
+                return;
+            }
+
+            var selectedQuestionnairesHS = new HashSet<string>(selectedQuestionnaires);
+            var teamQuestionnaires = new HashSet<int>
+                (teamToUpdate.TeamQuestionnaires.Select(c => c.Questionnaire.QuestionnaireID));
+            foreach (var questionnaire in context.Questionnaires)
+            {
+                if (selectedQuestionnairesHS.Contains(questionnaire.QuestionnaireID.ToString()))
+                {
+                    if (!teamQuestionnaires.Contains(questionnaire.QuestionnaireID))
+                    {
+                        teamToUpdate.TeamQuestionnaires.Add(
+                            new TeamQuestionnaire
+                            {
+                                TeamID = teamToUpdate.TeamID,
+                                QuestionnaireID = questionnaire.QuestionnaireID
+                            });
+                    }
+                }
+                else
+                {
+                    if (teamQuestionnaires.Contains(questionnaire.QuestionnaireID))
+                    {
+                        TeamQuestionnaire questionnaireToRemove
+                            = teamToUpdate
+                                .TeamQuestionnaires
+                                .SingleOrDefault(i => i.QuestionnaireID == questionnaire.QuestionnaireID);
+                        context.Remove(questionnaireToRemove);
+                    }
+                }
             }
         }
 

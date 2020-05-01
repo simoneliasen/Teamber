@@ -99,7 +99,6 @@ namespace ContosoUniversity.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PersonalityType")
-                        .IsRequired()
                         .HasColumnName("PersonalityType")
                         .HasColumnType("nvarchar(max)");
 
@@ -116,7 +115,9 @@ namespace ContosoUniversity.Migrations
             modelBuilder.Entity("ContosoUniversity.Models.Questionnaire", b =>
                 {
                     b.Property<int>("QuestionnaireID")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Cycle")
                         .HasColumnType("int");
@@ -133,9 +134,11 @@ namespace ContosoUniversity.Migrations
             modelBuilder.Entity("ContosoUniversity.Models.Team", b =>
                 {
                     b.Property<int>("TeamID")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Credits")
+                    b.Property<int>("Synergy")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -145,6 +148,28 @@ namespace ContosoUniversity.Migrations
                     b.HasKey("TeamID");
 
                     b.ToTable("Team");
+                });
+
+            modelBuilder.Entity("ContosoUniversity.Models.TeamQuestionnaire", b =>
+                {
+                    b.Property<int>("TeamQuestionnaireID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("QuestionnaireID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeamID")
+                        .HasColumnType("int");
+
+                    b.HasKey("TeamQuestionnaireID");
+
+                    b.HasIndex("QuestionnaireID");
+
+                    b.HasIndex("TeamID");
+
+                    b.ToTable("TeamQuestionnaire");
                 });
 
             modelBuilder.Entity("ContosoUniversity.Models.EmpQuestionnaire", b =>
@@ -172,6 +197,21 @@ namespace ContosoUniversity.Migrations
 
                     b.HasOne("ContosoUniversity.Models.Team", "Team")
                         .WithMany("EmpTeams")
+                        .HasForeignKey("TeamID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ContosoUniversity.Models.TeamQuestionnaire", b =>
+                {
+                    b.HasOne("ContosoUniversity.Models.Questionnaire", "Questionnaire")
+                        .WithMany("TeamQuestionnaires")
+                        .HasForeignKey("QuestionnaireID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ContosoUniversity.Models.Team", "Team")
+                        .WithMany("TeamQuestionnaires")
                         .HasForeignKey("TeamID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

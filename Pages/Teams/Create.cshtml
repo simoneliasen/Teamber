@@ -12,20 +12,16 @@
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Team.TeamID" class="control-label"></label>
-                <input asp-for="Team.TeamID" class="form-control" />
-                <span asp-validation-for="Team.TeamID" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
                 <label asp-for="Team.Title" class="control-label"></label>
                 <input asp-for="Team.Title" class="form-control" />
                 <span asp-validation-for="Team.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Team.Credits" class="control-label"></label>
-                <input asp-for="Team.Credits" class="form-control" />
-                <span asp-validation-for="Team.Credits" class="text-danger"></span>
+                <label asp-for="Team.Synergy" class="control-label"></label>
+                <input asp-for="Team.Synergy" class="form-control" />
+                <span asp-validation-for="Team.Synergy" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <div class="table">
@@ -54,9 +50,35 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
-            </form>
+                    <div class="table">
+                        <table>
+                            <tr>
+                                @{
+                                    int cnt2 = 0;
+
+                                    foreach (var questionnaire in Model.AssignedQuestionnaireDataList)
+                                    {
+                                        if (cnt2++ % 3 == 0)
+                                        {
+                                        @:</tr><tr>
+                                        }
+                                        @:<td>
+                                            <input type="checkbox"
+                                                   name="selectedQuestionnaires"
+                                                   value="@questionnaire.QuestionnaireID"
+                                                   @(Html.Raw(questionnaire.Assigned ? "checked=\"checked\"" : "")) />
+                                            @questionnaire.QuestionnaireID @:  @questionnaire.Title 
+                                        @:</td>
+                                    }
+                                @:</tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
     </div>
 </div>
 

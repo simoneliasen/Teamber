@@ -39,13 +39,13 @@ namespace ContosoUniversity.Data
 
             var teams = new Team[]
             {
-                new Team{TeamID=1050,Title="SoftwareBonanza",Credits=3},
-                new Team{TeamID=4022,Title="Festivalg.dk",Credits=3},
-                new Team{TeamID=4041,Title="billige-bajer.dk",Credits=3},
-                new Team{TeamID=1045,Title="Matador bare med fotomodeller",Credits=4},
-                new Team{TeamID=3141,Title="DetGodeTEam",Credits=4},
-                new Team{TeamID=2021,Title="Detdaarligeteam",Credits=3},
-                new Team{TeamID=2042,Title="LitteraturBøsserne",Credits=4}
+                new Team{TeamID=1050,Title="SoftwareBonanza",Synergy=13},
+                new Team{TeamID=4022,Title="Festivalg.dk",Synergy=99},
+                new Team{TeamID=4041,Title="billige-bajer.dk",Synergy=33},
+                new Team{TeamID=1045,Title="Matador bare med fotomodeller",Synergy=44},
+                new Team{TeamID=3141,Title="DetGodeTEam",Synergy=41},
+                new Team{TeamID=2021,Title="Detdaarligeteam",Synergy=35},
+                new Team{TeamID=2042,Title="LitteraturBøsserne",Synergy=64}
             };
             foreach (Team c in teams)
             {

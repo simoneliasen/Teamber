@@ -21,6 +21,7 @@ namespace ContosoUniversity.Pages.Teams {
         public Team Team { get; set; }
 
 
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -31,6 +32,8 @@ namespace ContosoUniversity.Pages.Teams {
             Team = await _context.Teams
        .Include(s => s.EmpTeams)
        .ThenInclude(e => e.Employee)
+       .Include(x => x.TeamQuestionnaires)
+       .ThenInclude( o => o.Questionnaire)
        .AsNoTracking()
        .FirstOrDefaultAsync(m => m.TeamID == id);
 
@@ -41,24 +44,5 @@ namespace ContosoUniversity.Pages.Teams {
             }
             return Page();
         }
-
-
-
-
-        //public async Task<IActionResult> OnGetAsync(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    Team = await _context.Teams.FirstOrDefaultAsync(m => m.TeamID == id);
-
-        //    if (Team == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return Page();
-        //}
     }
 }
