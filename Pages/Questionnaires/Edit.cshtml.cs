@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using ContosoUniversity.Data;
 using ContosoUniversity.Models;
 
-namespace ContosoUniversity
+namespace ContosoUniversity.Pages.Questionnaires
 {
-    public class EditModel : PageModel
+    public class EditModel : QuestionnaireCompetencesPageModel
     {
         private readonly ContosoUniversity.Data.SchoolContext _context;
 
@@ -30,43 +30,95 @@ namespace ContosoUniversity
                 return NotFound();
             }
 
-            Questionnaire = await _context.Questionnaires.FirstOrDefaultAsync(m => m.QuestionnaireID == id);
+            Questionnaire = await _context.Questionnaires.Include(s => s.QuestionnaireCompetences)
+                .FirstOrDefaultAsync(m => m.QuestionnaireID == id);
 
             if (Questionnaire == null)
             {
                 return NotFound();
             }
+
+            PopulateAssignedQuestionnaireCompetenceData(_context, Questionnaire);
+
             return Page();
         }
 
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? id, string[] selectedQuestionnaireCompetences)
         {
-            if (!ModelState.IsValid)
+            string[] extraCompetences;
+            if (Questionnaire.CompetencesString != null)
             {
-                return Page();
+                extraCompetences = Questionnaire.CompetencesString.Split(", ");
+            }
+            else
+            {
+                extraCompetences = null;
+            }
+            //den her indeholder de competencer man gerne vil tilføje extra til spørgeskemaet. Altså den kommaseparerede textbox.
+
+
+
+
+            if (id == null)
+            {
+                return NotFound();
             }
 
-            _context.Attach(Questionnaire).State = EntityState.Modified;
+            var questionnaireToUpdate = await _context.Questionnaires
+                .Include(i => i.QuestionnaireCompetences)
+                .FirstOrDefaultAsync(s => s.QuestionnaireID == id);
 
-            try
+
+            //skal også rettes for create siden!!!!!!!!!!
+            var square = _context.QuestionnaireCompetences.Select(i => i.Competence);
+            //square indeholder alle competencer der er gemt i databasen.
+
+            if (extraCompetences != null)
             {
+                questionnaireToUpdate.QuestionnaireCompetences = new List<QuestionnaireCompetence>();
+                foreach (var competence in extraCompetences)
+                {
+                    //her skal der tilføjes et if statement der chekker om competencen allerede er i listen af competencer, så den ikke står der 2 gange. easy.
+                    if(!square.Contains(competence))
+                    { 
+
+                    var competenceToAdd = new QuestionnaireCompetence
+                    {
+                        Competence = competence
+                    };
+                    questionnaireToUpdate.QuestionnaireCompetences.Add(competenceToAdd);
+                    }
+                }
+            }
+            //Ovenstående if statement tilføjer de nye competencer der er tilføjet til spørgeskemaet.
+
+            if (questionnaireToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            //Nedenstående var i et if statement før men det gad ikke at virke, så kører bare indholdet altid. easy
+            // se i teams filen
+            await TryUpdateModelAsync<Questionnaire>(
+                questionnaireToUpdate,
+                "Questionnaire",
+                i => i.Title, i => i.Cycle);
+            {
+
+
+
+
+                UpdateQuestionnaireCompetences(_context, selectedQuestionnaireCompetences, questionnaireToUpdate);
                 await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!QuestionnaireExists(Questionnaire.QuestionnaireID))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return RedirectToPage("./Index");
+            //UpdateEmployeeTeams(_context, selectedTeams, employeeToUpdate);
+            //UpdateEmployeeQuestionnaires(_context, selectedQuestionnaires, employeeToUpdate);
+            //PopulateAssignedTeamData(_context, employeeToUpdate);
+            //PopulateAssignedQuestionnaireData(_context, employeeToUpdate);
+            //return Page();
         }
 
         private bool QuestionnaireExists(int id)

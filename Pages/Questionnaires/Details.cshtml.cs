@@ -28,13 +28,15 @@ namespace ContosoUniversity
                 return NotFound();
             }
 
-            Questionnaire = await _context.Questionnaires.FirstOrDefaultAsync(m => m.QuestionnaireID == id);
+            Questionnaire = await _context.Questionnaires.Include(s => s.QuestionnaireCompetences)
+                .FirstOrDefaultAsync(m => m.QuestionnaireID == id);
 
             if (Questionnaire == null)
             {
                 return NotFound();
             }
             return Page();
+
         }
     }
 }

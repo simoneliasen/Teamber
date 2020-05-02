@@ -45,11 +45,13 @@ namespace ContosoUniversity
                 return NotFound();
             }
 
-            Questionnaire = await _context.Questionnaires.FindAsync(id);
+            Questionnaire questionnaire = await _context.Questionnaires
+                .Include(i => i.QuestionnaireCompetences)
+               .SingleAsync(i => i.QuestionnaireID == id);
 
             if (Questionnaire != null)
             {
-                _context.Questionnaires.Remove(Questionnaire);
+                _context.Questionnaires.Remove(questionnaire);
                 await _context.SaveChangesAsync();
             }
 

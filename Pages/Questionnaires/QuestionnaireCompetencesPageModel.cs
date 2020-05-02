@@ -20,31 +20,35 @@ namespace ContosoUniversity.Pages.Questionnaires
             AssignedQuestionnaireCompetenceDataList = new List<AssignedQuestionnaireCompetenceData>();
             foreach (var questionnaireCompetence in allQuestionnaireCompetences)
             {
+                if(questionnaireCompetences.Contains(questionnaireCompetence.Competence))
+                { 
+               
                 AssignedQuestionnaireCompetenceDataList.Add(new AssignedQuestionnaireCompetenceData
                 {
                     QuestionnaireID = questionnaireCompetence.QuestionnaireID,
                     Competence = questionnaireCompetence.Competence,
                     Assigned = questionnaireCompetences.Contains(questionnaireCompetence.Competence)
                 });
+                }
             }
         }
         
 
         public void UpdateQuestionnaireCompetences(SchoolContext context,
-            string[] selectedCompetences, Questionnaire questionnaireToUpdate)
+            string[] selectedQuestionnaireCompetences, Questionnaire questionnaireToUpdate)
         {
-            if (selectedCompetences == null)
+            if (selectedQuestionnaireCompetences == null)
             {
                questionnaireToUpdate.QuestionnaireCompetences = new List<QuestionnaireCompetence>();
                 return;
             }
 
-            var selectedCompetencesHS = new HashSet<string>(selectedCompetences);
+            var selectedCompetencesHS = new HashSet<string>(selectedQuestionnaireCompetences);
             var questionnaireCompetences = new HashSet<string>
                 (questionnaireToUpdate.QuestionnaireCompetences.Select(c => c.Competence));
             foreach (var questionnaireCompetence in context.QuestionnaireCompetences)
             {
-                if (selectedCompetencesHS.Contains(questionnaireCompetence.QuestionnaireID.ToString()))
+                if (selectedCompetencesHS.Contains(questionnaireCompetence.Competence))
                 {
                     if (!questionnaireCompetences.Contains(questionnaireCompetence.Competence))
                     {

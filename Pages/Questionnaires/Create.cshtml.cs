@@ -33,7 +33,19 @@ namespace ContosoUniversity
         {
             //evt lav første array til "c#, php, php", "".
             //og så split index 0 op i flere så "c#", "php", "mysql"
-            string[] selectedQuestionnaireCompetences = Questionnaire.CompetencesString.Split(", ");
+            string[] selectedQuestionnaireCompetences;
+            if(Questionnaire.CompetencesString != null)
+            {
+                selectedQuestionnaireCompetences = Questionnaire.CompetencesString.Split(", ");
+            }
+            else
+            {
+                selectedQuestionnaireCompetences = null;
+            }
+
+            var square = _context.QuestionnaireCompetences.Select(i => i.Competence);
+            //square indeholder alle competencer der er gemt i databasen.
+            //drop database og se om det virker.
 
             var newQuestionnaire = new Questionnaire();
             if (selectedQuestionnaireCompetences != null)
@@ -41,11 +53,14 @@ namespace ContosoUniversity
                 newQuestionnaire.QuestionnaireCompetences = new List<QuestionnaireCompetence>();
                 foreach (var competence in selectedQuestionnaireCompetences)
                 {
-                    var competenceToAdd = new QuestionnaireCompetence
+                    if (!square.Contains(competence))
                     {
-                        Competence = competence
-                    };
-                    newQuestionnaire.QuestionnaireCompetences.Add(competenceToAdd);
+                        var competenceToAdd = new QuestionnaireCompetence
+                        {
+                            Competence = competence
+                        };
+                        newQuestionnaire.QuestionnaireCompetences.Add(competenceToAdd);
+                    }
                 }
             }
 

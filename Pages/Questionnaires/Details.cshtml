@@ -23,6 +23,24 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Questionnaire.Cycle)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Questionnaire.QuestionnaireCompetences)
+        </dt>
+        <dd class="col-sm-10">
+            <table class="table">
+                <tr>
+                    <th>Competences</th>
+                </tr>
+                @foreach (var item in Model.Questionnaire.QuestionnaireCompetences)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Competence)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
     </dl>
 </div>
 <div>

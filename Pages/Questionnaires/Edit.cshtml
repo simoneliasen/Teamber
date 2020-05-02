@@ -1,5 +1,5 @@
 ﻿@page
-@model ContosoUniversity.EditModel
+@model ContosoUniversity.Pages.Questionnaires.EditModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -25,9 +25,40 @@
                 <span asp-validation-for="Questionnaire.Cycle" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label class="control-label">Add new competences to test for</label>
+                <input asp-for="Questionnaire.CompetencesString" class="form-control" />
+                <span asp-validation-for="Questionnaire.CompetencesString" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
-        </form>
+            <div class="form-group">
+                <div class="table">
+                    <table>
+                        <tr>
+                            @{
+                                int cnt = 0;
+
+                                foreach (var competence in Model.AssignedQuestionnaireCompetenceDataList)
+                                {
+                                    if (cnt++ % 3 == 0)
+                                    {
+                                    @:</tr><tr>
+                                    }
+                                    @:<td>
+                                        <input type="checkbox"
+                                               name="selectedQuestionnaireCompetences"
+                                               value="@competence.Competence"
+                                               @(Html.Raw(competence.Assigned ? "checked=\"checked\"" : "")) />
+                                        @competence.Competence
+                                    @:</td>
+                                }
+                            @:</tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </form>
     </div>
 </div>
 
