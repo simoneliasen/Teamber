@@ -31,15 +31,36 @@ namespace ContosoUniversity
         // more details see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            //evt lav første array til "c#, php, php", "".
+            //og så split index 0 op i flere så "c#", "php", "mysql"
+            string[] selectedQuestionnaireCompetences = Questionnaire.CompetencesString.Split(", ");
+
+            var newQuestionnaire = new Questionnaire();
+            if (selectedQuestionnaireCompetences != null)
             {
-                return Page();
+                newQuestionnaire.QuestionnaireCompetences = new List<QuestionnaireCompetence>();
+                foreach (var competence in selectedQuestionnaireCompetences)
+                {
+                    var competenceToAdd = new QuestionnaireCompetence
+                    {
+                        Competence = competence
+                    };
+                    newQuestionnaire.QuestionnaireCompetences.Add(competenceToAdd);
+                }
             }
 
-            _context.Questionnaires.Add(Questionnaire);
-            await _context.SaveChangesAsync();
+            await TryUpdateModelAsync<Questionnaire>(
+                newQuestionnaire,
+                "Questionnaire",
+                i => i.Title, i => i.Cycle);
+            {
 
-            return RedirectToPage("./Index");
+                _context.Questionnaires.Add(newQuestionnaire);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+
+            
         }
     }
 }
