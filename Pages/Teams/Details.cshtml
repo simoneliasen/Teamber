@@ -71,11 +71,14 @@
                 </tr>
                 @foreach (var criteria in Model.AssignedTeamCriteriaDataList)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => criteria.Criteria)
-                        </td>
-                    </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => criteria.Criteria)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => criteria.Priority)
+                </td>
+            </tr>
                 }
             </table>
         </dd>

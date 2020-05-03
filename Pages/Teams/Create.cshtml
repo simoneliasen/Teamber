@@ -98,8 +98,15 @@
                                             @:</tr><tr>
                                             }
                                             @:<td>
-                                                <input type="number" min="0" max="5" 
+                                                <input type="checkbox"
                                                        name="selectedCompetences"
+                                                       value="@competence.QuestionnaireCompetenceID"
+                                                       @(Html.Raw(competence.Assigned ? "checked=\"checked\"" : "")) />
+                                                @competence.Criteria
+                                            @:</td>
+                                            @:<td>
+                                                <input type="number" min="0" max="5" 
+                                                       name="selectedCompetencesValue"
                                                        value="0"
                                                        @(Html.Raw(competence.Assigned ? "checked=\"checked\"" : "")) />
                                                 @competence.Criteria

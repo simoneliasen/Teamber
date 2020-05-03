@@ -41,7 +41,7 @@ namespace ContosoUniversity.Pages.Teams {
         public Team Team { get; set; }
 
 
-        public async Task<IActionResult> OnPostAsync(string[] selectedEmployees, string[] selectedQuestionnaires, string[] selectedCompetences)
+        public async Task<IActionResult> OnPostAsync(string[] selectedEmployees, string[] selectedQuestionnaires, string[] selectedCompetences, int[] selectedCompetencesValue) //skal det være string eller int?
         {
             var newTeam = new Team();
             if (selectedEmployees != null)
@@ -67,6 +67,19 @@ namespace ContosoUniversity.Pages.Teams {
                         QuestionnaireID = int.Parse(questionnaire)
                     };
                     newTeam.TeamQuestionnaires.Add(questionnaireToAdd);
+                }
+
+
+                //tilføjer kriterier for de enkelte felter for de tilhørende questionnaires.
+                newTeam.TeamCriterias = new List<TeamCriteria>();
+                for (int i = 0; i < selectedCompetences.Length; i++)
+                {
+                    var criteriaToAdd = new TeamCriteria
+                    {
+                        QuestionnaireCompetenceID = int.Parse(selectedCompetences[i]),
+                        PriorityValue = selectedCompetencesValue[i]
+                    };
+                    newTeam.TeamCriterias.Add(criteriaToAdd);
                 }
             }
 
