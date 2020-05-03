@@ -13,6 +13,7 @@ namespace ContosoUniversity.Pages.Teams
         public List<AssignedEmployeeData> AssignedEmployeeDataList;
         public List<AssignedQuestionnaireData> AssignedQuestionnaireDataList;
         public List<AssignedTeamCriteriaData> AssignedTeamCriteriaDataList;
+        public List<AllCompetences> AllCompetencesDataList;
 
         public void PopulateAssignedEmployeeData(SchoolContext context,
                                                Team team)
@@ -49,6 +50,29 @@ namespace ContosoUniversity.Pages.Teams
                     Title = questionnaire.Title,
                     Assigned = teamQuestionnaires.Contains(questionnaire.QuestionnaireID)
                 });
+            }
+        }
+
+        public void PopulateAllCompetencesData(SchoolContext context,
+                                               Team team)
+        {
+            var allCompetences = context.QuestionnaireCompetences; //rettet herfra idet, den skal indeholde alle competencer. ikke alle criterier. ret nedenfor også!
+            var questionnaireCompetences = new HashSet<int>(
+                team.TeamQuestionnaires.Select(c => c.QuestionnaireID));
+
+
+           AllCompetencesDataList = new List<AllCompetences>();
+            foreach (var competence in allCompetences)
+            {
+                AllCompetencesDataList.Add(new AllCompetences
+                    {
+                        QuestionnaireID = competence.QuestionnaireID,
+                        Criteria = competence.Competence,
+                        Assigned = questionnaireCompetences.Contains(competence.QuestionnaireID)
+                    });
+                
+
+
             }
         }
 

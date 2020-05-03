@@ -73,7 +73,7 @@
                                                    name="selectedQuestionnaires"
                                                    value="@questionnaire.QuestionnaireID"
                                                    @(Html.Raw(questionnaire.Assigned ? "checked=\"checked\"" : "")) />
-                                            @questionnaire.Title
+                                            @questionnaire.Title 
                                         @:</td>
                                     }
                                 @:</tr>
@@ -91,7 +91,7 @@
                                     @{
                                         int cnt3 = 0;
 
-                                        foreach (var competence in Model.AssignedTeamCriteriaDataList)
+                                        foreach (var competence in Model.AllCompetencesDataList)
                                         {
                                             if (cnt3++ % 3 == 0)
                                             {

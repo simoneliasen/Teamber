@@ -30,7 +30,7 @@ namespace ContosoUniversity.Pages.Teams {
             // in the Create Razor page.
             PopulateAssignedEmployeeData(_context, team);
             PopulateAssignedQuestionnaireData(_context, team);
-            PopulateAssignedTeamCriteriaData(_context, team);
+            PopulateAllCompetencesData(_context, team);
             return Page();
         }
 
