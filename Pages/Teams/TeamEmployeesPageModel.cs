@@ -101,41 +101,12 @@ namespace ContosoUniversity.Pages.Teams
                         QuestionnaireID = questionnaireID,
                         Criteria = criteriaName,
                         Assigned = true,
-                        Priority = allCriterias.Where(i => i.TeamID == team.TeamID).Where(j => j.QuestionnaireCompetenceID == criteria.QuestionnaireCompetenceID).FirstOrDefault().PriorityValue //cirkemde med questionnairecompetence id i stedet for team id.
+                        Priority = allCriterias.Where(i => i.TeamID == team.TeamID).Where(j => j.QuestionnaireCompetenceID == criteria.QuestionnaireCompetenceID).FirstOrDefault().PriorityValue, //cirkemde med questionnairecompetence id i stedet for team id.
+                        QuestionnaireCompetenceID = criteria.QuestionnaireCompetenceID
                     });
                 }
             }
         }
-
-        /*
-        public void PopulateAssignedTeamCriteriaData(SchoolContext context,
-                                               Team team)
-        {
-            var allCompetences = context.QuestionnaireCompetences; //rettet herfra idet, den skal indeholde alle competencer. ikke alle criterier. ret nedenfor også!
-            var questionnaireCompetences = new HashSet<int>(
-                team.TeamQuestionnaires.Select(c => c.QuestionnaireID));
-
-            var allCriterias = context.TeamCriterias;
-
-
-            AssignedTeamCriteriaDataList = new List<AssignedTeamCriteriaData>();
-            foreach (var competence in allCompetences)
-            {
-
-                if (questionnaireCompetences.Contains(competence.QuestionnaireID)) //easy?? 
-                {
-                    AssignedTeamCriteriaDataList.Add(new AssignedTeamCriteriaData
-                    {
-                        QuestionnaireID = competence.QuestionnaireID,
-                        Criteria = competence.Competence,
-                        Assigned = questionnaireCompetences.Contains(competence.QuestionnaireID),
-                        Priority = allCriterias.Where(i => i.TeamID == team.TeamID).FirstOrDefault().PriorityValue //cirkemde med questionnairecompetence id i stedet for team id.
-                    });
-                }
-            }
-        }
-        */
-
 
 
         public void UpdateTeamQuestionnaires(SchoolContext context,
@@ -219,46 +190,19 @@ namespace ContosoUniversity.Pages.Teams
         }
 
 
-        
+        //Det her er helt forkert. Fordi det vil tjekke om der er tilføjet flere osv. Men det er der jo ikke
+        //Med denne metode kan der højst skiftes value på PriorityValue.
+        public void UpdateTeamCriterias(int[] selectedCompetenceValues, Team teamToUpdate)
+        {
 
-        //public void UpdateTeamCriterias(SchoolContext context,
-        //    string[] selectedEmployees, Team teamToUpdate)
-        //{
-        //    if (selectedEmployees == null)
-        //    {
-        //        teamToUpdate.EmpTeams = new List<EmpTeam>();
-        //        return;
-        //    }
+            int i = 0;
+            foreach (var criteria in teamToUpdate.TeamCriterias)
+            {
+                criteria.PriorityValue = selectedCompetenceValues[i];
+                i++;
+            }
+        }
 
-        //    var selectedEmployeesHS = new HashSet<string>(selectedEmployees);
-        //    var teamEmployees = new HashSet<int>
-        //        (teamToUpdate.EmpTeams.Select(c => c.Employee.ID));
-        //    foreach (var employee in context.Employees)
-        //    {
-        //        if (selectedEmployeesHS.Contains(employee.ID.ToString()))
-        //        {
-        //            if (!teamEmployees.Contains(employee.ID))
-        //            {
-        //                teamToUpdate.EmpTeams.Add(
-        //                    new EmpTeam
-        //                    {
-        //                        TeamID = teamToUpdate.TeamID,
-        //                        EmployeeID = employee.ID
-        //                    });
-        //            }
-        //        }
-        //        else
-        //        {
-        //            if (teamEmployees.Contains(employee.ID))
-        //            {
-        //                EmpTeam employeeToRemove
-        //                    = teamToUpdate
-        //                        .EmpTeams
-        //                        .SingleOrDefault(i => i.EmployeeID == employee.ID);
-        //                context.Remove(employeeToRemove);
-        //            }
-        //        }
-        //    }
-        //}
+
     }
 }

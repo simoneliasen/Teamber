@@ -78,9 +78,45 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-primary" />
-                    </div>
-                </form>
+                        <div class="table">
+                            <table>
+                                <tr>
+                                    Competences
+                                </tr>
+                                <tr>
+                                    @{
+                                        int cnt3 = 0;
+
+                                        foreach (var competence in Model.AssignedTeamCriteriaDataList)
+                                        {
+                                            if (cnt3++ % 3 == 0)
+                                            {
+                                            @:</tr><tr>
+                                            }
+                                            @:<td>
+                                                <input type="checkbox"
+                                                       name="selectedCompetences"
+                                                       value="@competence.QuestionnaireCompetenceID"
+                                                       @(Html.Raw(competence.Assigned ? "checked=\"checked\"" : "")) />
+                                                @competence.Criteria
+                                            @:</td>
+                                            @:<td>
+                                                <input type="number" min="0" max="5"
+                                                       name="selectedCompetenceValues"
+                                                       value="@competence.Priority"
+                                                       @(Html.Raw(competence.Assigned ? "checked=\"checked\"" : "")) />
+                                                @competence.Criteria
+                                            @:</td>
+                                        }
+                                    @:</tr>
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                        </div>
+                    </form>
     </div>
 </div>
 

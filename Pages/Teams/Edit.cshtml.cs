@@ -33,6 +33,7 @@ namespace ContosoUniversity.Pages.Teams {
             Team = await _context.Teams
                 .Include(i => i.EmpTeams).ThenInclude(i => i.Employee).
                 Include(k => k.TeamQuestionnaires).ThenInclude(k => k.Questionnaire)
+                .Include(k => k.TeamCriterias)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.TeamID == id);
 
@@ -45,11 +46,12 @@ namespace ContosoUniversity.Pages.Teams {
             }
             PopulateAssignedEmployeeData(_context, Team);
             PopulateAssignedQuestionnaireData(_context, Team);
+            PopulateAssignedTeamCriteriaData(_context, Team);
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id, string[] selectedEmployees, string[] selectedQuestionnaires )
+        public async Task<IActionResult> OnPostAsync(int? id, string[] selectedEmployees, string[] selectedQuestionnaires, string[] selectedCompetences, int[] selectedCompetenceValues)
         {
             if (id == null)
             {
@@ -60,6 +62,7 @@ namespace ContosoUniversity.Pages.Teams {
                 .Include(i => i.EmpTeams)
                 .ThenInclude(i => i.Employee)
                 .Include(k => k.TeamQuestionnaires).ThenInclude(k => k.Questionnaire)
+                .Include(i => i.TeamCriterias)
                 .FirstOrDefaultAsync(s => s.TeamID == id);
 
 
@@ -78,6 +81,7 @@ namespace ContosoUniversity.Pages.Teams {
 
                 UpdateTeamEmployees(_context, selectedEmployees, teamToUpdate);
                 UpdateTeamQuestionnaires(_context, selectedQuestionnaires, teamToUpdate);
+                UpdateTeamCriterias(selectedCompetenceValues, teamToUpdate);
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
             }
