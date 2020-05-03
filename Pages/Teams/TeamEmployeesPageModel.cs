@@ -12,6 +12,7 @@ namespace ContosoUniversity.Pages.Teams
 
         public List<AssignedEmployeeData> AssignedEmployeeDataList;
         public List<AssignedQuestionnaireData> AssignedQuestionnaireDataList;
+        public List<AssignedTeamCriteriaData> AssignedTeamCriteriaDataList;
 
         public void PopulateAssignedEmployeeData(SchoolContext context,
                                                Team team)
@@ -51,7 +52,31 @@ namespace ContosoUniversity.Pages.Teams
             }
         }
 
+        public void PopulateAssignedTeamCriteriaData(SchoolContext context,
+                                               Team team)
+        {
+            var allCompetences = context.QuestionnaireCompetences; //rettet herfra idet, den skal indeholde alle competencer. ikke alle criterier. ret nedenfor også!
+            var questionnaireCompetences = new HashSet<int>(
+                team.TeamQuestionnaires.Select(c => c.QuestionnaireID));
 
+
+            AssignedTeamCriteriaDataList = new List<AssignedTeamCriteriaData>();
+            foreach (var competence in allCompetences)
+            {
+
+                if (questionnaireCompetences.Contains(competence.QuestionnaireID)) //easy?? 
+                {
+                    AssignedTeamCriteriaDataList.Add(new AssignedTeamCriteriaData
+                    {
+                        QuestionnaireID = competence.QuestionnaireID,
+                        Criteria = competence.Competence,
+                        Assigned = questionnaireCompetences.Contains(competence.QuestionnaireID)
+                    });
+                }
+
+                
+            }
+        }
 
 
 
@@ -96,6 +121,47 @@ namespace ContosoUniversity.Pages.Teams
         }
 
         public void UpdateTeamEmployees(SchoolContext context,
+            string[] selectedEmployees, Team teamToUpdate)
+        {
+            if (selectedEmployees == null)
+            {
+                teamToUpdate.EmpTeams = new List<EmpTeam>();
+                return;
+            }
+
+            var selectedEmployeesHS = new HashSet<string>(selectedEmployees);
+            var teamEmployees = new HashSet<int>
+                (teamToUpdate.EmpTeams.Select(c => c.Employee.ID));
+            foreach (var employee in context.Employees)
+            {
+                if (selectedEmployeesHS.Contains(employee.ID.ToString()))
+                {
+                    if (!teamEmployees.Contains(employee.ID))
+                    {
+                        teamToUpdate.EmpTeams.Add(
+                            new EmpTeam
+                            {
+                                TeamID = teamToUpdate.TeamID,
+                                EmployeeID = employee.ID
+                            });
+                    }
+                }
+                else
+                {
+                    if (teamEmployees.Contains(employee.ID))
+                    {
+                        EmpTeam employeeToRemove
+                            = teamToUpdate
+                                .EmpTeams
+                                .SingleOrDefault(i => i.EmployeeID == employee.ID);
+                        context.Remove(employeeToRemove);
+                    }
+                }
+            }
+        }
+
+
+        public void UpdateTeamCriterias(SchoolContext context,
             string[] selectedEmployees, Team teamToUpdate)
         {
             if (selectedEmployees == null)

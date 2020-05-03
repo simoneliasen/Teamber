@@ -9,7 +9,7 @@ using ContosoUniversity.Data;
 using ContosoUniversity.Models;
 
 namespace ContosoUniversity.Pages.Teams {
-    public class DetailsModel : PageModel
+    public class DetailsModel : TeamEmployeesPageModel
     {
         private readonly ContosoUniversity.Data.SchoolContext _context;
 
@@ -34,9 +34,10 @@ namespace ContosoUniversity.Pages.Teams {
        .ThenInclude(e => e.Employee)
        .Include(x => x.TeamQuestionnaires)
        .ThenInclude( o => o.Questionnaire)
+       .Include(k => k.TeamCriterias)
        .AsNoTracking()
        .FirstOrDefaultAsync(m => m.TeamID == id);
-
+            PopulateAssignedTeamCriteriaData(_context, Team);
 
             if (Team == null)
             {

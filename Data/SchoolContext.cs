@@ -16,6 +16,7 @@ namespace ContosoUniversity.Data
         public DbSet<EmpQuestionnaire> EmpQuestionnaires { get; set; }
 
         public DbSet<QuestionnaireCompetence> QuestionnaireCompetences { get; set; }
+        public DbSet<TeamCriteria> TeamCriterias { get; set; }
 
         //tror vi skal tilføje teamQuestionnaire hertil for ellers gemmer den vel ikke i databasen
 
@@ -27,6 +28,7 @@ namespace ContosoUniversity.Data
             modelBuilder.Entity<Questionnaire>().ToTable("Questionnaire");
             modelBuilder.Entity<EmpQuestionnaire>().ToTable("EmpQuestionnaire");
             modelBuilder.Entity<QuestionnaireCompetence>().ToTable("QuestionnaireCompetence");
+            modelBuilder.Entity<TeamCriteria>().ToTable("TeamCriteria");
 
         }
     }

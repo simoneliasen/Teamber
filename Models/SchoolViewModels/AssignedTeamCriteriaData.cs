@@ -5,13 +5,10 @@ using System.Threading.Tasks;
 
 namespace ContosoUniversity.Models.SchoolViewModels
 {
-    public class AssignedQuestionnaireData
+    public class AssignedTeamCriteriaData
     {
         public int QuestionnaireID { get; set; }
-        public string Title { get; set; }
+        public string Criteria { get; set; }
         public bool Assigned { get; set; }
-        //public ICollection<QuestionnaireCompetence> QuestionnaireCompetences { get; set; }
-
-        
     }
 }

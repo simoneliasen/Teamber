@@ -24,11 +24,13 @@ namespace ContosoUniversity.Pages.Teams {
             var team = new Team();
             team.EmpTeams = new List<EmpTeam>();
             team.TeamQuestionnaires = new List<TeamQuestionnaire>();
+            team.TeamCriterias = new List<TeamCriteria>();
             // Provides an empty collection for the foreach loop
             // foreach (var course in Model.AssignedCourseDataList)
             // in the Create Razor page.
             PopulateAssignedEmployeeData(_context, team);
             PopulateAssignedQuestionnaireData(_context, team);
+            PopulateAssignedTeamCriteriaData(_context, team);
             return Page();
         }
 
@@ -39,7 +41,7 @@ namespace ContosoUniversity.Pages.Teams {
         public Team Team { get; set; }
 
 
-        public async Task<IActionResult> OnPostAsync(string[] selectedEmployees, string[] selectedQuestionnaires)
+        public async Task<IActionResult> OnPostAsync(string[] selectedEmployees, string[] selectedQuestionnaires, string[] selectedCompetences)
         {
             var newTeam = new Team();
             if (selectedEmployees != null)
@@ -67,6 +69,9 @@ namespace ContosoUniversity.Pages.Teams {
                     newTeam.TeamQuestionnaires.Add(questionnaireToAdd);
                 }
             }
+
+
+          
 
 
             await TryUpdateModelAsync<Team>(

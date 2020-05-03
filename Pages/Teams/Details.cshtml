@@ -61,6 +61,24 @@
                 }
             </table>
         </dd>
+
+        <dt class="col-sm-2">
+        </dt>
+        <dd class="col-sm-10">
+            <table class="table">
+                <tr>
+                    <th>Team Criterias</th>
+                </tr>
+                @foreach (var criteria in Model.AssignedTeamCriteriaDataList)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => criteria.Criteria)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
     </dl>
 </div>
 <div>
