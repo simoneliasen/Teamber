@@ -79,7 +79,12 @@ namespace ContosoUniversity.Pages.Teams {
                         QuestionnaireCompetenceID = int.Parse(selectedCompetences[i]),
                         PriorityValue = selectedCompetencesValue[i]
                     };
-                    newTeam.TeamCriterias.Add(criteriaToAdd);
+
+                    if(criteriaToAdd.PriorityValue > 0) //alle dem der ikke skal bruges sættes bare til 0. Så vi tager kun dem der skal bruges.
+                    {
+                        newTeam.TeamCriterias.Add(criteriaToAdd);
+                    }
+                    
                 }
             }
 

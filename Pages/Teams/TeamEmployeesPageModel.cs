@@ -80,9 +80,42 @@ namespace ContosoUniversity.Pages.Teams
         public void PopulateAssignedTeamCriteriaData(SchoolContext context,
                                                Team team)
         {
+            var questionnaireCompetences = new HashSet<int>(
+                team.TeamQuestionnaires.Select(c => c.QuestionnaireID));
+
+            
+
+            var allCriterias = context.TeamCriterias;
+
+
+            AssignedTeamCriteriaDataList = new List<AssignedTeamCriteriaData>();
+            foreach (var criteria in allCriterias)
+            {
+                var questionnaireID = context.QuestionnaireCompetences.Where(i => i.QuestionnaireCompetenceID == criteria.QuestionnaireCompetenceID).Select(k => k.QuestionnaireID).FirstOrDefault();
+                var criteriaName = context.QuestionnaireCompetences.Where(i => i.QuestionnaireCompetenceID == criteria.QuestionnaireCompetenceID).Select(k => k.Competence).FirstOrDefault();
+
+                if (criteria.TeamID == team.TeamID) //easy?? 
+                {
+                    AssignedTeamCriteriaDataList.Add(new AssignedTeamCriteriaData
+                    {
+                        QuestionnaireID = questionnaireID,
+                        Criteria = criteriaName,
+                        Assigned = true,
+                        Priority = allCriterias.Where(i => i.TeamID == team.TeamID).Where(j => j.QuestionnaireCompetenceID == criteria.QuestionnaireCompetenceID).FirstOrDefault().PriorityValue //cirkemde med questionnairecompetence id i stedet for team id.
+                    });
+                }
+            }
+        }
+
+        /*
+        public void PopulateAssignedTeamCriteriaData(SchoolContext context,
+                                               Team team)
+        {
             var allCompetences = context.QuestionnaireCompetences; //rettet herfra idet, den skal indeholde alle competencer. ikke alle criterier. ret nedenfor også!
             var questionnaireCompetences = new HashSet<int>(
                 team.TeamQuestionnaires.Select(c => c.QuestionnaireID));
+
+            var allCriterias = context.TeamCriterias;
 
 
             AssignedTeamCriteriaDataList = new List<AssignedTeamCriteriaData>();
@@ -95,13 +128,13 @@ namespace ContosoUniversity.Pages.Teams
                     {
                         QuestionnaireID = competence.QuestionnaireID,
                         Criteria = competence.Competence,
-                        Assigned = questionnaireCompetences.Contains(competence.QuestionnaireID)
+                        Assigned = questionnaireCompetences.Contains(competence.QuestionnaireID),
+                        Priority = allCriterias.Where(i => i.TeamID == team.TeamID).FirstOrDefault().PriorityValue //cirkemde med questionnairecompetence id i stedet for team id.
                     });
                 }
-
-                
             }
         }
+        */
 
 
 
