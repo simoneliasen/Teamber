@@ -82,7 +82,7 @@ namespace ContosoUniversity.Pages.Employees {
                         {
                             EmployeeID = newEmployee.ID,
                             QuestionnaireCompetenceID = allCompetences[i],
-                            Score = 1
+                            Score = 0
                         };
 
                        newEmployee.EmployeeCompetences.Add(competenceToAdd);

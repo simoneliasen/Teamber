@@ -11,6 +11,7 @@ namespace ContosoUniversity.Pages.Employees {
         public List<AssignedTeamData> AssignedTeamDataList;
         public List<AssignedQuestionnaireData> AssignedQuestionnaireDataList;
         public List<AssignedEmployeeCompetenceData> AssignedEmployeeCompetenceDataList;
+        public List<AssignedEmployeeCompetenceData> AssignedEmployeeCompetenceValuesDataList;
 
         public void PopulateAssignedTeamData(SchoolContext context,
                                                Employee employee)
@@ -81,6 +82,41 @@ namespace ContosoUniversity.Pages.Employees {
                 }
             }
         }
+
+        //til at vise details siden.
+        public void PopulateAssignedEmployeeCompetenceValuesData(SchoolContext context,
+                                               Employee employee)
+        {
+            var questionnaireCompetences = new HashSet<int>(
+                employee.EmployeeCompetences.Select(c => c.QuestionnaireCompetenceID)); //fjern select statementet.
+
+            var employeeCompetences = context.EmployeeCompetences;
+
+
+            AssignedEmployeeCompetenceValuesDataList = new List<AssignedEmployeeCompetenceData>();
+            foreach (var competence in questionnaireCompetences)
+            {
+                var questionnaireCompetenceID = context.QuestionnaireCompetences.Where(i => i.QuestionnaireCompetenceID == competence).Select(k => k.QuestionnaireID).FirstOrDefault();
+                var competenceName = context.QuestionnaireCompetences.Where(i => i.QuestionnaireCompetenceID == competence).Select(k => k.Competence).FirstOrDefault();
+                var priority = context.EmployeeCompetences.Where(i => i.QuestionnaireCompetenceID == competence).Where(i => i.EmployeeID == employee.ID).Select(k => k.Score).FirstOrDefault();
+
+                if (employee.EmployeeCompetences.Select(i => i.QuestionnaireCompetenceID).Contains(competence)) //altså hvis den ansatte har et questionnair tilknyttet, hvor competencen er i dette questionnaire.
+                {
+                    AssignedEmployeeCompetenceValuesDataList.Add(new AssignedEmployeeCompetenceData
+                    {
+                        QuestionnaireCompetenceID = competence,
+                        Criteria = competenceName,
+                        Assigned = true,
+                        Priority = priority
+                        //Priority = allCompetences.Where(i => i.TeamID == team.TeamID).Where(j => j.QuestionnaireCompetenceID == criteria.QuestionnaireCompetenceID).FirstOrDefault().PriorityValue, //cirkemde med questionnairecompetence id i stedet for team id.
+                        
+                    });
+                }
+            }
+        }
+
+
+
 
         public void UpdateEmployeeTeams(SchoolContext context,
             string[] selectedTeams, Employee employeeToUpdate)
