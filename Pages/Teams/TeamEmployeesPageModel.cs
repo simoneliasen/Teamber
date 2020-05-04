@@ -194,7 +194,6 @@ namespace ContosoUniversity.Pages.Teams
         //Med denne metode kan der højst skiftes value på PriorityValue.
         public void UpdateTeamCriterias(int[] selectedCompetenceValues, Team teamToUpdate)
         {
-
             int i = 0;
             foreach (var criteria in teamToUpdate.TeamCriterias)
             {

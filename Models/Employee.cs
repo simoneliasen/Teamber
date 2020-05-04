@@ -57,5 +57,7 @@ namespace ContosoUniversity.Models
 
         public ICollection<EmpTeam> EmpTeams { get; set; }
         public ICollection<EmpQuestionnaire> EmpQuestionnaires { get; set; }
+
+        public ICollection<EmployeeCompetence> EmployeeCompetences { get; set; }
     }
 }

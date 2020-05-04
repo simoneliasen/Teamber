@@ -481,3 +481,4 @@ C:\Users\simon\Desktop\teamber\Teambers\obj\Debug\netcoreapp3.0\staticwebassets\
 C:\Users\simon\Desktop\teamber\Teambers\obj\Debug\netcoreapp3.0\ContosoUniversity.dll
 C:\Users\simon\Desktop\teamber\Teambers\obj\Debug\netcoreapp3.0\ContosoUniversity.pdb
 C:\Users\simon\Desktop\teamber\Teambers\obj\Debug\netcoreapp3.0\ContosoUniversity.genruntimeconfig.cache
+D:\teamberting\v2\obj\Debug\netcoreapp3.0\Razor\Pages\Employees\TakeQuestionnaire.cshtml.g.cs

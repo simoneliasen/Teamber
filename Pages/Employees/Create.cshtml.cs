@@ -63,6 +63,37 @@ namespace ContosoUniversity.Pages.Employees {
                     };
                     newEmployee.EmpQuestionnaires.Add(questionnaireToAdd);
                 }
+
+                //sætter alle employeens competencescores til 1. Så vi nemmere kan redigere i dem, og se at emlpoyeen er oprettet.
+                newEmployee.EmployeeCompetences = new List<EmployeeCompetence>();
+                var allCompetencesQuestionnaireIDs = new List<int>(
+                _context.QuestionnaireCompetences.Select(c => c.QuestionnaireID)); //henter questionnaireID'et for alle competencer.
+
+                var allCompetences = new List<int>(
+                _context.QuestionnaireCompetences.Select(c => c.QuestionnaireCompetenceID)); //henter questionnaireID'et for alle competencer.
+
+                for (int i = 0; i < allCompetencesQuestionnaireIDs.Count(); i++)
+                {
+
+                    if(newEmployee.EmpQuestionnaires.Select(i => i.QuestionnaireID).Contains(allCompetencesQuestionnaireIDs[i])) //hvis competencens tilhørende questionnaireID er i employeens quenstionnaireID'er vil vi tilføje
+                                                                                                                   //competencen med en værdi på 1, til vores employeeCompetences.
+                    {
+                        var competenceToAdd = new EmployeeCompetence
+                        {
+                            EmployeeID = newEmployee.ID,
+                            QuestionnaireCompetenceID = allCompetences[i],
+                            Score = 1
+                        };
+
+                       newEmployee.EmployeeCompetences.Add(competenceToAdd);
+                        
+                    }
+
+
+
+                    
+
+                }
             }
             // If statement slettet
             await TryUpdateModelAsync<Employee>(

@@ -1,0 +1,94 @@
+﻿@page
+@model ContosoUniversity.Pages.Employees.TakeQuestionnaireModel
+
+@{
+    ViewData["Title"] = "Take Questionnaire";
+}
+
+<h1>Take questionnaire</h1>
+
+<h4>@Html.DisplayFor(model => model.Employee.FullName)</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Employee.ID" />
+            <div class="form-group">
+                <label asp-for="Employee.PersonalityType" class="control-label"></label>
+                <input asp-for="Employee.PersonalityType" class="form-control" />
+                <span asp-validation-for="Employee.PersonalityType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="table">
+                    <table>
+                        <tr>
+                            Your work fields:
+                        </tr>
+                        <tr>
+                            @{
+                                @foreach (var item in Model.Employee.EmpQuestionnaires)
+                                {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Questionnaire.Title)
+                                    </td>
+                                </tr>
+                            }
+                                @:
+                            }
+                        </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="table">
+                        <table>
+                            <tr>
+                                Competences
+                            </tr>
+                            <tr>
+                                @{
+                                    int cnt3 = 0;
+
+                                    foreach (var competence in Model.AssignedEmployeeCompetenceDataList)
+                                    {
+                                        if (cnt3++ % 3 == 0)
+                                        {
+                                        @:</tr><tr>
+                                        }
+                                        @:<td>
+                                            <input type="checkbox"
+                                                   name="selectedCompetences"
+                                                   value="@competence.QuestionnaireCompetenceID"
+                                                   checked="checked" />
+                                            @competence.Criteria
+                                        @:</td>
+                                        @:<td>
+                                            <input type="number" min="0" max="5"
+                                                   name="selectedCompetencesValue"
+                                                   value="0"
+                                                   @(Html.Raw(competence.Assigned ? "checked=\"checked\"" : "")) />
+                                            @competence.Criteria
+                                        @:</td>
+                                    }
+                                @:</tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-page="./Index">Back to List</a>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

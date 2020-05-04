@@ -10,6 +10,7 @@ namespace ContosoUniversity.Pages.Employees {
 
         public List<AssignedTeamData> AssignedTeamDataList;
         public List<AssignedQuestionnaireData> AssignedQuestionnaireDataList;
+        public List<AssignedEmployeeCompetenceData> AssignedEmployeeCompetenceDataList;
 
         public void PopulateAssignedTeamData(SchoolContext context,
                                                Employee employee)
@@ -44,6 +45,40 @@ namespace ContosoUniversity.Pages.Employees {
                     Title = questionnaire.Title,
                     Assigned = employeeQuestionnaires.Contains(questionnaire.QuestionnaireID)
                 });
+            }
+        }
+
+
+        //til at tage spørgeskema
+        public void PopulateAssignedEmployeeCompetenceData(SchoolContext context,
+                                               Employee employee)
+        {
+            var questionnaireCompetences = new HashSet<int>(
+                employee.EmpQuestionnaires.Select(c => c.QuestionnaireID));
+
+
+            //obs: den henter alle competencer - ikke bare employeeCompetences. Dvs. når man tager questionnairet kan man ikke se hvad man svarede sidst.
+            var allCompetences = context.QuestionnaireCompetences;
+
+
+            AssignedEmployeeCompetenceDataList = new List<AssignedEmployeeCompetenceData>();
+            foreach (var competence in allCompetences)
+            {
+                var questionnaireID = context.QuestionnaireCompetences.Where(i => i.QuestionnaireCompetenceID == competence.QuestionnaireCompetenceID).Select(k => k.QuestionnaireID).FirstOrDefault();
+                var competenceName = context.QuestionnaireCompetences.Where(i => i.QuestionnaireCompetenceID == competence.QuestionnaireCompetenceID).Select(k => k.Competence).FirstOrDefault();
+
+                if (employee.EmpQuestionnaires.Select(i => i.QuestionnaireID).Contains(competence.QuestionnaireID)) //altså hvis den ansatte har et questionnair tilknyttet, hvor competencen er i dette questionnaire.
+                {
+                    AssignedEmployeeCompetenceDataList.Add(new AssignedEmployeeCompetenceData
+                    {
+                        QuestionnaireID = questionnaireID,
+                        Criteria = competenceName,
+                        Assigned = true,
+                        Priority = 1,
+                        //Priority = allCompetences.Where(i => i.TeamID == team.TeamID).Where(j => j.QuestionnaireCompetenceID == criteria.QuestionnaireCompetenceID).FirstOrDefault().PriorityValue, //cirkemde med questionnairecompetence id i stedet for team id.
+                        QuestionnaireCompetenceID = competence.QuestionnaireCompetenceID
+                    });
+                }
             }
         }
 
@@ -124,6 +159,18 @@ namespace ContosoUniversity.Pages.Employees {
                         context.Remove(questionnaireToRemove);
                     }
                 }
+            }
+        }
+
+
+
+        public void UpdateEmployeeCompetences(int[] selectedCompetenceValues, Employee employeeToUpdate)
+        {
+            int i = 0;
+            foreach (var competence in employeeToUpdate.EmployeeCompetences)
+            {
+                competence.Score = selectedCompetenceValues[i];
+                i++;
             }
         }
     }
