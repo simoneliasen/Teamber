@@ -71,6 +71,7 @@
                                         @:<td>
                                             <input type="checkbox"
                                                    name="selectedQuestionnaires"
+                                                   onclick="showHideRelatedCompetences(this.id)"
                                                    id="@questionnaire.QuestionnaireID-questionnaire"
                                                    value="@questionnaire.QuestionnaireID"
                                                    @(Html.Raw(questionnaire.Assigned ? "checked=\"checked\"" : "")) />
@@ -98,7 +99,7 @@
                                             {
                                             @:</tr><tr>
                                             }
-                                            @:<td>
+                                            @:<td class="@competence.QuestionnaireID-Qclass startHidden">
                                                 <input type="checkbox"
                                                        name="selectedCompetences"
                                                        id="@competence.QuestionnaireCompetenceID-competence"
@@ -106,7 +107,7 @@
                                                        checked="checked"/>
                                                 @competence.Criteria
                                             @:</td>
-                                            @:<td>
+                                            @:<td class="@competence.QuestionnaireID-Qclass startHidden">
                                                 <input type="number" min="0" max="5" 
                                                        name="selectedCompetencesValue"
                                                        id="@competence.QuestionnaireCompetenceID-competenceValue"
@@ -125,7 +126,13 @@
                     </form>
     </div>
 </div>
-<button onclick="calculateSynergies(1)">Click me</button>
+<button onclick="calculateSynergies()">Calculate synergies</button>
+
+<style>
+    .startHidden {
+        display: none;
+    }
+</style>
 
 <div>
     <a asp-page="Index">Back to List</a>
@@ -144,6 +151,11 @@
 
    //opdateres live. Ud fra user input i kriterierne.
     @Model.AllQuestionnairesString
+
+
+
+    //bare et array over alle questionnaires:
+    @Model.AllQuestionnaireTitlesString
 
 
     /*
@@ -167,18 +179,70 @@ var QuestionnaireCriterias = {
 
 
 //document.getElementById("teamSynergy").innerHTML = EmpQuestionnaires[11][1];
-    function calculateSynergies(questionnaire) {
-        updateQuestionnaireCriterias();
-        var maxScore = calculateMaxScore(questionnaire);
 
-         
-	             for (var employee in EmpQuestionnaires){
-                    if (EmpQuestionnaires.hasOwnProperty(employee)) {
-                        calculateEmployeeSynergy(employee, questionnaire, maxScore);
+    //find de questionnaires der er vinget af og foreach kør nedenstående
+
+    function showHideRelatedCompetences(questionnaire) {
+        var questionnaireSplit = questionnaire.split("-");
+        var questionnaireID = questionnaireSplit[0];
+        var competences = document.getElementsByClassName("" + questionnaireID + "-Qclass");
+        for (var i in competences) {
+            var checkStatus = document.getElementById(questionnaire).checked;
+            if (checkStatus) {
+                competences[i].style.display = 'table-cell';
+            }
+            else {
+                competences[i].style.display = 'none';
+            }
+            
+        }
+}
+
+
+
+
+    function selectedQuestionnaires() {
+        var checkedQuestionnaires = [];
+        for (var questionnaire in QuestionnaireTitles){
+            if (QuestionnaireTitles.hasOwnProperty(questionnaire)) {
+                var temp = document.getElementById("" + QuestionnaireTitles[questionnaire] + "-questionnaire").checked;
+                if (temp) {
+                    checkedQuestionnaires.push(QuestionnaireTitles[questionnaire]);
+
+                        }
                     }
-                 }
+        }
+        return checkedQuestionnaires;
     }
 
+
+
+    function calculateSynergies() {
+        var chosenQuestionnaires = selectedQuestionnaires();
+        updateQuestionnaireCriterias();
+        for (var questionnaire in chosenQuestionnaires){
+            if (chosenQuestionnaires.hasOwnProperty(questionnaire)) {
+
+                var questionnaireID = parseInt(chosenQuestionnaires[questionnaire]);
+                var maxScore = calculateMaxScore(questionnaireID);
+
+                for (var employee in EmpQuestionnaires) {
+                    if (EmpQuestionnaires.hasOwnProperty(employee)) {
+                        if (EmpQuestionnaires[employee].includes(questionnaireID)) { //altså hvis employeen er tilknyttet det givne questionnaire
+                            var employeeID = parseInt(employee);
+                            calculateEmployeeSynergy(employeeID, questionnaireID, maxScore);
+                            //alert("max score er igen: " + maxScore + " " + typeof maxScore);
+                        }
+                        
+                    }
+                }
+
+            }   
+        }
+
+
+        
+    }
 
 
     function updateQuestionnaireCriterias() {
@@ -204,12 +268,16 @@ function calculateEmployeeSynergy(employee, questionnaire, max_score) {
 	for (var competence in target){
         if (target.hasOwnProperty(competence)) {
             //alert("Key is " + competence + ", value is " + target[competence]);
-            var temp = EmpCompetences[employee][competence];
+            var competenceInt = parseInt(competence);
+            var temp = EmpCompetences[employee][competenceInt];
+
             
-            if(temp > target[competence]) {
-         	    temp = target[competence];
-             }
-            totalScore += parseInt(temp);
+            var tempInt = parseInt(temp);
+            if(tempInt > target[competenceInt]) {
+         	    tempInt = parseInt(target[competenceInt]);
+            }
+            totalScore += tempInt;
+            
         }
     }
 //return totalScore;

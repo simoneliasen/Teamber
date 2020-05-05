@@ -35,6 +35,7 @@ namespace ContosoUniversity.Pages.Teams {
             PopulateAllEmpCompetencesString(_context);
             PopulateAllEmpQuestionnairesString(_context);
             PopulateAllQuestionnairesString(_context);
+            PopulateAllQuestionnaireTitlesString(_context);
             return Page();
         }
 

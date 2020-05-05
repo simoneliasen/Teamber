@@ -19,6 +19,7 @@ namespace ContosoUniversity.Pages.Teams
         public string AllEmpCompetencesString;
         public string AllEmpQuestionnairesString;
         public string AllQuestionnairesString;
+        public string AllQuestionnaireTitlesString;
 
         public void PopulateAssignedEmployeeData(SchoolContext context,
                                                Team team)
@@ -102,7 +103,7 @@ namespace ContosoUniversity.Pages.Teams
                 result += $" }}, ";
             }
 
-            result += "}";
+            result += "}; ";
 
             AllEmpCompetencesString = result;
         }
@@ -128,7 +129,7 @@ namespace ContosoUniversity.Pages.Teams
                 result += $" ], ";
             }
 
-            result += "}";
+            result += "}; ";
 
             AllEmpQuestionnairesString = result;
         }
@@ -154,9 +155,25 @@ namespace ContosoUniversity.Pages.Teams
                 result += $" }}, ";
             }
 
-            result += "}";
+            result += "}; ";
 
             AllQuestionnairesString = result;
+        }
+
+        public void PopulateAllQuestionnaireTitlesString(SchoolContext context)
+        {
+            var allQuestionnaireIDs = context.Questionnaires.Select(i => i.QuestionnaireID);
+
+            string result = "var QuestionnaireTitles = [ ";
+
+            foreach (var questionnaireID in allQuestionnaireIDs) //looper gennem alle questionnaires
+            {
+                result += $"{questionnaireID.ToString()}, ";
+            }
+
+            result += "]; ";
+
+            AllQuestionnaireTitlesString = result;
         }
 
 
