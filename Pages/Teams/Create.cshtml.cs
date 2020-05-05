@@ -25,12 +25,16 @@ namespace ContosoUniversity.Pages.Teams {
             team.EmpTeams = new List<EmpTeam>();
             team.TeamQuestionnaires = new List<TeamQuestionnaire>();
             team.TeamCriterias = new List<TeamCriteria>();
+
             // Provides an empty collection for the foreach loop
             // foreach (var course in Model.AssignedCourseDataList)
             // in the Create Razor page.
             PopulateAssignedEmployeeData(_context, team);
             PopulateAssignedQuestionnaireData(_context, team);
             PopulateAllCompetencesData(_context, team);
+            PopulateAllEmpCompetencesString(_context);
+            PopulateAllEmpQuestionnairesString(_context);
+            PopulateAllQuestionnairesString(_context);
             return Page();
         }
 

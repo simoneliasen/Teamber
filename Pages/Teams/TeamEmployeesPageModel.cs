@@ -15,6 +15,11 @@ namespace ContosoUniversity.Pages.Teams
         public List<AssignedTeamCriteriaData> AssignedTeamCriteriaDataList;
         public List<AllCompetences> AllCompetencesDataList;
 
+        //Samler en masse data om de anssatte til søgningen. Indsættes som javascript i bunden.
+        public string AllEmpCompetencesString;
+        public string AllEmpQuestionnairesString;
+        public string AllQuestionnairesString;
+
         public void PopulateAssignedEmployeeData(SchoolContext context,
                                                Team team)
         {
@@ -76,6 +81,84 @@ namespace ContosoUniversity.Pages.Teams
 
             }
         }
+
+        public void PopulateAllEmpCompetencesString(SchoolContext context)
+        {
+            var allEmployeeIDs = context.Employees.Select(i => i.ID);
+            var allEmployeeCompetences = context.EmployeeCompetences;
+
+            string result = "var EmpCompetences = { ";
+
+            foreach (var employeeID in allEmployeeIDs) //looper gennem alle employees
+            {
+                result += $"{employeeID.ToString()}: {{ ";
+                foreach (var employeeCompetence in allEmployeeCompetences)//looper gennem alle competencer
+                {
+                    if(employeeID == employeeCompetence.EmployeeID)
+                    {
+                        result += $"{employeeCompetence.QuestionnaireCompetenceID.ToString()}: {employeeCompetence.Score.ToString()}, ";
+                    }
+                }
+                result += $" }}, ";
+            }
+
+            result += "}";
+
+            AllEmpCompetencesString = result;
+        }
+
+
+        public void PopulateAllEmpQuestionnairesString(SchoolContext context)
+        {
+            var allEmployeeIDs = context.Employees.Select(i => i.ID);
+            var allEmployeeQuestionnaires = context.EmpQuestionnaires;
+
+            string result = "var EmpQuestionnaires = { ";
+
+            foreach (var employeeID in allEmployeeIDs) //looper gennem alle employees
+            {
+                result += $"{employeeID.ToString()}: [ ";
+                foreach (var employeeQuestionnaire in allEmployeeQuestionnaires)//looper gennem alle competencer
+                {
+                    if (employeeID == employeeQuestionnaire.EmployeeID)
+                    {
+                        result += $"{employeeQuestionnaire.QuestionnaireID.ToString()}, ";
+                    }
+                }
+                result += $" ], ";
+            }
+
+            result += "}";
+
+            AllEmpQuestionnairesString = result;
+        }
+
+
+        public void PopulateAllQuestionnairesString(SchoolContext context)
+        {
+            var allQuestionnaireIDs = context.Questionnaires.Select(i => i.QuestionnaireID);
+            var allQuestionnaireCompetences = context.QuestionnaireCompetences;
+
+            string result = "var QuestionnaireCriterias = { ";
+
+            foreach (var questionnaireID in allQuestionnaireIDs) //looper gennem alle employees
+            {
+                result += $"{questionnaireID.ToString()}: {{ ";
+                foreach (var competence in allQuestionnaireCompetences)//looper gennem alle competencer
+                {
+                    if (questionnaireID == competence.QuestionnaireID)
+                    {
+                        result += $"{competence.QuestionnaireCompetenceID.ToString()}: 0, ";
+                    }
+                }
+                result += $" }}, ";
+            }
+
+            result += "}";
+
+            AllQuestionnairesString = result;
+        }
+
 
         public void PopulateAssignedTeamCriteriaData(SchoolContext context,
                                                Team team)

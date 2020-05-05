@@ -20,7 +20,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Team.Synergy" class="control-label"></label>
-                <input asp-for="Team.Synergy" class="form-control" />
+                <input asp-for="Team.Synergy" class="form-control" id="teamSynergy" />
                 <span asp-validation-for="Team.Synergy" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -44,7 +44,7 @@
                                                name="selectedEmployees"
                                                value="@employee.EmployeeID"
                                                @(Html.Raw(employee.Assigned ? "checked=\"checked\"" : "")) />
-                                        @employee.FullName
+                                        <p>@employee.FullName - <span id="@employee.EmployeeID">0</span> %</p>
                                     @:</td>
                                 }
                             @:</tr>
@@ -71,6 +71,7 @@
                                         @:<td>
                                             <input type="checkbox"
                                                    name="selectedQuestionnaires"
+                                                   id="@questionnaire.QuestionnaireID-questionnaire"
                                                    value="@questionnaire.QuestionnaireID"
                                                    @(Html.Raw(questionnaire.Assigned ? "checked=\"checked\"" : "")) />
                                             @questionnaire.Title 
@@ -100,6 +101,7 @@
                                             @:<td>
                                                 <input type="checkbox"
                                                        name="selectedCompetences"
+                                                       id="@competence.QuestionnaireCompetenceID-competence"
                                                        value="@competence.QuestionnaireCompetenceID"
                                                        checked="checked"/>
                                                 @competence.Criteria
@@ -107,9 +109,9 @@
                                             @:<td>
                                                 <input type="number" min="0" max="5" 
                                                        name="selectedCompetencesValue"
+                                                       id="@competence.QuestionnaireCompetenceID-competenceValue"
                                                        value="0"
                                                        @(Html.Raw(competence.Assigned ? "checked=\"checked\"" : "")) />
-                                                @competence.Criteria
                                             @:</td>
                                         }
                                     @:</tr>
@@ -123,6 +125,7 @@
                     </form>
     </div>
 </div>
+<button onclick="calculateSynergies(1)">Click me</button>
 
 <div>
     <a asp-page="Index">Back to List</a>
@@ -131,3 +134,108 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<script type="text/javascript">
+
+    //opdateres ikke.
+    @Model.AllEmpCompetencesString
+
+    //opdateres ikke.
+    @Model.AllEmpQuestionnairesString
+
+   //opdateres live. Ud fra user input i kriterierne.
+    @Model.AllQuestionnairesString
+
+
+    /*
+var QuestionnaireCriterias = {
+	1:{
+		1: 5,
+		2: 3,
+		3: 1
+	},
+	2:{
+		4: 5, //Næste step: få den her data til at opdatere automatisk ud fra hvad brugeren vælger af kriterier. Derefter loop over alle employees. Izzy.
+		5: 5,
+		6: 4
+	}
+}
+*/
+    //hent dem ind ligesom ved de andre, for det eneste der skal ændres er jo priorityen. 
+    //når man skal opdatere: get quistionnaireid, get questionnaireComepetenceID. og så sig QuestionnaireCriterias[questionnaireID][questionnaireCompetenceID] = valuen.
+
+
+
+
+//document.getElementById("teamSynergy").innerHTML = EmpQuestionnaires[11][1];
+    function calculateSynergies(questionnaire) {
+        updateQuestionnaireCriterias();
+        var maxScore = calculateMaxScore(questionnaire);
+
+         
+	             for (var employee in EmpQuestionnaires){
+                    if (EmpQuestionnaires.hasOwnProperty(employee)) {
+                        calculateEmployeeSynergy(employee, questionnaire, maxScore);
+                    }
+                 }
+    }
+
+
+
+    function updateQuestionnaireCriterias() {
+        var target = QuestionnaireCriterias;
+	    for (var questionnaire in target){
+        if (target.hasOwnProperty(questionnaire)) {
+                var target2 = QuestionnaireCriterias[questionnaire];
+	             for (var competence in target2){
+                    if (target2.hasOwnProperty(competence)) {
+                        var temp = document.getElementById("" + competence + "-competenceValue").value;
+                        QuestionnaireCriterias[questionnaire][competence] = temp;
+                    }
+                 }
+            }
+        }
+    }
+
+
+
+function calculateEmployeeSynergy(employee, questionnaire, max_score) {
+	var totalScore = 0;
+	var target = QuestionnaireCriterias[questionnaire];
+	for (var competence in target){
+        if (target.hasOwnProperty(competence)) {
+            //alert("Key is " + competence + ", value is " + target[competence]);
+            var temp = EmpCompetences[employee][competence];
+            
+            if(temp > target[competence]) {
+         	    temp = target[competence];
+             }
+            totalScore += parseInt(temp);
+        }
+    }
+//return totalScore;
+var tempSynergy = totalScore/max_score*100;
+var synergy = Math.round(tempSynergy);
+document.getElementById("" + employee).innerHTML = synergy;
+}
+
+
+
+
+function calculateMaxScore(questionnaire) {
+	var maxScore = 0;
+	var target = QuestionnaireCriterias[questionnaire];
+
+	for (var competence in target){
+    if (target.hasOwnProperty(competence)) {
+
+        var temp = target[competence];
+         maxScore += parseInt(temp);
+    }
+}
+return maxScore;
+}
+
+
+
+
+</script>
