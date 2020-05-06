@@ -41,7 +41,9 @@
                                     }
                                     @:<td>
                                         <input type="checkbox"
+                                               onchange="calculateTeamSynergy()"
                                                name="selectedEmployees"
+                                               id="@employee.EmployeeID-employee"
                                                value="@employee.EmployeeID"
                                                @(Html.Raw(employee.Assigned ? "checked=\"checked\"" : "")) />
                                         <p>@employee.FullName - <span id="@employee.EmployeeID">0</span> %</p>
@@ -110,6 +112,7 @@
                                             @:<td class="@competence.QuestionnaireID-Qclass startHidden">
                                                 <input type="number" min="0" max="5" 
                                                        name="selectedCompetencesValue"
+                                                       onchange="calculateSynergies(); calculateTeamSynergy()"
                                                        id="@competence.QuestionnaireCompetenceID-competenceValue"
                                                        value="0"
                                                        @(Html.Raw(competence.Assigned ? "checked=\"checked\"" : "")) />
@@ -126,7 +129,6 @@
                     </form>
     </div>
 </div>
-<button onclick="calculateSynergies()">Calculate synergies</button>
 
 <style>
     .startHidden {
@@ -182,6 +184,18 @@ var QuestionnaireCriterias = {
 
     //find de questionnaires der er vinget af og foreach kør nedenstående
 
+    function calculateTeamSynergy() {
+        var employeeSynergies = selectedEmployees();
+
+        var totalScores = 0;
+        for (var employeeSynergy in employeeSynergies) {
+            totalScores += parseInt(employeeSynergies[employeeSynergy]);
+        }
+        var average = totalScores / employeeSynergies.length;
+        var synergy = Math.round(average);
+        document.getElementById("teamSynergy").value = synergy;
+    }
+
     function showHideRelatedCompetences(questionnaire) {
         var questionnaireSplit = questionnaire.split("-");
         var questionnaireID = questionnaireSplit[0];
@@ -197,6 +211,28 @@ var QuestionnaireCriterias = {
             
         }
 }
+
+
+
+    function selectedEmployees() {
+        var checkedEmployees = [];
+        for (var employee in EmpQuestionnaires){
+            if (EmpQuestionnaires.hasOwnProperty(employee)) {
+                var temp = document.getElementById("" + employee + "-employee").checked;
+                if (temp) {
+                    var employeeSynergy = document.getElementById(employee).innerHTML;
+                    //alert("employee er" + employee);
+                    //alert("employee synergy er " + employeeSynergy);
+                    checkedEmployees.push(employeeSynergy);
+
+                        }
+                    }
+        }
+        return checkedEmployees;
+    }
+
+
+
 
 
 
