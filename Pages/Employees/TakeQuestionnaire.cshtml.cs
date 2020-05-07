@@ -25,7 +25,7 @@ namespace ContosoUniversity.Pages.Employees
 
         public async Task<IActionResult> OnGetAsync()
         {
-            int id = 11; //id'et sættes bare til id't på den employee der er logget ind. izzyyyy
+            int id = 3; //id'et sættes bare til id't på den employee der er logget ind. izzyyyy
 
             if (id == null)
             {
@@ -59,7 +59,7 @@ namespace ContosoUniversity.Pages.Employees
 
         public async Task<IActionResult> OnPostAsync(string[] selectedCompetences, int[] selectedCompetencesValue) 
         {
-            int id = 11; //skal sættes til den der er logget inds id.
+            int id = 3; //skal sættes til den der er logget inds id.
             if (id == null)
             {
                 return NotFound();
