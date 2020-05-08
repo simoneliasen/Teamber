@@ -289,7 +289,6 @@ D:\teamberting\v2\obj\Debug\netcoreapp3.0\ContosoUniversity.AssemblyInfo.cs
 D:\teamberting\v2\obj\Debug\netcoreapp3.0\ContosoUniversity.TagHelpers.input.cache
 D:\teamberting\v2\obj\Debug\netcoreapp3.0\ContosoUniversity.TagHelpers.output.cache
 D:\teamberting\v2\obj\Debug\netcoreapp3.0\ContosoUniversity.RazorCoreGenerate.cache
-D:\teamberting\v2\obj\Debug\netcoreapp3.0\Razor\Pages\About.cshtml.g.cs
 D:\teamberting\v2\obj\Debug\netcoreapp3.0\Razor\Pages\Employees\Create.cshtml.g.cs
 D:\teamberting\v2\obj\Debug\netcoreapp3.0\Razor\Pages\Employees\Delete.cshtml.g.cs
 D:\teamberting\v2\obj\Debug\netcoreapp3.0\Razor\Pages\Employees\Details.cshtml.g.cs

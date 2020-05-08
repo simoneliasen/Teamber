@@ -1,94 +1,121 @@
 ﻿@page
 @model ContosoUniversity.Pages.Employees.TakeQuestionnaireModel
-
 @{
     ViewData["Title"] = "Take Questionnaire";
 }
+<link href="@Url.Content("~/css/TakeQuestionnaire.css")" rel="stylesheet" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
 
 <h1>Take questionnaire</h1>
-
 <h4>@Html.DisplayFor(model => model.Employee.FullName)</h4>
+
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form method="post">
+    <div class="col-md-6">
+
+        <form method="post" onsubmit=" return ValidateCheckboxes()">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Employee.ID" />
+
+            <h4>Personality type</h4>
             <div class="form-group">
-                <label asp-for="Employee.PersonalityType" class="control-label"></label>
-                <input asp-for="Employee.PersonalityType" class="form-control" />
-                <span asp-validation-for="Employee.PersonalityType" class="text-danger"></span>
+                <select name="Employee.PersonalityType" required>
+                    <option value="">Select a type</option>
+                    @{ string[] personalityTypes = { "ISTJ", "INFJ", "INTJ", "ENFJ", "ISTP", "ESFJ", "INFP", "ESFP", "ENFP", "ESTP", "ESTJ", "ENTJ", "INTP", "ISFJ", "ENTP", "ISFP" };
+                        int cnt1 = 0;
+                        foreach (var personality in personalityTypes)
+                        {
+                        <option value="@(Html.Raw(personality))" name="Employee.PersonalityType">@(Html.Raw(personality))</option>
+                        cnt1++;
+                        }
+                    }
+                </select>
+                <p>Take the <a href="https://www.16personalities.com/" target="_blank">Personality test</a> and enter your personality-type</p>
             </div>
+            <hr />
+
+            <h4>Competences</h4>
+            <br />
             <div class="form-group">
-                <div class="table">
-                    <table>
+                <table id="competenceRating">
+
+                    <!-- Rating values-->
+                    <tr>
+                        <th></th>
+                        <th>Not good</th>
+                        <th>Pretty good</th>
+                        <th>Good</th>
+                        <th>Very good</th>
+                        <th>Excellent</th>
+                    </tr>
+
+                    <!-- Itterator that gives each checkbox group a unique class, so the javascript can refference it and only make one checkbox clickable in each group-->
+                    @{ int cnt = 1;
+                        foreach (var competence in Model.AssignedEmployeeCompetenceDataList)
+                        {
+
+                        // Hidden refference to assign elements correctly
+                        <input type="hidden" name="selectedCompetences" value="@competence.QuestionnaireCompetenceID" />
                         <tr>
-                            Your work fields:
-                        </tr>
-                        <tr>
-                            @{
-                                @foreach (var item in Model.Employee.EmpQuestionnaires)
-                                {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Questionnaire.Title)
-                                    </td>
-                                </tr>
+
+                            <!--Component name-->
+                            <td>@competence.Criteria</td>
+
+                            <!-- five checkboxes for each component -->
+                            @for (int i = 1; i < 6; i++)
+                            {
+                            <td>
+                                <label class="containercheck">
+                                    <input type="checkbox" class="option@(Html.Raw(cnt))" value="@(Html.Raw(i))" name="selectedCompetencesValue" required>
+                                    <span class="checkmark"></span>
+                                </label>
+                            </td>
+
+                            <!--Only make it possible to check one checkbox in each row -->
+                            <script type="text/javascript">
+                                                $('.option@(Html.Raw(cnt))').on('change', function () {
+                                                    $('.option@(Html.Raw(cnt))').not(this).prop('checked', false);
+                                                });
+                            </script>
                             }
-                                @:
-                            }
                         </tr>
-                        </table>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="table">
-                        <table>
-                            <tr>
-                                Competences
-                            </tr>
-                            <tr>
-                                @{
-                                    int cnt3 = 0;
+                        cnt++;
+                        }
+                    }
+                </table>
+            </div>
+            <hr />
 
-                                    foreach (var competence in Model.AssignedEmployeeCompetenceDataList)
-                                    {
-                                        if (cnt3++ % 3 == 0)
-                                        {
-                                        @:</tr><tr>
-                                        }
-                                        @:<td>
-                                            <input type="checkbox"
-                                                   name="selectedCompetences"
-                                                   value="@competence.QuestionnaireCompetenceID"
-                                                   checked="checked" />
-                                            @competence.Criteria
-                                        @:</td>
-                                        @:<td>
-                                            <input type="number" min="0" max="5"
-                                                   name="selectedCompetencesValue"
-                                                   value="0"
-                                                   @(Html.Raw(competence.Assigned ? "checked=\"checked\"" : "")) />
-                                            @competence.Criteria
-                                        @:</td>
-                                    }
-                                @:</tr>
-                                }
-                            </table>
-                        </div>
-                    </div>
+            <!--Because of the unorthodox checkbox setup, we need a dedicated Validation method for the checkboxes-->
+            <script>
+                function ValidateCheckboxes() {
+                    var inputElems = document.getElementsByTagName("input"),
+                        checkBoxCount = 0;
 
-                    <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-primary" />
-                    </div>
-                </form>
-        </div>
+                    for (var i = 0; i < inputElems.length; i++) {
+                        if (inputElems[i].type == "checkbox" && inputElems[i].checked == true) {
+                            checkBoxCount++;
+                        }
+                    }
+                    if (checkBoxCount < @Model.AssignedEmployeeCompetenceDataList.Count()) {
+                        alert("Looks like you forgot to fill out some parts of the form");
+                        return false;
+                    }
+                }
+            </script>
+
+            <!-- Sumbit-->
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+
     </div>
+</div>
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
 
-    <div>
-        <a asp-page="./Index">Back to List</a>
-    </div>
-
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

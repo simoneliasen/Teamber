@@ -137,6 +137,7 @@
                                                        @(Html.Raw(employee.Assigned ? "checked=\"checked\"" : "")) />
                                                 <p><span id="@employee.EmployeeID-name">@employee.FullName</span><br />
                                                                                                                  <span>@employee.JobTitle</span><br />
+
                                 <span id="@employee.EmployeeID">0</span> %</p>
                                             @:</td>
                                         }
@@ -161,15 +162,15 @@
                 .startHidden {
                     display: none;
                 }
+
             </style>
 
             <div>
                 <a asp-page="Index">Back to List</a>
             </div>
-            <button onclick="myFunction5('1-employee')">append team member</button>
             @section Scripts {
                 @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}}
+}
 
             <script type="text/javascript" src="../js/radialIndicator.js"></script>
             <script type="text/javascript">
