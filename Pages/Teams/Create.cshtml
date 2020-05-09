@@ -26,7 +26,28 @@
                 <input asp-for="Team.Synergy" class="form-control" id="teamSynergy" />
                 <span asp-validation-for="Team.Synergy" class="text-danger"></span>
             </div>-->
+            <div>
+                <p>Questionnaires</p>
 
+                @{
+                    
+                    foreach (var questionnaire in Model.AssignedQuestionnaireDataList)
+                    {
+                        if (true)
+                        {
+                            @:
+                            }
+                            @:
+                <button type="button" onclick="showHideRelatedCompetences(this.id)"
+                        id="@questionnaire.QuestionnaireID-questionnaireButton" class="questionnaireButton">
+                    @questionnaire.Title
+                    </button>
+                                
+                            @:
+                        }
+                    @:
+                }
+            </div>
             <div class="form-group">
                 <div class="table">
                     <table>
@@ -76,6 +97,7 @@
                                         }
                                         @:<td class="@competence.QuestionnaireID-Qclass startHidden">
                                             <input type="checkbox"
+                                                   style="display: none;"
                                                    name="selectedCompetences"
                                                    id="@competence.QuestionnaireCompetenceID-competence"
                                                    value="@competence.QuestionnaireCompetenceID"
@@ -85,7 +107,7 @@
                                         @:<td class="@competence.QuestionnaireID-Qclass startHidden">
                                             <input type="number" min="0" max="5"
                                                    name="selectedCompetencesValue"
-                                                   onchange="calculateSynergies(); calculateTeamSynergy()"
+                                                   onchange="calculateSynergies(this.id); calculateTeamSynergy(); checkOrUncheckQuestionnaire(this.id)"
                                                    id="@competence.QuestionnaireCompetenceID-competenceValue"
                                                    value="0"
                                                    @(Html.Raw(competence.Assigned ? "checked=\"checked\"" : "")) />
@@ -172,8 +194,12 @@
                 @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 
-            <script type="text/javascript" src="../js/radialIndicator.js"></script>
-            <script type="text/javascript">
+<script type="text/javascript" src="../js/radialIndicator.js"></script>
+<script type="text/javascript">
+
+    var activeQuestionnaireButton = "";
+
+
 
 function addToMemberList(employee) {
     var employeeID = employee.split("-")[0];
@@ -190,9 +216,10 @@ function addToMemberList(employee) {
         var spanSynergy = document.createElement("span");
         node.setAttribute("id", "" + employeeID + "-teamMember");
 
-        
-        node.innerHTML="" + name + " - <span id='" + employeeID + "-memberSynergy'>" + synergy + "</span> %";
+        var activeQuestionnaire = document.getElementById(activeQuestionnaireButton).innerText;
 
+        //obs bruger ikke employeeid + memberquestionnaire samlet id'et til noget endnu. så kan være at det skal indeholde noget andet.
+        node.innerHTML="" + name + " - <span id='" + employeeID + "-memberQuestionnaire'>" + activeQuestionnaire + "</span>" + " - <span id='" + employeeID + "-memberSynergy'>" + synergy + "</span> %";
         document.getElementById("teamMembers").appendChild(node);
     }
     else {
@@ -208,6 +235,27 @@ function addToMemberList(employee) {
                         var synergy = document.getElementById(employeeID).innerHTML;
                         document.getElementById("" + employeeID + "-memberSynergy").innerHTML = synergy;
                     }
+                }
+
+
+                function checkOrUncheckQuestionnaire(competence) {
+                    var competenceID = competence.split("-")[0];
+                    var chosen = false;
+                    var questionnaireNumber = 0;
+                    for (var i in QuestionnaireCriterias) {
+                        if (QuestionnaireCriterias[i].hasOwnProperty(competenceID)) {
+                            questionnaireNumber = i;
+                        }
+
+                    }
+
+                    for (var k in QuestionnaireCriterias[questionnaireNumber]) {
+                        if (QuestionnaireCriterias[questionnaireNumber][k] > 0) {
+                            chosen = true;
+                        }
+                    }
+
+                    document.getElementById("" + questionnaireNumber + "-questionnaire").checked = chosen;
                 }
 
 
@@ -278,8 +326,16 @@ var QuestionnaireCriterias = {
         }
         var average = totalScores / employeeSynergies.length;
         var synergy = Math.round(average);
-        document.getElementById("teamSynergy").value = synergy;
-        radialObj.animate(synergy);
+
+        if (employeeSynergies.length != 0) {
+            document.getElementById("teamSynergy").value = synergy;
+            radialObj.animate(synergy);
+        }
+        else {
+            document.getElementById("teamSynergy").value = 0;
+        radialObj.animate(0);
+        }
+        
     }
 
 
@@ -288,9 +344,15 @@ var QuestionnaireCriterias = {
     function showHideRelatedCompetences(questionnaire) {
         var questionnaireSplit = questionnaire.split("-");
         var questionnaireID = questionnaireSplit[0];
+
+        //og opdaterer lige en global variabel
+        activeQuestionnaireButton = "" + questionnaireID + "-questionnaireButton";
+        hideAllCompetences();
+        document.getElementById(questionnaire).style.backgroundColor = 'lightblue';
         var competences = document.getElementsByClassName("" + questionnaireID + "-Qclass");
         for (var i in competences) {
-            var checkStatus = document.getElementById(questionnaire).checked;
+            var checkStatus = true;
+                //document.getElementById(questionnaire).checked;
             if (checkStatus) {
                 competences[i].style.display = 'table-cell';
             }
@@ -299,7 +361,21 @@ var QuestionnaireCriterias = {
             }
 
         }
-}
+   }
+
+                function hideAllCompetences() {
+                    var competences = document.getElementsByClassName("startHidden");
+
+                    for (var i = 0; i < competences.length; i++) {
+                        competences[i].style.display = 'none';
+                    }
+
+                    var questionnaireButtons = document.getElementsByClassName("questionnaireButton");
+
+                    for (var i = 0; i < questionnaireButtons.length; i++) {
+                        questionnaireButtons[i].style.backgroundColor = 'white';
+                    }
+                }
 
 
 
@@ -342,7 +418,35 @@ var QuestionnaireCriterias = {
 
 
 
-    function calculateSynergies() {
+                function calculateSynergies(competence) {
+                    var competenceID = competence.split("-")[0];
+                    var questionnaireNumber = 0;
+                    for (var i in QuestionnaireCriterias) {
+                        if (QuestionnaireCriterias[i].hasOwnProperty(competenceID)) {
+                            questionnaireNumber = i;
+                        }
+
+                    }
+
+                    questionnaireID = parseInt(questionnaireNumber);
+
+                   
+                    updateQuestionnaireCriterias();
+                    var maxScore = calculateMaxScore(questionnaireID);
+
+                for (var employee in EmpQuestionnaires) {
+                    if (EmpQuestionnaires.hasOwnProperty(employee)) {
+                        if (EmpQuestionnaires[employee].includes(questionnaireID)) { //altså hvis employeen er tilknyttet det givne questionnaire
+                            var employeeID = parseInt(employee);
+                            calculateEmployeeSynergy(employeeID, questionnaireID, maxScore);
+                            updateMemberSynergy(employeeID);
+                            //alert("max score er igen: " + maxScore + " " + typeof maxScore);
+                        }
+                    }
+                }
+}
+
+                /*function calculateSynergies() {
         var chosenQuestionnaires = selectedQuestionnaires();
         updateQuestionnaireCriterias();
         for (var questionnaire in chosenQuestionnaires){
@@ -368,7 +472,7 @@ var QuestionnaireCriterias = {
 
 
 
-    }
+    }*/
 
 
     function updateQuestionnaireCriterias() {
@@ -388,7 +492,11 @@ var QuestionnaireCriterias = {
 
 
 
-function calculateEmployeeSynergy(employee, questionnaire, max_score) {
+    function calculateEmployeeSynergy(employee, questionnaire, max_score) {
+
+        if (document.getElementById("" + employee + "-teamMember") != null) {
+
+        }
 	var totalScore = 0;
 	var target = QuestionnaireCriterias[questionnaire];
 	for (var competence in target){
@@ -408,8 +516,15 @@ function calculateEmployeeSynergy(employee, questionnaire, max_score) {
     }
 //return totalScore;
 var tempSynergy = totalScore/max_score*100;
-var synergy = Math.round(tempSynergy);
-document.getElementById("" + employee).innerHTML = synergy;
+    var synergy = Math.round(tempSynergy);
+
+    if (Number.isInteger(synergy)) {
+        document.getElementById("" + employee).innerHTML = synergy;
+    }
+    else {
+        document.getElementById("" + employee).innerHTML = 0;
+    }
+
 }
 
 
