@@ -48,7 +48,7 @@
                     @:
                 }
             </div>
-            <div class="form-group">
+            <div class="form-group" style="display: none">
                 <div class="table">
                     <table>
                         <tr>
@@ -354,13 +354,34 @@ var QuestionnaireCriterias = {
             var checkStatus = true;
                 //document.getElementById(questionnaire).checked;
             if (checkStatus) {
-                competences[i].style.display = 'table-cell';
+                try {
+                    competences[i].style.display = 'table-cell';
+                }
+                catch (err) {
+
+                }
+                
             }
             else {
-                competences[i].style.display = 'none';
+                try {
+                    competences[i].style.display = 'none';
+                }
+                catch (err) {
+
+                }
+                
             }
 
         }
+
+        //skal lige resette employee synergies til 0. pga. man skifter til den nye tab
+        var exampleCompetence = 0;
+        for (var i in QuestionnaireCriterias[questionnaireID]) {
+            exampleCompetence = i;
+        }
+
+        var exampleCompetenceString = "" + exampleCompetence + "-competenceValue";
+        calculateSynergies(exampleCompetenceString);
    }
 
                 function hideAllCompetences() {
@@ -429,18 +450,30 @@ var QuestionnaireCriterias = {
                     }
 
                     questionnaireID = parseInt(questionnaireNumber);
-
+                    //alert("" + questionnaireID + " er det her.");
                    
                     updateQuestionnaireCriterias();
                     var maxScore = calculateMaxScore(questionnaireID);
 
                 for (var employee in EmpQuestionnaires) {
                     if (EmpQuestionnaires.hasOwnProperty(employee)) {
+                        var employeeID = parseInt(employee);
+
                         if (EmpQuestionnaires[employee].includes(questionnaireID)) { //altså hvis employeen er tilknyttet det givne questionnaire
-                            var employeeID = parseInt(employee);
+
                             calculateEmployeeSynergy(employeeID, questionnaireID, maxScore);
                             updateMemberSynergy(employeeID);
                             //alert("max score er igen: " + maxScore + " " + typeof maxScore);
+                        }
+                        else if (document.getElementById("" + employee + "-teamMember") == null) {
+                            //hvis han ikke i forvejen er valgt, skal hans synergy sættes til 0.
+                            //alert("han er ikke med i spørgeskemaet og heller ikke teamet");
+                             document.getElementById("" + employee).innerHTML = 0;
+
+                        }
+                        else {
+                            //alert("han er ikke med i spørgeskemaet, men han er med i teamet.");
+                            //derfor gør vi ingenting
                         }
                     }
                 }
@@ -493,37 +526,56 @@ var QuestionnaireCriterias = {
 
 
     function calculateEmployeeSynergy(employee, questionnaire, max_score) {
+        var memberInChosenQuestionnaire = false;
 
-        if (document.getElementById("" + employee + "-teamMember") != null) {
+        try {
+            var memberQuestionnaireTitle = document.getElementById("" + employee + "-memberQuestionnaire").innerText;
+            var currentQuestionnaire = document.getElementById(activeQuestionnaireButton).innerText;
 
-        }
-	var totalScore = 0;
-	var target = QuestionnaireCriterias[questionnaire];
-	for (var competence in target){
-        if (target.hasOwnProperty(competence)) {
-            //alert("Key is " + competence + ", value is " + target[competence]);
-            var competenceInt = parseInt(competence);
-            var temp = EmpCompetences[employee][competenceInt];
-
-
-            var tempInt = parseInt(temp);
-            if(tempInt > target[competenceInt]) {
-         	    tempInt = parseInt(target[competenceInt]);
+            if (memberQuestionnaireTitle == currentQuestionnaire) {
+                memberInChosenQuestionnaire = true;
             }
-            totalScore += tempInt;
+        }
+        catch (err) {
 
         }
-    }
-//return totalScore;
-var tempSynergy = totalScore/max_score*100;
-    var synergy = Math.round(tempSynergy);
+        
 
-    if (Number.isInteger(synergy)) {
-        document.getElementById("" + employee).innerHTML = synergy;
-    }
-    else {
-        document.getElementById("" + employee).innerHTML = 0;
-    }
+
+
+        if (document.getElementById("" + employee + "-teamMember") == null || memberInChosenQuestionnaire) {
+            var totalScore = 0;
+            var target = QuestionnaireCriterias[questionnaire];
+            for (var competence in target) {
+                if (target.hasOwnProperty(competence)) {
+                    //alert("Key is " + competence + ", value is " + target[competence]);
+                    var competenceInt = parseInt(competence);
+                    var temp = EmpCompetences[employee][competenceInt];
+
+
+                    var tempInt = parseInt(temp);
+                    if (tempInt > target[competenceInt]) {
+                        tempInt = parseInt(target[competenceInt]);
+                    }
+                    totalScore += tempInt;
+
+                }
+            }
+            //return totalScore;
+            var tempSynergy = totalScore / max_score * 100;
+            var synergy = Math.round(tempSynergy);
+
+            if (Number.isInteger(synergy)) {
+                document.getElementById("" + employee).innerHTML = synergy;
+            }
+            else {
+                document.getElementById("" + employee).innerHTML = 0;
+            }
+        }
+        else if (memberInChosenQuestionnaire == false) {
+
+        }
+	
 
 }
 
