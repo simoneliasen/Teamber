@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ContosoUniversity.Models
 {
     public class Questionnaire
     {
-   
+
         public int QuestionnaireID { get; set; }
 
         [StringLength(50, MinimumLength = 3)]

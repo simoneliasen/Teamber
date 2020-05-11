@@ -2,6 +2,9 @@
 @model ContosoUniversity.Pages.Teams.CreateModel
 @{
     ViewData["Title"] = "Create";
+    if (String.IsNullOrEmpty(Model.Login) || String.IsNullOrEmpty(Model.Manager))
+                Response.Redirect("/Login/Login");
+
 }
 
 <h1>Create</h1>
@@ -177,6 +180,7 @@
                             <script>
                                 function myFunction9() {
                                     EmployeeCompetenceOccurence = [0, 3, 5, 0, 2, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0];
+                                    //EmployeeCompetenceOccurence[etelelrandet]++;
                                     createRadar();
                                 }
 

@@ -1,12 +1,11 @@
-﻿using System;
+﻿using ContosoUniversity.Models;
+using System;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using ContosoUniversity.Models;
 
 namespace ContosoUniversity.Data
 {
-    public static class DbInitializer {
+    public static class DbInitializer
+    {
         public static void Initialize(SchoolContext context)
         {
             context.Database.EnsureCreated();
@@ -20,16 +19,10 @@ namespace ContosoUniversity.Data
 
             var employees = new Employee[]
             {
-                new Employee{FirstMidName="Carson",LastName="Alexander",EmpTeamDate=DateTime.Parse("2019-09-01"),JobTitle="Pro gamer",PersonalityType="GGGG",IsManager=false,Username="StoreDadler123",Password="hej123"},
-                new Employee{FirstMidName="Meredith",LastName="Alonso",EmpTeamDate=DateTime.Parse("2017-09-01"),JobTitle="MarketingNoerd",PersonalityType="ENTP",IsManager=false,Username="BigboiBoris",Password="hej123"},
-                new Employee{FirstMidName="Arturo",LastName="Anand",EmpTeamDate=DateTime.Parse("2018-09-01"),JobTitle="Pro gamer",PersonalityType="JSTF",IsManager=false,Username="LongJohn472",Password="hej123"},
-                new Employee{FirstMidName="Gytis",LastName="Barzdukas",EmpTeamDate=DateTime.Parse("2017-09-01"),JobTitle="Pro gamer",PersonalityType="gamer",IsManager=false,Username="FisseFred69",Password="hej123"},
-                new Employee{FirstMidName="Yan",LastName="Li",EmpTeamDate=DateTime.Parse("2017-09-01"),JobTitle="slagsassiten",PersonalityType="entj",IsManager=false,Username="Kingkong47",Password="asdsa222"},
-                new Employee{FirstMidName="Peggy",LastName="Justice",EmpTeamDate=DateTime.Parse("2016-09-01"),JobTitle="Pro gamer",PersonalityType="gamer",IsManager=false,Username="frederik272982",Password="12321asdas"},
-                new Employee{FirstMidName="Laura",LastName="Norman",EmpTeamDate=DateTime.Parse("2018-09-01"),JobTitle="Saelger",PersonalityType="intj",IsManager=false,Username="lars1293",Password="21312asdasd"},
-                new Employee{FirstMidName="Nino",LastName="Olivetto",EmpTeamDate=DateTime.Parse("2019-09-01"),JobTitle="Pro gamer",PersonalityType="hlgk",IsManager=false,Username="per10923",Password="123123asda"}
+                new Employee{FirstMidName="Carson",LastName="Alexander",EmpTeamDate=DateTime.Parse("2019-09-01"),JobTitle="Pro gamer",PersonalityType="GGGG",IsManager=true,Username="StoreDadler123",Password="hej123"},
 
     };
+            return;
 
             foreach (Employee s in employees)
             {

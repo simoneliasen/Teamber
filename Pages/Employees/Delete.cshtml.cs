@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ContosoUniversity.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using ContosoUniversity.Data;
-using ContosoUniversity.Models;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
-namespace ContosoUniversity.Pages.Employees {
+namespace ContosoUniversity.Pages.Employees
+{
     public class DeleteModel : PageModel
     {
         private readonly ContosoUniversity.Data.SchoolContext _context;
@@ -22,8 +20,15 @@ namespace ContosoUniversity.Pages.Employees {
         public Employee Employee { get; set; }
         public string ErrorMessage { get; set; }
 
+        public string Login { get; set; }
+        public string Manager { get; set; }
+
+
         public async Task<IActionResult> OnGetAsync(int? id, bool? saveChangesError = false)
         {
+            Login = HttpContext.Session.GetString("username");
+            Manager = HttpContext.Session.GetString("Manager");
+
             if (id == null)
             {
                 return NotFound();

@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using ContosoUniversity.Data;
 using ContosoUniversity.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ContosoUniversity.Pages.Login
 {
@@ -35,10 +31,8 @@ namespace ContosoUniversity.Pages.Login
         public string Login { get; set; }
         public string Manager { get; set; }
 
-
         public void OnGet()
         {
-
 
             Login = HttpContext.Session.GetString("username");
             Manager = HttpContext.Session.GetString("Manager");
@@ -71,7 +65,7 @@ namespace ContosoUniversity.Pages.Login
                 else
                 {
                     HttpContext.Session.SetString("username", Username);
-                    return RedirectToPage("Employees/index");
+                    return RedirectToPage("/Employees/index");
 
 
                 }

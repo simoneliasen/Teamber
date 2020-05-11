@@ -3,7 +3,11 @@
 
 @{
     ViewData["Title"] = "Edit";
+    if (String.IsNullOrEmpty(Model.Login) || String.IsNullOrEmpty(Model.Manager))
+    Response.Redirect("/Login/Login");
 }
+
+
 
 <h1>Edit</h1>
 
@@ -118,13 +122,13 @@
                         <input type="submit" value="Save" class="btn btn-primary" />
                     </div>
                 </form>
-    </div>
-</div>
+            </div>
+        </div>
 
-<div>
-    <a asp-page="./Index">Back to List</a>
-</div>
+        <div>
+            <a asp-page="./Index">Back to List</a>
+        </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }

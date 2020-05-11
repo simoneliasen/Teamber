@@ -1,15 +1,16 @@
-﻿using System;
+﻿using ContosoUniversity.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using ContosoUniversity.Data;
-using ContosoUniversity.Models;
+using Microsoft.AspNetCore.Http;
 
-namespace ContosoUniversity.Pages.Employees {
-    public class CreateModel : EmployeeTeamsPageModel {
+namespace ContosoUniversity.Pages.Employees
+{
+    public class CreateModel : EmployeeTeamsPageModel
+    {
         private readonly ContosoUniversity.Data.SchoolContext _context;
 
         public CreateModel(ContosoUniversity.Data.SchoolContext context)
@@ -17,8 +18,16 @@ namespace ContosoUniversity.Pages.Employees {
             _context = context;
         }
 
+
+        public string Login { get; set; }
+        public string Manager { get; set; }
+
+
         public IActionResult OnGet()
         {
+            Login = HttpContext.Session.GetString("username");
+            Manager = HttpContext.Session.GetString("Manager");
+
             var employee = new Employee();
             employee.EmpTeams = new List<EmpTeam>();
             employee.EmpQuestionnaires = new List<EmpQuestionnaire>();
@@ -75,8 +84,8 @@ namespace ContosoUniversity.Pages.Employees {
                 for (int i = 0; i < allCompetencesQuestionnaireIDs.Count(); i++)
                 {
 
-                    if(newEmployee.EmpQuestionnaires.Select(i => i.QuestionnaireID).Contains(allCompetencesQuestionnaireIDs[i])) //hvis competencens tilhørende questionnaireID er i employeens quenstionnaireID'er vil vi tilføje
-                                                                                                                   //competencen med en værdi på 1, til vores employeeCompetences.
+                    if (newEmployee.EmpQuestionnaires.Select(i => i.QuestionnaireID).Contains(allCompetencesQuestionnaireIDs[i])) //hvis competencens tilhørende questionnaireID er i employeens quenstionnaireID'er vil vi tilføje
+                                                                                                                                  //competencen med en værdi på 1, til vores employeeCompetences.
                     {
                         var competenceToAdd = new EmployeeCompetence
                         {
@@ -85,13 +94,13 @@ namespace ContosoUniversity.Pages.Employees {
                             Score = 0
                         };
 
-                       newEmployee.EmployeeCompetences.Add(competenceToAdd);
-                        
+                        newEmployee.EmployeeCompetences.Add(competenceToAdd);
+
                     }
 
 
 
-                    
+
 
                 }
             }

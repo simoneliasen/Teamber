@@ -3,6 +3,8 @@
 
 @{
     ViewData["Title"] = "Details";
+   if (String.IsNullOrEmpty(Model.Login) || String.IsNullOrEmpty(Model.Manager))
+                Response.Redirect("/Login/Login");
 }
 
 <h1>Details</h1>

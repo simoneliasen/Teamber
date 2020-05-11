@@ -3,6 +3,8 @@
 
 @{
     ViewData["Title"] = "Create";
+   if (String.IsNullOrEmpty(Model.Login) || String.IsNullOrEmpty(Model.Manager))
+       Response.Redirect("/Login/Login");
 }
 
 <script src="~/js/tagify/tagify.min.js"></script>

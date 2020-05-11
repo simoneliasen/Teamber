@@ -1,13 +1,10 @@
-﻿using System;
+﻿using ContosoUniversity.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using ContosoUniversity.Data;
-using ContosoUniversity.Models;
 
 namespace ContosoUniversity.Pages.Employees
 {
@@ -23,10 +20,21 @@ namespace ContosoUniversity.Pages.Employees
         [BindProperty]
         public Employee Employee { get; set; }
 
+        public string Login { get; set; }
+        public string Manager { get; set; }
+
         public async Task<IActionResult> OnGetAsync()
         {
-            int id = 3; //id'et sættes bare til id't på den employee der er logget ind. izzyyyy
 
+            Login = HttpContext.Session.GetString("username");
+            Manager = HttpContext.Session.GetString("Manager");
+
+            var allUs = new List<Employee>(
+            _context.Employees.Where(c => c.Username == Login));
+
+            var idUsername = allUs[0].ID;
+
+            int id = idUsername; //id'et sættes bare til id't på den employee der er logget ind. izzyyyy
             if (id == null)
             {
                 return NotFound();
@@ -57,7 +65,7 @@ namespace ContosoUniversity.Pages.Employees
         public Team Team { get; set; }
 
 
-        public async Task<IActionResult> OnPostAsync(string[] selectedCompetences, int[] selectedCompetencesValue) 
+        public async Task<IActionResult> OnPostAsync(string[] selectedCompetences, int[] selectedCompetencesValue)
         {
             int id = 3; //skal sættes til den der er logget inds id.
             if (id == null)
@@ -95,6 +103,6 @@ namespace ContosoUniversity.Pages.Employees
         {
             return _context.Teams.Any(e => e.TeamID == id);
         }
-    
+
     }
 }

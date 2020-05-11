@@ -67,17 +67,17 @@ namespace ContosoUniversity.Pages.Teams
                 team.TeamQuestionnaires.Select(c => c.QuestionnaireID));
 
 
-           AllCompetencesDataList = new List<AllCompetences>();
+            AllCompetencesDataList = new List<AllCompetences>();
             foreach (var competence in allCompetences)
             {
                 AllCompetencesDataList.Add(new AllCompetences
-                    {
-                        QuestionnaireID = competence.QuestionnaireID,
-                        QuestionnaireCompetenceID = competence.QuestionnaireCompetenceID,
-                        Criteria = competence.Competence,
-                        Assigned = questionnaireCompetences.Contains(competence.QuestionnaireID)
-                    });
-                
+                {
+                    QuestionnaireID = competence.QuestionnaireID,
+                    QuestionnaireCompetenceID = competence.QuestionnaireCompetenceID,
+                    Criteria = competence.Competence,
+                    Assigned = questionnaireCompetences.Contains(competence.QuestionnaireID)
+                });
+
 
 
             }
@@ -95,7 +95,7 @@ namespace ContosoUniversity.Pages.Teams
                 result += $"{employeeID.ToString()}: {{ ";
                 foreach (var employeeCompetence in allEmployeeCompetences)//looper gennem alle competencer
                 {
-                    if(employeeID == employeeCompetence.EmployeeID)
+                    if (employeeID == employeeCompetence.EmployeeID)
                     {
                         result += $"{employeeCompetence.QuestionnaireCompetenceID.ToString()}: {employeeCompetence.Score.ToString()}, ";
                     }
@@ -183,7 +183,7 @@ namespace ContosoUniversity.Pages.Teams
             var questionnaireCompetences = new HashSet<int>(
                 team.TeamQuestionnaires.Select(c => c.QuestionnaireID));
 
-            
+
 
             var allCriterias = context.TeamCriterias;
 

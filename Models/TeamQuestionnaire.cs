@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿namespace ContosoUniversity.Models
+{
 
-namespace ContosoUniversity.Models {
-
-    public class TeamQuestionnaire {
+    public class TeamQuestionnaire
+    {
         public int TeamQuestionnaireID { get; set; }
         public int QuestionnaireID { get; set; }
         public int TeamID { get; set; }

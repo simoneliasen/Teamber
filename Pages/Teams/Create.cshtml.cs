@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ContosoUniversity.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using ContosoUniversity.Data;
-using ContosoUniversity.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
-namespace ContosoUniversity.Pages.Teams {
+namespace ContosoUniversity.Pages.Teams
+{
 
     public class CreateModel : TeamEmployeesPageModel
     {
@@ -19,8 +16,14 @@ namespace ContosoUniversity.Pages.Teams {
             _context = context;
         }
 
+        public string Login { get; set; }
+        public string Manager { get; set; }
+
         public IActionResult OnGet()
         {
+            Login = HttpContext.Session.GetString("username");
+            Manager = HttpContext.Session.GetString("Manager");
+
             var team = new Team();
             team.EmpTeams = new List<EmpTeam>();
             team.TeamQuestionnaires = new List<TeamQuestionnaire>();
@@ -85,16 +88,16 @@ namespace ContosoUniversity.Pages.Teams {
                         PriorityValue = selectedCompetencesValue[i]
                     };
 
-                    if(criteriaToAdd.PriorityValue > 0) //alle dem der ikke skal bruges sættes bare til 0. Så vi tager kun dem der skal bruges.
+                    if (criteriaToAdd.PriorityValue > 0) //alle dem der ikke skal bruges sættes bare til 0. Så vi tager kun dem der skal bruges.
                     {
                         newTeam.TeamCriterias.Add(criteriaToAdd);
                     }
-                    
+
                 }
             }
 
 
-          
+
 
 
             await TryUpdateModelAsync<Team>(

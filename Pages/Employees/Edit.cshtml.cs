@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ContosoUniversity.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using ContosoUniversity.Data;
-using ContosoUniversity.Models;
+using Microsoft.AspNetCore.Http;
 
-namespace ContosoUniversity.Pages.Employees {
+
+namespace ContosoUniversity.Pages.Employees
+{
 
 
     public class EditModel : EmployeeTeamsPageModel
-        {
+    {
         private readonly ContosoUniversity.Data.SchoolContext _context;
 
         public EditModel(ContosoUniversity.Data.SchoolContext context)
@@ -24,8 +22,15 @@ namespace ContosoUniversity.Pages.Employees {
         [BindProperty]
         public Employee Employee { get; set; }
 
+        public string Login { get; set; }
+        public string Manager { get; set; }
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+
+            Login = HttpContext.Session.GetString("username");
+            Manager = HttpContext.Session.GetString("Manager");
+
             if (id == null)
             {
                 return NotFound();
@@ -38,7 +43,7 @@ namespace ContosoUniversity.Pages.Employees {
                 .FirstOrDefaultAsync(m => m.ID == id);
 
 
-           // Employee = await _context.Employees.FindAsync(id);
+            // Employee = await _context.Employees.FindAsync(id);
 
             if (Employee == null)
             {
@@ -75,13 +80,13 @@ namespace ContosoUniversity.Pages.Employees {
                 employeeToUpdate,
                 "Employee",
                 i => i.FirstMidName, i => i.LastName,
-                i => i.EmpTeamDate, i => i.JobTitle, 
+                i => i.EmpTeamDate, i => i.JobTitle,
                 i => i.PersonalityType, i => i.IsManager,
                 i => i.Username, i => i.Password);
             {
 
 
-             
+
 
                 UpdateEmployeeTeams(_context, selectedTeams, employeeToUpdate);
                 UpdateEmployeeQuestionnaires(_context, selectedQuestionnaires, employeeToUpdate);

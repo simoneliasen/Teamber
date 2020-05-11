@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using ContosoUniversity.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using ContosoUniversity.Data;
-using ContosoUniversity.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+
+
 
 namespace ContosoUniversity
 {
@@ -19,10 +19,16 @@ namespace ContosoUniversity
             _context = context;
         }
 
-        public IList<Questionnaire> Questionnaire { get;set; }
+        public string Login { get; set; }
+        public string Manager { get; set; }
+
+
+        public IList<Questionnaire> Questionnaire { get; set; }
 
         public async Task OnGetAsync()
         {
+            Login = HttpContext.Session.GetString("username");
+            Manager = HttpContext.Session.GetString("Manager");
             Questionnaire = await _context.Questionnaires.ToListAsync();
         }
     }

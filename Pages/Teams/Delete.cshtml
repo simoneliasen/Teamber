@@ -3,6 +3,8 @@
 
 @{
     ViewData["Title"] = "Delete";
+    if (String.IsNullOrEmpty(Model.Login) || String.IsNullOrEmpty(Model.Manager))
+                Response.Redirect("/Login/Login");
 }
 
 <h1>Delete</h1>

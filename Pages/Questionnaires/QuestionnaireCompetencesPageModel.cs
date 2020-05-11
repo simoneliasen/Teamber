@@ -20,26 +20,26 @@ namespace ContosoUniversity.Pages.Questionnaires
             AssignedQuestionnaireCompetenceDataList = new List<AssignedQuestionnaireCompetenceData>();
             foreach (var questionnaireCompetence in allQuestionnaireCompetences)
             {
-                if(questionnaireCompetences.Contains(questionnaireCompetence.Competence))
-                { 
-               
-                AssignedQuestionnaireCompetenceDataList.Add(new AssignedQuestionnaireCompetenceData
+                if (questionnaireCompetences.Contains(questionnaireCompetence.Competence))
                 {
-                    QuestionnaireID = questionnaireCompetence.QuestionnaireID,
-                    Competence = questionnaireCompetence.Competence,
-                    Assigned = questionnaireCompetences.Contains(questionnaireCompetence.Competence)
-                });
+
+                    AssignedQuestionnaireCompetenceDataList.Add(new AssignedQuestionnaireCompetenceData
+                    {
+                        QuestionnaireID = questionnaireCompetence.QuestionnaireID,
+                        Competence = questionnaireCompetence.Competence,
+                        Assigned = questionnaireCompetences.Contains(questionnaireCompetence.Competence)
+                    });
                 }
             }
         }
-        
+
 
         public void UpdateQuestionnaireCompetences(SchoolContext context,
             string[] selectedQuestionnaireCompetences, Questionnaire questionnaireToUpdate)
         {
             if (selectedQuestionnaireCompetences == null)
             {
-               questionnaireToUpdate.QuestionnaireCompetences = new List<QuestionnaireCompetence>();
+                questionnaireToUpdate.QuestionnaireCompetences = new List<QuestionnaireCompetence>();
                 return;
             }
 
@@ -74,6 +74,6 @@ namespace ContosoUniversity.Pages.Questionnaires
             }
         }
 
-        
+
     }
 }

@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ContosoUniversity.Pages.Employees {
-    public class EmployeeTeamsPageModel : PageModel {
+namespace ContosoUniversity.Pages.Employees
+{
+    public class EmployeeTeamsPageModel : PageModel
+    {
 
         public List<AssignedTeamData> AssignedTeamDataList;
         public List<AssignedQuestionnaireData> AssignedQuestionnaireDataList;
@@ -26,7 +28,7 @@ namespace ContosoUniversity.Pages.Employees {
                 {
                     TeamID = team.TeamID,
                     Title = team.Title,
-                    Assigned = employeeTeams.Contains(team.TeamID) 
+                    Assigned = employeeTeams.Contains(team.TeamID)
                 });
             }
         }
@@ -109,7 +111,7 @@ namespace ContosoUniversity.Pages.Employees {
                         Assigned = true,
                         Priority = priority
                         //Priority = allCompetences.Where(i => i.TeamID == team.TeamID).Where(j => j.QuestionnaireCompetenceID == criteria.QuestionnaireCompetenceID).FirstOrDefault().PriorityValue, //cirkemde med questionnairecompetence id i stedet for team id.
-                        
+
                     });
                 }
             }

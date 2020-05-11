@@ -1,13 +1,11 @@
-﻿using System;
+﻿using ContosoUniversity.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using ContosoUniversity.Data;
-using ContosoUniversity.Models;
 
 namespace ContosoUniversity.Pages.Questionnaires
 {
@@ -23,8 +21,15 @@ namespace ContosoUniversity.Pages.Questionnaires
         [BindProperty]
         public Questionnaire Questionnaire { get; set; }
 
+        public string Login { get; set; }
+        public string Manager { get; set; }
+
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            Login = HttpContext.Session.GetString("username");
+            Manager = HttpContext.Session.GetString("Manager");
+
             if (id == null)
             {
                 return NotFound();
@@ -81,14 +86,14 @@ namespace ContosoUniversity.Pages.Questionnaires
                 foreach (var competence in extraCompetences)
                 {
                     //her skal der tilføjes et if statement der chekker om competencen allerede er i listen af competencer, så den ikke står der 2 gange. easy.
-                    if(!square.Contains(competence))
-                    { 
-
-                    var competenceToAdd = new QuestionnaireCompetence
+                    if (!square.Contains(competence))
                     {
-                        Competence = competence
-                    };
-                    questionnaireToUpdate.QuestionnaireCompetences.Add(competenceToAdd);
+
+                        var competenceToAdd = new QuestionnaireCompetence
+                        {
+                            Competence = competence
+                        };
+                        questionnaireToUpdate.QuestionnaireCompetences.Add(competenceToAdd);
                     }
                 }
             }
