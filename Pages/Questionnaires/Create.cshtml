@@ -5,6 +5,11 @@
     ViewData["Title"] = "Create";
 }
 
+<script src="~/js/tagify/tagify.min.js"></script>
+<script src="~/js/tagify/tagify.polyfills.min.js"></script>
+<link href="~/js/tagify/tagify.css" rel="stylesheet" type="text/css" />
+
+
 <h1>Create</h1>
 
 <h4>Questionnaire</h4>
@@ -24,10 +29,39 @@
                 <span asp-validation-for="Questionnaire.Cycle" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Questionnaire.CompetencesString" class="control-label"></label>
-                <input asp-for="Questionnaire.CompetencesString" class="form-control" />
+                <label>Competences</label>
+                <input asp-for="Questionnaire.CompetencesString" name='tagify' placeholder='+Add competences' class="form-control" />
+                <!-- hidden input: intermediary between the javascript tags and the controller-->
+                <input type="hidden" id="myField" name="myField" value="Questionnaire.CompetencesString" />
                 <span asp-validation-for="Questionnaire.CompetencesString" class="text-danger"></span>
             </div>
+
+            <script>
+
+                // The DOM element to replace with Tagify (tag-input), and intialization of tagify with input refference
+                var tagInput = document.querySelector('input[name=tagify]');
+                new Tagify(tagInput)
+
+                // Update content stored on each change in tags
+                tagInput.addEventListener('change', onChange)
+
+                function onChange(event) {
+                    // Parse values of input to javascript object
+                    var tagObjects = JSON.parse(tagInput.value);
+                    // make properties of the objects an array and convert to string with ','-sepperation to output into c#
+                    var tagStrings = tagObjects.map(val => { return " " + val.value }).toString().trim();
+                    // Append output to value of hidden input, to convert to c#.
+                    document.getElementById('myField').value = tagStrings;
+                }
+
+                // Pass string of elements to c#
+                function appendTagsToTeamCompetences() {
+                    var output = JSON.parse(tagInput.value).map(val => { return " " + val.value }).toString().trim();
+                    document.getElementById('myField').value = output;
+                }
+
+            </script>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

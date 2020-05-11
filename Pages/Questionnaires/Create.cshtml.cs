@@ -34,7 +34,13 @@ namespace ContosoUniversity
             //evt lav første array til "c#, php, php", "".
             //og så split index 0 op i flere så "c#", "php", "mysql"
             string[] selectedQuestionnaireCompetences;
-            if(Questionnaire.CompetencesString != null)
+
+            //get competences from form, and add as string
+            string tagOutput = Request.Form["myField"];
+            Questionnaire.CompetencesString = tagOutput;
+
+
+            if (Questionnaire.CompetencesString != null)
             {
                 selectedQuestionnaireCompetences = Questionnaire.CompetencesString.Split(", ");
             }
