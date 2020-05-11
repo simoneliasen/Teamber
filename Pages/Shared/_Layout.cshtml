@@ -30,6 +30,20 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Employees/TakeQuestionnaire">Take Questionnaire</a>
                         </li>
+                        @*@{ if (String.IsNullOrEmpty(Model.Login) )
+                            {*@
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Login/Login">Login</a>
+                            </li>
+                            @*}
+                            else
+                            {*@
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Logout/Logout">Logout</a>
+                            </li>
+                            @*}
+                        }*@
                     </ul>
                 </div>
             </div>
@@ -43,7 +57,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2019 - Contoso University - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; 2020 - Teamber - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
 

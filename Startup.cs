@@ -30,6 +30,10 @@ namespace ContosoUniversity
 
             services.AddDbContext<SchoolContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("SchoolContext")));
+
+            // Added session for the login
+            services.AddSession();
+
         }
         #endregion
         
@@ -55,6 +59,9 @@ namespace ContosoUniversity
             app.UseRouting();
 
             app.UseAuthorization();
+
+            // Til login
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

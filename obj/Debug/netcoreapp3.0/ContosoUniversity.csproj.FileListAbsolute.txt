@@ -296,7 +296,6 @@ D:\teamberting\v2\obj\Debug\netcoreapp3.0\Razor\Pages\Employees\Edit.cshtml.g.cs
 D:\teamberting\v2\obj\Debug\netcoreapp3.0\Razor\Pages\Employees\Index.cshtml.g.cs
 D:\teamberting\v2\obj\Debug\netcoreapp3.0\Razor\Pages\Error.cshtml.g.cs
 D:\teamberting\v2\obj\Debug\netcoreapp3.0\Razor\Pages\Index.cshtml.g.cs
-D:\teamberting\v2\obj\Debug\netcoreapp3.0\Razor\Pages\Privacy.cshtml.g.cs
 D:\teamberting\v2\obj\Debug\netcoreapp3.0\Razor\Pages\Shared\_Layout.cshtml.g.cs
 D:\teamberting\v2\obj\Debug\netcoreapp3.0\Razor\Pages\Shared\_ValidationScriptsPartial.cshtml.g.cs
 D:\teamberting\v2\obj\Debug\netcoreapp3.0\Razor\Pages\Teams\Create.cshtml.g.cs
@@ -481,3 +480,6 @@ C:\Users\simon\Desktop\teamber\Teambers\obj\Debug\netcoreapp3.0\ContosoUniversit
 C:\Users\simon\Desktop\teamber\Teambers\obj\Debug\netcoreapp3.0\ContosoUniversity.pdb
 C:\Users\simon\Desktop\teamber\Teambers\obj\Debug\netcoreapp3.0\ContosoUniversity.genruntimeconfig.cache
 D:\teamberting\v2\obj\Debug\netcoreapp3.0\Razor\Pages\Employees\TakeQuestionnaire.cshtml.g.cs
+D:\teamberting\v2\obj\Debug\netcoreapp3.0\Razor\Pages\Login\Login.cshtml.g.cs
+D:\teamberting\v2\obj\Debug\netcoreapp3.0\Razor\Pages\Login\Logout.cshtml.g.cs
+D:\teamberting\v2\obj\Debug\netcoreapp3.0\Razor\Pages\Login\ManagerLogin.cshtml.g.cs

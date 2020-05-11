@@ -177,6 +177,7 @@
                             <script>
                                 function myFunction9() {
                                     EmployeeCompetenceOccurence = [0, 3, 5, 0, 2, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0];
+                                    createRadar();
                                 }
 
                                 // Convert c# lists to javascript arrays to insert into radar-chart
@@ -186,6 +187,10 @@
 
 
                                 //lav det her nede til en function og kør den når man ændrer på teamlisten!!!!!
+
+                                function createRadar() {
+
+                                
                                 Chart.defaults.global.legend.display = false;
                                 var ctx = document.getElementById("myChart").getContext("2d");
                                 var myRadarChart = new Chart(ctx, {
@@ -220,7 +225,9 @@
                                 // Y-axis
                                 ctx.moveTo(150, 0);
                                 ctx.lineTo(150, 300);
-                                ctx.stroke();
+                                    ctx.stroke();
+                                }
+                                window.onload = createRadar;
                             </script>
 
                             <style>
