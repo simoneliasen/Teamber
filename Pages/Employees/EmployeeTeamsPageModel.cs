@@ -94,26 +94,47 @@ namespace ContosoUniversity.Pages.Employees
 
             var employeeCompetences = context.EmployeeCompetences;
 
+           
+            var employeeQuestionnaires = context.EmpQuestionnaires.Where(i => i.EmployeeID == employee.ID).Select(i => i.QuestionnaireID); //de questionnaires som employeen er medlem af
+            var allQuestionnaireCompetences = context.QuestionnaireCompetences.Where(i => employeeQuestionnaires.Contains(i.QuestionnaireID)).Select(i => i.QuestionnaireCompetenceID);
+            //alle employeens questionnaires' kompetencer
+            //bruges til at se om employeen har angivet en værdi for competencen. Hvis nej: så tilføj den med en værdi på 0.
+
 
             AssignedEmployeeCompetenceValuesDataList = new List<AssignedEmployeeCompetenceData>();
-            foreach (var competence in questionnaireCompetences)
+            foreach (var competence in allQuestionnaireCompetences)
             {
-                var questionnaireCompetenceID = context.QuestionnaireCompetences.Where(i => i.QuestionnaireCompetenceID == competence).Select(k => k.QuestionnaireID).FirstOrDefault();
-                var competenceName = context.QuestionnaireCompetences.Where(i => i.QuestionnaireCompetenceID == competence).Select(k => k.Competence).FirstOrDefault();
-                var priority = context.EmployeeCompetences.Where(i => i.QuestionnaireCompetenceID == competence).Where(i => i.EmployeeID == employee.ID).Select(k => k.Score).FirstOrDefault();
-
-                if (employee.EmployeeCompetences.Select(i => i.QuestionnaireCompetenceID).Contains(competence)) //altså hvis den ansatte har et questionnair tilknyttet, hvor competencen er i dette questionnaire.
+                if(questionnaireCompetences.Contains(competence)) //altså hvis der er registreret noget data med den competence for emploteen
                 {
+                    var questionnaireCompetenceID = context.QuestionnaireCompetences.Where(i => i.QuestionnaireCompetenceID == competence).Select(k => k.QuestionnaireID).FirstOrDefault();
+                    var competenceName = context.QuestionnaireCompetences.Where(i => i.QuestionnaireCompetenceID == competence).Select(k => k.Competence).FirstOrDefault();
+                    var priority = context.EmployeeCompetences.Where(i => i.QuestionnaireCompetenceID == competence).Where(i => i.EmployeeID == employee.ID).Select(k => k.Score).FirstOrDefault();
+
+                    if (employee.EmployeeCompetences.Select(i => i.QuestionnaireCompetenceID).Contains(competence)) //altså hvis den ansatte har et questionnair tilknyttet, hvor competencen er i dette questionnaire.
+                    {
+                        AssignedEmployeeCompetenceValuesDataList.Add(new AssignedEmployeeCompetenceData
+                        {
+                            QuestionnaireCompetenceID = competence,
+                            Criteria = competenceName,
+                            Assigned = true,
+                            Priority = priority
+                            //Priority = allCompetences.Where(i => i.TeamID == team.TeamID).Where(j => j.QuestionnaireCompetenceID == criteria.QuestionnaireCompetenceID).FirstOrDefault().PriorityValue, //cirkemde med questionnairecompetence id i stedet for team id.
+
+                        });
+                    }
+                }
+                else //så vil vi tilføje den
+                {
+                    var competenceName = context.QuestionnaireCompetences.Where(i => i.QuestionnaireCompetenceID == competence).Select(k => k.Competence).FirstOrDefault();
                     AssignedEmployeeCompetenceValuesDataList.Add(new AssignedEmployeeCompetenceData
                     {
                         QuestionnaireCompetenceID = competence,
                         Criteria = competenceName,
                         Assigned = true,
-                        Priority = priority
-                        //Priority = allCompetences.Where(i => i.TeamID == team.TeamID).Where(j => j.QuestionnaireCompetenceID == criteria.QuestionnaireCompetenceID).FirstOrDefault().PriorityValue, //cirkemde med questionnairecompetence id i stedet for team id.
-
+                        Priority = 0 //læg mærke til at den sættes til 0. Da employeen jo ikke har angivet en værdi
                     });
                 }
+                
             }
         }
 
