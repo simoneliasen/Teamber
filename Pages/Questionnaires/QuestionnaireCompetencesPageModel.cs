@@ -15,19 +15,20 @@ namespace ContosoUniversity.Pages.Questionnaires
                                                Questionnaire questionnaire)
         {
             var allQuestionnaireCompetences = context.QuestionnaireCompetences;
-            var questionnaireCompetences = new HashSet<string>( //læg mærke til at det er et hashset af strings
-                questionnaire.QuestionnaireCompetences.Select(c => c.Competence)); //og læg mærke til at det er competencer. i form af strings.
+            var questionnaireCompetences = new HashSet<int>( //læg mærke til at det er et hashset af ints
+                questionnaire.QuestionnaireCompetences.Select(c => c.QuestionnaireCompetenceID)); //og læg mærke til at det er competencer. i form af strings.
             AssignedQuestionnaireCompetenceDataList = new List<AssignedQuestionnaireCompetenceData>();
             foreach (var questionnaireCompetence in allQuestionnaireCompetences)
             {
-                if (questionnaireCompetences.Contains(questionnaireCompetence.Competence))
+                if (questionnaireCompetences.Contains(questionnaireCompetence.QuestionnaireCompetenceID))
                 {
 
                     AssignedQuestionnaireCompetenceDataList.Add(new AssignedQuestionnaireCompetenceData
                     {
                         QuestionnaireID = questionnaireCompetence.QuestionnaireID,
                         Competence = questionnaireCompetence.Competence,
-                        Assigned = questionnaireCompetences.Contains(questionnaireCompetence.Competence)
+                        Assigned = questionnaireCompetences.Contains(questionnaireCompetence.QuestionnaireCompetenceID),
+                        QuestionnaireCompetenceID = questionnaireCompetence.QuestionnaireCompetenceID
                     });
                 }
             }
@@ -39,7 +40,7 @@ namespace ContosoUniversity.Pages.Questionnaires
         {
             if (selectedQuestionnaireCompetences == null)
             {
-                questionnaireToUpdate.QuestionnaireCompetences = new List<QuestionnaireCompetence>();
+                //questionnaireToUpdate.QuestionnaireCompetences = new List<QuestionnaireCompetence>();
                 return;
             }
 
@@ -50,6 +51,7 @@ namespace ContosoUniversity.Pages.Questionnaires
             {
                 if (selectedCompetencesHS.Contains(questionnaireCompetence.Competence))
                 {
+                    /*
                     if (!questionnaireCompetences.Contains(questionnaireCompetence.Competence))
                     {
                         questionnaireToUpdate.QuestionnaireCompetences.Add(
@@ -58,7 +60,7 @@ namespace ContosoUniversity.Pages.Questionnaires
                                 QuestionnaireID = questionnaireToUpdate.QuestionnaireID,
                                 Competence = questionnaireCompetence.Competence
                             });
-                    }
+                    } */
                 }
                 else
                 {

@@ -50,7 +50,7 @@ namespace ContosoUniversity.Pages.Questionnaires
 
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync(int? id, string[] selectedQuestionnaireCompetences)
+        public async Task<IActionResult> OnPostAsync(int? id, int[] selectedQuestionnaireCompetences)
         {
             string[] extraCompetences;
             if (Questionnaire.CompetencesString != null)
@@ -77,27 +77,56 @@ namespace ContosoUniversity.Pages.Questionnaires
 
 
             //skal også rettes for create siden!!!!!!!!!!
-            var square = _context.QuestionnaireCompetences.Select(i => i.Competence);
+            //var square = _context.QuestionnaireCompetences.Select(i => i.Competence);
             //square indeholder alle competencer der er gemt i databasen.
 
             if (extraCompetences != null)
             {
-                questionnaireToUpdate.QuestionnaireCompetences = new List<QuestionnaireCompetence>();
+                //det skal vel ikke laves til en ny list? det er vel bare derfor den fjerner de andre??????????????????????????????
+                //questionnaireToUpdate.QuestionnaireCompetences = new List<QuestionnaireCompetence>();
                 foreach (var competence in extraCompetences)
                 {
-                    //her skal der tilføjes et if statement der chekker om competencen allerede er i listen af competencer, så den ikke står der 2 gange. easy.
-                    if (!square.Contains(competence))
-                    {
+                   
 
                         var competenceToAdd = new QuestionnaireCompetence
                         {
                             Competence = competence
                         };
                         questionnaireToUpdate.QuestionnaireCompetences.Add(competenceToAdd);
-                    }
+                    
                 }
             }
             //Ovenstående if statement tilføjer de nye competencer der er tilføjet til spørgeskemaet.
+
+
+            //nu fjerner vi dem der er checked.
+            foreach(var competence in selectedQuestionnaireCompetences)
+            {
+                QuestionnaireCompetence competenceToRemove
+                    = questionnaireToUpdate
+                        .QuestionnaireCompetences
+                        .SingleOrDefault(i => i.QuestionnaireCompetenceID == competence);
+                try
+                {
+                    _context.Remove(competenceToRemove);
+                }
+                catch(Exception)
+                {
+
+                }
+               
+            }
+
+
+
+
+
+
+
+
+
+
+
 
             if (questionnaireToUpdate == null)
             {
@@ -115,7 +144,7 @@ namespace ContosoUniversity.Pages.Questionnaires
 
 
 
-                UpdateQuestionnaireCompetences(_context, selectedQuestionnaireCompetences, questionnaireToUpdate);
+                //UpdateQuestionnaireCompetences(_context, selectedQuestionnaireCompetences, questionnaireToUpdate);
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
             }
