@@ -223,13 +223,38 @@ namespace ContosoUniversity.Pages.Employees
 
 
 
-        public void UpdateEmployeeCompetences(int[] selectedCompetenceValues, Employee employeeToUpdate)
+        public void UpdateEmployeeCompetences(SchoolContext context, int[] selectedCompetenceValues, Employee employeeToUpdate)
         {
+            var employeeQuestionnaires = context.EmpQuestionnaires.Where(i => i.EmployeeID == employeeToUpdate.ID).Select(i => i.QuestionnaireID); //de questionnaires som employeen er medlem af
+            var allQuestionnaireCompetences = context.QuestionnaireCompetences.Where(i => employeeQuestionnaires.Contains(i.QuestionnaireID)).Select(i => i.QuestionnaireCompetenceID);
+            //alle employeens questionnaires' kompetencer
+
+
             int i = 0;
-            foreach (var competence in employeeToUpdate.EmployeeCompetences)
+            foreach (var competence in allQuestionnaireCompetences)
             {
-                competence.Score = selectedCompetenceValues[i];
+                if(employeeToUpdate.EmployeeCompetences.Select(i => i.QuestionnaireCompetenceID).Contains(competence)) //altså hvis han i for vejen har svaret på denne kompetence
+                {
+                    var currentCompetence = context.EmployeeCompetences.Where(i => i.EmployeeID == employeeToUpdate.ID).Where(i => i.QuestionnaireCompetenceID == competence).FirstOrDefault();
+                    currentCompetence.Score = selectedCompetenceValues[i];
+                    //competence.Score = selectedCompetenceValues[i];
+                }
+                else //hvis det er en ny kompetence
+                {
+                    var competenceToAdd = new EmployeeCompetence
+                    {
+                        EmployeeID = employeeToUpdate.ID,
+                        QuestionnaireCompetenceID = competence,
+                        Score = selectedCompetenceValues[i]
+                };
+
+                    employeeToUpdate.EmployeeCompetences.Add(competenceToAdd);
+                }
+
+
+
                 i++;
+
             }
         }
     }

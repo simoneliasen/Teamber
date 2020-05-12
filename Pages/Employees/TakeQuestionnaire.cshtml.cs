@@ -67,7 +67,15 @@ namespace ContosoUniversity.Pages.Employees
 
         public async Task<IActionResult> OnPostAsync(string[] selectedCompetences, int[] selectedCompetencesValue)
         {
-            int id = 3; //skal sættes til den der er logget inds id.
+            Login = HttpContext.Session.GetString("username");
+            Manager = HttpContext.Session.GetString("Manager");
+
+            var allUs = new List<Employee>(
+            _context.Employees.Where(c => c.Username == Login));
+
+            var idUsername = allUs[0].ID;
+
+            int id = idUsername; //id'et sættes bare til id't på den employee der er logget ind. izzyyyy
             if (id == null)
             {
                 return NotFound();
@@ -91,7 +99,7 @@ namespace ContosoUniversity.Pages.Employees
                 i => i.PersonalityType);
             {
 
-                UpdateEmployeeCompetences(selectedCompetencesValue, employeeToUpdate);
+                UpdateEmployeeCompetences(_context, selectedCompetencesValue, employeeToUpdate);
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
             }
