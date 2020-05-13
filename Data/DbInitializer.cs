@@ -22,14 +22,14 @@ namespace ContosoUniversity.Data
                 new Employee{FirstMidName="Carson",LastName="Alexander",EmpTeamDate=DateTime.Parse("2019-09-01"),JobTitle="Pro gamer",PersonalityType="GGGG",IsManager=true,Username="StoreDadler123",Password="hej123"},
 
     };
-            return;
+            
 
             foreach (Employee s in employees)
             {
                 context.Employees.Add(s);
             }
             context.SaveChanges();
-
+            return;
             var teams = new Team[]
             {
                 new Team{TeamID=1050,Title="SoftwareBonanza",Synergy=13},

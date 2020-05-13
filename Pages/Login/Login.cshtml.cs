@@ -65,7 +65,7 @@ namespace ContosoUniversity.Pages.Login
                 else
                 {
                     HttpContext.Session.SetString("username", Username);
-                    return RedirectToPage("/Employees/index");
+                    return RedirectToPage("/Employees/Dashboard");
 
 
                 }

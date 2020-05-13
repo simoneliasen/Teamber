@@ -101,7 +101,7 @@ namespace ContosoUniversity.Pages.Employees
 
                 UpdateEmployeeCompetences(_context, selectedCompetencesValue, employeeToUpdate);
                 await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
+                return RedirectToPage("./Dashboard");
             }
             //UpdateTeamEmployees(_context, selectedEmployees, teamToUpdate);
             //PopulateAssignedEmployeeData(_context, teamToUpdate);

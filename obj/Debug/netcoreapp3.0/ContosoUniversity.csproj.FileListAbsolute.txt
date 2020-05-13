@@ -483,3 +483,4 @@ D:\teamberting\v2\obj\Debug\netcoreapp3.0\Razor\Pages\Employees\TakeQuestionnair
 D:\teamberting\v2\obj\Debug\netcoreapp3.0\Razor\Pages\Login\Login.cshtml.g.cs
 D:\teamberting\v2\obj\Debug\netcoreapp3.0\Razor\Pages\Login\Logout.cshtml.g.cs
 D:\teamberting\v2\obj\Debug\netcoreapp3.0\Razor\Pages\Login\ManagerLogin.cshtml.g.cs
+D:\teamberting\v2\obj\Debug\netcoreapp3.0\Razor\Pages\Employees\Dashboard.cshtml.g.cs

@@ -25,14 +25,14 @@ namespace ContosoUniversity.Pages.Login
             {
 
                 HttpContext.Session.SetString("Manager", Managerlogin);
-                return RedirectToPage("/index");
+                return RedirectToPage("/Teams/index");
 
 
             }
             else
             {
 
-                return RedirectToPage("/index");
+                return RedirectToPage("/Employees/Dashboard");
 
             }
 
