@@ -10,7 +10,7 @@ namespace ContosoUniversity.Data
         {
             context.Database.EnsureCreated();
             //DbInitializer.Initialize(context);
-            return;   // DB has been seeded
+            //return;   // DB has been seeded
             // Look for any employees.
             if (context.Employees.Any())
             {
