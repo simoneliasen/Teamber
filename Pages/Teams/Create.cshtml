@@ -484,7 +484,7 @@ var QuestionnaireCriterias = {
                         var bord = +document.getElementById(empID2).innerText;
 
                         // two elements never have the same ID hence this is sufficient:
-                        return (aord < bord) ? 1 : -1;
+                        return (aord <= bord) ? 1 : -1;
                     });
 
                     var parent = document.getElementById('employeeList');
