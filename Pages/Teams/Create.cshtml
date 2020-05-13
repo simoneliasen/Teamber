@@ -178,57 +178,61 @@
 
                             <!--Configuration of radar chart-->
                             <script>
-                                function myFunction9() {
-                                    EmployeeCompetenceOccurence = [0, 3, 5, 0, 2, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0];
-                                    //EmployeeCompetenceOccurence[etelelrandet]++;
-                                    createRadar();
-                                }
-
-                                // Convert c# lists to javascript arrays to insert into radar-chart
-                                var EmployeeCompetenceOccurence = [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0];
-                                var EmployeeLabels = ["INTJ", "INTP", "ENTJ", "ENTP", "ISTP", "ISFP", "ESTP", "ESFP", "ISTJ", "ISFJ", "ESTJ", "ESFJ", "INFJ", "INFP", "ENFJ", "ENFP"];
-
-
-
-                                //lav det her nede til en function og kør den når man ændrer på teamlisten!!!!!
-
                                 function createRadar() {
+                                    // initialize arrays to populate radarchart
+                                    const personalityoptions = ["INTJ", "INTP", "ENTJ", "ENTP", "ISTP", "ISFP", "ESTP", "ESFP", "ISTJ", "ISFJ", "ESTJ", "ESFJ", "INFJ", "INFP", "ENFJ", "ENFP"];
+                                    var personalityOccurence = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-                                
-                                Chart.defaults.global.legend.display = false;
-                                var ctx = document.getElementById("myChart").getContext("2d");
-                                var myRadarChart = new Chart(ctx, {
-                                    type: 'radar',
-                                    options: {
-                                        startAngle: 12,
-                                        scale: {
-                                            ticks: {
-                                                display: false,
+                                    // get data from all checked employee checkboxes
+                                    var checkedCheckBoxes = document.querySelectorAll('input[name=selectedEmployees]:checked');
+
+                                    // for each personalitytype
+                                    for (var i = 0; i < personalityoptions.length; i++) {
+
+                                        // for earch checked employee
+                                        for (var x = 0; x < checkedCheckBoxes.length; x++) {
+
+                                            // if checked employee box matches a personality from list, add +1 in occurence array
+                                            if (personalityoptions[i] == checkedCheckBoxes[x].attributes[5].nodeValue) {
+                                                personalityOccurence[i] += 1;
                                             }
                                         }
-                                    },
-                                    data: {
-                                        labels: EmployeeLabels,
-                                        datasets: [{
-                                            data: EmployeeCompetenceOccurence,
-                                            backgroundColor: "rgba(40, 167, 69, 0.2)",
-                                            borderColor: "rgba(40, 167, 69, 1)",
-                                            responsive: true
-                                        }],
                                     }
-                                });
 
-                                // Stacked canvas to provide an axis to categorize personality types.
-                                var c = document.getElementById("myCanvas");
-                                var ctx = c.getContext("2d");
-                                ctx.setLineDash([5]);
-                                // X-axis
-                                ctx.moveTo(0, 150);
-                                ctx.lineTo(300, 150);
-                                ctx.stroke();
-                                // Y-axis
-                                ctx.moveTo(150, 0);
-                                ctx.lineTo(150, 300);
+                                    Chart.defaults.global.legend.display = false;
+                                    var ctx = document.getElementById("myChart").getContext("2d");
+                                    var myRadarChart = new Chart(ctx, {
+                                        type: 'radar',
+                                        options: {
+                                            startAngle: 12,
+                                            scale: {
+                                                ticks: {
+                                                    display: false,
+                                                }
+                                            }
+                                        },
+                                        data: {
+                                            labels: personalityoptions,
+                                            datasets: [{
+                                                data: personalityOccurence,
+                                                backgroundColor: "rgba(40, 167, 69, 0.2)",
+                                                borderColor: "rgba(40, 167, 69, 1)",
+                                                responsive: true
+                                            }],
+                                        }
+                                    });
+
+                                    // Stacked canvas to provide an axis to categorize personality types.
+                                    var c = document.getElementById("myCanvas");
+                                    var ctx = c.getContext("2d");
+                                    ctx.setLineDash([5]);
+                                    // X-axis
+                                    ctx.moveTo(0, 150);
+                                    ctx.lineTo(300, 150);
+                                    ctx.stroke();
+                                    // Y-axis
+                                    ctx.moveTo(150, 0);
+                                    ctx.lineTo(150, 300);
                                     ctx.stroke();
                                 }
                                 window.onload = createRadar;
@@ -308,14 +312,16 @@
                                             }
                                             @:<td>
                                                 <input type="checkbox"
-                                                       onchange="calculateTeamSynergy(); addToMemberList(this.id);"
+                                                       onchange="calculateTeamSynergy(); createRadar(); addToMemberList(this.id);"
                                                        name="selectedEmployees"
                                                        id="@employee.EmployeeID-employee"
                                                        value="@employee.EmployeeID"
-                                                       @(Html.Raw(employee.Assigned ? "checked=\"checked\"" : "")) />
+                                                       @(Html.Raw(employee.Assigned ? "checked=\"checked\"" : "")) 
+                                                       class="@(Html.Raw(employee.PersonalityType))"/>
                                                 <p>
                                                     <span id="@employee.EmployeeID-name">@employee.FullName</span><br />
                                                     <span>@employee.JobTitle</span><br />
+                                                    <span id="personality">@employee.PersonalityType</span><br />
 
                                                     <span id="@employee.EmployeeID">0</span> %
                                                 </p>
@@ -352,7 +358,6 @@
             }
 
 
-            <button onclick="myFunction9()">add to canvas</button>
 
             <script type="text/javascript" src="../js/radialIndicator.js"></script>
             <script type="text/javascript">
