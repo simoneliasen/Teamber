@@ -294,13 +294,8 @@
                         <ul id="teamMembers">
                         </ul>
                     </div>
-                    <div class="form-group">
-                        <div class="table">
-                            <table>
-                                <tr>
-                                    Employees
-                                </tr>
-                                <tr>
+                    Employees
+                    <div class="row" id="employeeList">
                                     @{
                                         int cnt = 0;
 
@@ -308,16 +303,16 @@
                                         {
                                             if (cnt++ % 3 == 0)
                                             {
-                                            @:</tr><tr>
+                                            @:
                                             }
-                                            @:<td>
+                                            @:<div class="col-md-4" id="@employee.EmployeeID-outerDiv"> <!-- måske tilføj en class her?-->
                                                 <input type="checkbox"
                                                        onchange="calculateTeamSynergy(); createRadar(); addToMemberList(this.id);"
                                                        name="selectedEmployees"
                                                        id="@employee.EmployeeID-employee"
                                                        value="@employee.EmployeeID"
-                                                       @(Html.Raw(employee.Assigned ? "checked=\"checked\"" : "")) 
-                                                       class="@(Html.Raw(employee.PersonalityType))"/>
+                                                       @(Html.Raw(employee.Assigned ? "checked=\"checked\"" : ""))
+                                                       class="@(Html.Raw(employee.PersonalityType))" />
                                                 <p>
                                                     <span id="@employee.EmployeeID-name">@employee.FullName</span><br />
                                                     <span>@employee.JobTitle</span><br />
@@ -325,12 +320,10 @@
 
                                                     <span id="@employee.EmployeeID">0</span> %
                                                 </p>
-                                            @:</td>
+                                            @:</div>
                                         }
-                                    @:</tr>
+                                    @:
                                     }
-                                </table>
-                            </div>
                         </div>
 
 
@@ -349,7 +342,6 @@
                     display: none;
                 }
             </style>
-
             <div>
                 <a asp-page="Index">Back to List</a>
             </div>
@@ -474,6 +466,37 @@ var QuestionnaireCriterias = {
 */
     //hent dem ind ligesom ved de andre, for det eneste der skal ændres er jo priorityen.
     //når man skal opdatere: get quistionnaireid, get questionnaireComepetenceID. og så sig QuestionnaireCriterias[questionnaireID][questionnaireCompetenceID] = valuen.
+
+
+
+
+
+                //https://stackoverflow.com/questions/5066925/javascript-only-sort-a-bunch-of-divs 
+                function sortEmployeesBySynergy() {
+                    var toSort = document.getElementById('employeeList').children;
+                    toSort = Array.prototype.slice.call(toSort, 0);
+
+                    toSort.sort(function(a, b) {
+                        var empID = a.id.split("-")[0];
+                        var aord = +document.getElementById(empID).innerText;
+
+                        var empID2 = b.id.split("-")[0];
+                        var bord = +document.getElementById(empID2).innerText;
+
+                        // two elements never have the same ID hence this is sufficient:
+                        return (aord < bord) ? 1 : -1;
+                    });
+
+                    var parent = document.getElementById('employeeList');
+                    parent.innerHTML = "";
+
+                    for(var i = 0, l = toSort.length; i < l; i++) {
+                        parent.appendChild(toSort[i]);
+                    }
+                }
+
+
+
 
 
 
@@ -641,7 +664,8 @@ var QuestionnaireCriterias = {
                             //derfor gør vi ingenting
                         }
                     }
-                }
+                    }
+                    sortEmployeesBySynergy(); //og til sidst vil vi så sortere employees efter synergy
 }
 
                 /*function calculateSynergies() {
