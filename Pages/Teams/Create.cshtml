@@ -360,7 +360,7 @@
 
 function addToMemberList(employee) {
     var employeeID = employee.split("-")[0];
-    var elementExists = document.getElementById("" + employeeID + "-teamMember");
+    var elementExists = document.getElementById("" + employeeID + "-teamMember"); //altså er han allerede tilføjet?
 
     if (elementExists == null) {
         var name = document.getElementById("" + employeeID + "-name").innerHTML;
@@ -378,6 +378,10 @@ function addToMemberList(employee) {
         //obs bruger ikke employeeid + memberquestionnaire samlet id'et til noget endnu. så kan være at det skal indeholde noget andet.
         node.innerHTML="" + name + " - <span id='" + employeeID + "-memberQuestionnaire'>" + activeQuestionnaire + "</span>" + " - <span id='" + employeeID + "-memberSynergy'>" + synergy + "</span> %";
         document.getElementById("teamMembers").appendChild(node);
+
+        //til sidst vil vi ændre valuen på employeensid, så den også indeholder den questionnaire han er blevet tilføjet som. fx front end som er id: 1
+        var activeQuestionnaireID = activeQuestionnaireButton.split("-")[0];
+        document.getElementById("" + employeeID + "-employee").value = "" + employeeID + "-" + activeQuestionnaireID;
     }
     else {
         var item = document.getElementById("" + employeeID + "-teamMember");

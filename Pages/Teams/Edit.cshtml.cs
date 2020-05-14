@@ -50,12 +50,17 @@ namespace ContosoUniversity.Pages.Teams
             }
             PopulateAssignedEmployeeData(_context, Team);
             PopulateAssignedQuestionnaireData(_context, Team);
-            PopulateAssignedTeamCriteriaData(_context, Team);
+            PopulateAllCompetencesData(_context, Team);
+            PopulateAllEmpCompetencesString(_context);
+            PopulateAllEmpQuestionnairesString(_context);
+            PopulateAllQuestionnairesStringForEdit(_context, Team);
+            PopulateAllQuestionnaireTitlesString(_context);
+            PopulateTeamMembers(Team);
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id, string[] selectedEmployees, string[] selectedQuestionnaires, string[] selectedCompetences, int[] selectedCompetenceValues)
+        public async Task<IActionResult> OnPostAsync(int? id, string[] selectedEmployees, string[] selectedQuestionnaires, string[] selectedCompetences, int[] selectedCompetencesValue)
         {
             if (id == null)
             {
@@ -85,7 +90,7 @@ namespace ContosoUniversity.Pages.Teams
 
                 UpdateTeamEmployees(_context, selectedEmployees, teamToUpdate);
                 UpdateTeamQuestionnaires(_context, selectedQuestionnaires, teamToUpdate);
-                UpdateTeamCriterias(selectedCompetenceValues, teamToUpdate);
+                UpdateTeamCriterias(selectedCompetencesValue, teamToUpdate);
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
             }

@@ -4,6 +4,7 @@ using ContosoUniversity.Models.SchoolViewModels;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace ContosoUniversity.Pages.Teams
 {
@@ -20,6 +21,37 @@ namespace ContosoUniversity.Pages.Teams
         public string AllEmpQuestionnairesString;
         public string AllQuestionnairesString;
         public string AllQuestionnaireTitlesString;
+
+        //til edit siderne
+        public string teamMembers;
+
+        public void PopulateTeamMembers(Team team)
+        {
+           
+            var teamEmployees = team.EmpTeams;
+
+            string result = "var TeamMembers = { ";
+
+            foreach (var employee in teamEmployees) //looper gennem alle employees
+            {
+                if(employee.questionnaireRole != null)
+                {
+                    result += $"{employee.EmployeeID.ToString()}: {employee.questionnaireRole}, ";//questionnaireRole er et id
+                }
+                else
+                {
+                    result += $"{employee.EmployeeID.ToString()}: 0, ";
+                }
+               
+                
+            }
+
+            result += "}; ";
+
+            teamMembers = result;
+
+        }
+
 
         public void PopulateAssignedEmployeeData(SchoolContext context,
                                                Team team)
@@ -159,6 +191,42 @@ namespace ContosoUniversity.Pages.Teams
 
             AllQuestionnairesString = result;
         }
+
+
+
+        public void PopulateAllQuestionnairesStringForEdit(SchoolContext context, Team team)
+        {
+            var allQuestionnaireIDs = context.Questionnaires.Select(i => i.QuestionnaireID);
+            var allQuestionnaireCompetences = context.QuestionnaireCompetences;
+
+            var currentCriterias = context.TeamCriterias.Where(i => i.TeamID == team.TeamID);
+
+            string result = "var QuestionnaireCriterias = { ";
+
+            foreach (var questionnaireID in allQuestionnaireIDs) //looper gennem alle employees
+            {
+                result += $"{questionnaireID.ToString()}: {{ ";
+                foreach (var competence in allQuestionnaireCompetences)//looper gennem alle competencer
+                {
+                    if (questionnaireID == competence.QuestionnaireID)
+                    { int priority = 0;
+                        try {
+                            priority = currentCriterias.Where(i => i.QuestionnaireCompetenceID == competence.QuestionnaireCompetenceID).Select(i => i.PriorityValue).FirstOrDefault();
+                        }
+                        catch(Exception)
+                        {
+                        }
+                        result += $"{competence.QuestionnaireCompetenceID.ToString()}: {priority}, ";
+                    }
+                }
+                result += $" }}, ";
+            }
+
+            result += "}; ";
+
+            AllQuestionnairesString = result;
+        }
+
 
         public void PopulateAllQuestionnaireTitlesString(SchoolContext context)
         {

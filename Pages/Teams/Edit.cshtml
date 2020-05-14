@@ -4,48 +4,79 @@
 @{
     ViewData["Title"] = "Edit";
     if (String.IsNullOrEmpty(Model.Login) || String.IsNullOrEmpty(Model.Manager))
-                Response.Redirect("/Login/Login");
+        Response.Redirect("/Login/Login");
 }
 
 <h1>Edit</h1>
 
 <h4>Team</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
+
+
+<form method="post">
+    <div class="row">
+        <div class="col-md-4" style="background-color: lightgray;">
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Team.TeamID" />
+
             <div class="form-group">
                 <label asp-for="Team.Title" class="control-label"></label>
                 <input asp-for="Team.Title" class="form-control" />
                 <span asp-validation-for="Team.Title" class="text-danger"></span>
             </div>
+            <input type="hidden" asp-for="Team.Synergy" class="form-control" id="teamSynergy" />
+            <!--
             <div class="form-group">
                 <label asp-for="Team.Synergy" class="control-label"></label>
-                <input asp-for="Team.Synergy" class="form-control" />
+                <input asp-for="Team.Synergy" class="form-control" id="teamSynergy" />
                 <span asp-validation-for="Team.Synergy" class="text-danger"></span>
+            </div>-->
+            <div>
+                <p>Questionnaires</p>
+
+                @{
+
+                    foreach (var questionnaire in Model.AssignedQuestionnaireDataList)
+                    {
+                        if (true)
+                        {
+                            @:
+                        }
+                        @:
+                        <button type="button" onclick="showHideRelatedCompetences(this.id)"
+                                id="@questionnaire.QuestionnaireID-questionnaireButton" class="questionnaireButton">
+                            @questionnaire.Title
+                        </button>
+
+                        @:
+                    }
+                    @:
+                }
             </div>
-            <div class="form-group">
+            <div class="form-group" style="display: none">
                 <div class="table">
                     <table>
                         <tr>
+                            Questionnaires
+                        </tr>
+                        <tr>
                             @{
-                                int cnt = 0;
+                                int cnt2 = 0;
 
-                                foreach (var employee in Model.AssignedEmployeeDataList)
+                                foreach (var questionnaire in Model.AssignedQuestionnaireDataList)
                                 {
-                                    if (cnt++ % 3 == 0)
+                                    if (cnt2++ % 3 == 0)
                                     {
                                     @:</tr><tr>
                                     }
                                     @:<td>
                                         <input type="checkbox"
-                                               name="selectedEmployees"
-                                               value="@employee.EmployeeID"
-                                               @(Html.Raw(employee.Assigned ? "checked=\"checked\"" : "")) />
-                                        @employee.EmployeeID @:  @employee.FullName  <!-- Employee.Fullname skal måske tilføjes her-->
-
+                                               name="selectedQuestionnaires"
+                                               onclick="showHideRelatedCompetences(this.id)"
+                                               id="@questionnaire.QuestionnaireID-questionnaire"
+                                               value="@questionnaire.QuestionnaireID"
+                                               @(Html.Raw(questionnaire.Assigned ? "checked=\"checked\"" : "")) />
+                                        @questionnaire.Title
                                     @:</td>
                                 }
                             @:</tr>
@@ -57,21 +88,34 @@
                     <div class="table">
                         <table>
                             <tr>
+                                Competences
+                            </tr>
+                            <tr>
                                 @{
-                                    int cnt2 = 0;
+                                    int cnt3 = 0;
 
-                                    foreach (var questionnaire in Model.AssignedQuestionnaireDataList)
+                                    foreach (var competence in Model.AllCompetencesDataList)
                                     {
-                                        if (cnt2++ % 3 == 0)
+                                        if (cnt3++ % 3 == 0)
                                         {
                                         @:</tr><tr>
                                         }
-                                        @:<td>
+                                        @:<td class="@competence.QuestionnaireID-Qclass startHidden">
                                             <input type="checkbox"
-                                                   name="selectedQuestionnaires"
-                                                   value="@questionnaire.QuestionnaireID"
-                                                   @(Html.Raw(questionnaire.Assigned ? "checked=\"checked\"" : "")) />
-                                            @questionnaire.QuestionnaireID @:  @questionnaire.Title
+                                                   style="display: none;"
+                                                   name="selectedCompetences"
+                                                   id="@competence.QuestionnaireCompetenceID-competence"
+                                                   value="@competence.QuestionnaireCompetenceID"
+                                                   checked="checked" />
+                                            @competence.Criteria
+                                        @:</td>
+                                        @:<td class="@competence.QuestionnaireID-Qclass startHidden">
+                                            <input type="number" min="0" max="5"
+                                                   name="selectedCompetencesValue"
+                                                   onchange="calculateSynergies(this.id); calculateTeamSynergy(); checkOrUncheckQuestionnaire(this.id)"
+                                                   id="@competence.QuestionnaireCompetenceID-competenceValue"
+                                                   value="0"
+                                                   @(Html.Raw(competence.Assigned ? "checked=\"checked\"" : "")) />
                                         @:</td>
                                     }
                                 @:</tr>
@@ -80,52 +124,730 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="table">
-                            <table>
-                                <tr>
-                                    Competences
-                                </tr>
-                                <tr>
-                                    @{
-                                        int cnt3 = 0;
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
 
-                                        foreach (var competence in Model.AssignedTeamCriteriaDataList)
-                                        {
-                                            if (cnt3++ % 3 == 0)
-                                            {
-                                            @:</tr><tr>
-                                            }
-                                            @:<td>
-                                                <input type="checkbox"
-                                                       name="selectedCompetences"
-                                                       value="@competence.QuestionnaireCompetenceID"
-                                                       @(Html.Raw(competence.Assigned ? "checked=\"checked\"" : "")) />
-                                                @competence.Criteria
-                                            @:</td>
-                                            @:<td>
-                                                <input type="number" min="0" max="5"
-                                                       name="selectedCompetenceValues"
-                                                       value="@competence.Priority"
-                                                       @(Html.Raw(competence.Assigned ? "checked=\"checked\"" : "")) />
-                                                @competence.Criteria
-                                            @:</td>
-                                        }
-                                    @:</tr>
-                                    }
-                                </table>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div id="indicatorContainer">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <input type="submit" value="Save" class="btn btn-primary" />
+                        <div class="col-md-6">
+                            <!-- radar start kode-->
+                            <!-- Import chart.js framework-->
+                            <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+                            <!-- Import icons-->
+                            <script src="https://kit.fontawesome.com/c869845de6.js" crossorigin="anonymous"></script>
+
+                            <!-- Stacked canvases provinding a customized radar chart.-->
+                            <div class="canvasWrapper" width="300" heigth="300">
+                                <canvas id="myCanvas" width="300" height="300"></canvas>
+                                <canvas id="myChart" width="300" height="300"></canvas>
+
+                                <p id="Analysts">
+                                    Analysts
+                                    <i class="far fa-question-circle" type="button" data-toggle="tooltip" data-placement="top"
+                                       title="Intuitive (N) and Thinking (T) personality types, known for their rationality, impartiality and intellectual excellence">
+                                    </i>
+                                </p>
+
+                                <p id="Diplomats">
+                                    Diplomats
+                                    <i class="far fa-question-circle" type="button" data-toggle="tooltip" data-placement="top"
+                                       title="Intuitive (N) and Feeling (F) personality types, known for their empathy, diplomatic skills, and passionate idealism">
+                                    </i>
+                                </p>
+
+                                <p id="Sentinels">
+                                    Sentinels
+                                    <i class="far fa-question-circle" type="button" data-toggle="tooltip" data-placement="top"
+                                       title="Observant (S) and Judging (J) personality types, known for their practicality and focus on order, security, and stability">
+                                    </i>
+                                </p>
+
+                                <p id="Explorers">
+                                    Explorers
+                                    <i class="far fa-question-circle" type="button" data-toggle="tooltip" data-placement="top"
+                                       title="Observant (S) and Prespecting (P) persoanlity types, known for their spontaneity, ingenuity, and ability to live in the moments">
+                                    </i>
+                                </p>
+                            </div>
+                            </tr>
+
+                            <!--Configuration of radar chart-->
+                            <script>
+                                function createRadar() {
+                                    // initialize arrays to populate radarchart
+                                    const personalityoptions = ["INTJ", "INTP", "ENTJ", "ENTP", "ISTP", "ISFP", "ESTP", "ESFP", "ISTJ", "ISFJ", "ESTJ", "ESFJ", "INFJ", "INFP", "ENFJ", "ENFP"];
+                                    var personalityOccurence = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                                    // get data from all checked employee checkboxes
+                                    var checkedCheckBoxes = document.querySelectorAll('input[name=selectedEmployees]:checked');
+
+                                    // for each personalitytype
+                                    for (var i = 0; i < personalityoptions.length; i++) {
+
+                                        // for earch checked employee
+                                        for (var x = 0; x < checkedCheckBoxes.length; x++) {
+
+                                            try {
+                                                var testvar = personalityoptions[i] == checkedCheckBoxes[x].attributes[6].nodeValue;
+
+                                                if (personalityoptions[i] == checkedCheckBoxes[x].attributes[6].nodeValue) {
+                                                    personalityOccurence[i] += 1;
+                                                }
+                                            }
+                                            catch (err) {
+                                                // if checked employee box matches a personality from list, add +1 in occurence array
+                                            if (personalityoptions[i] == checkedCheckBoxes[x].attributes[5].nodeValue) {
+                                                personalityOccurence[i] += 1;
+                                            }
+                                            }
+                                            
+                                        }
+                                    }
+
+
+                                    Chart.defaults.global.legend.display = false;
+                                    var ctx = document.getElementById("myChart").getContext("2d");
+                                    var myRadarChart = new Chart(ctx, {
+                                        type: 'radar',
+                                        options: {
+                                            startAngle: 12,
+                                            scale: {
+                                                ticks: {
+                                                    display: false,
+                                                }
+                                            }
+                                        },
+                                        data: {
+                                            labels: personalityoptions,
+                                            datasets: [{
+                                                data: personalityOccurence,
+                                                backgroundColor: "rgba(40, 167, 69, 0.2)",
+                                                borderColor: "rgba(40, 167, 69, 1)",
+                                                responsive: true
+                                            }],
+                                        }
+                                    });
+
+                                    // Stacked canvas to provide an axis to categorize personality types.
+                                    var c = document.getElementById("myCanvas");
+                                    var ctx = c.getContext("2d");
+                                    ctx.setLineDash([5]);
+                                    // X-axis
+                                    ctx.moveTo(0, 150);
+                                    ctx.lineTo(300, 150);
+                                    ctx.stroke();
+                                    // Y-axis
+                                    ctx.moveTo(150, 0);
+                                    ctx.lineTo(150, 300);
+                                    ctx.stroke();
+                                }
+                                window.onload = createRadar;
+                            </script>
+
+                            <style>
+                                .canvasWrapper {
+                                    position: relative;
+                                    width: 300px;
+                                    height: 300px;
+                                }
+
+                                    .canvasWrapper canvas {
+                                        position: absolute;
+                                        text-align: center;
+                                        align-items: center;
+                                        align-content: center;
+                                        top: 0;
+                                        left: 0;
+                                    }
+
+                                #Analysts {
+                                    position: absolute;
+                                    top: 0;
+                                    right: 0;
+                                }
+
+                                #Diplomats {
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                }
+
+                                #Sentinels {
+                                    position: absolute;
+                                    bottom: 0;
+                                    left: 0;
+                                }
+
+                                #Explorers {
+                                    position: absolute;
+                                    bottom: 0;
+                                    right: 0;
+                                }
+
+                                .fa-question-circle:hover {
+                                    color: lightgrey;
+                                }
+                            </style>
+
+
+
+                            <!-- radar slut kode-->
                         </div>
-                    </form>
-    </div>
-</div>
+                    </div>
 
-<div>
-    <a asp-page="./Index">Back to List</a>
-</div>
+                    <div>
+                        Team members
+                        <ul id="teamMembers">
+                        </ul>
+                    </div>
+                    Employees
+                    <div class="row" id="employeeList">
+                        @{
+                            int cnt = 0;
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+                            foreach (var employee in Model.AssignedEmployeeDataList)
+                            {
+                                if (cnt++ % 3 == 0)
+                                {
+                                    @:
+                                }
+                                @:<div class="col-md-4" id="@employee.EmployeeID-outerDiv">
+                                    <!-- måske tilføj en class her?-->
+                                    <input type="checkbox"
+                                           onchange="calculateTeamSynergy(); createRadar(); addToMemberList(this.id, true);"
+                                           name="selectedEmployees"
+                                           id="@employee.EmployeeID-employee"
+                                           value="@employee.EmployeeID"
+                                           @(Html.Raw(employee.Assigned ? "checked=\"checked\"" : ""))
+                                           class="@(Html.Raw(employee.PersonalityType))" />
+                                    <p>
+                                        <span id="@employee.EmployeeID-name">@employee.FullName</span><br />
+                                        <span>@employee.JobTitle</span><br />
+                                        <span id="personality">@employee.PersonalityType</span><br />
+
+                                        <span id="@employee.EmployeeID">0</span> %
+                                    </p>
+                                @:</div>
+                            }
+                            @:
+                        }
+                    </div>
+
+
+
+
+
+
+
+
+                </div>
+
+            </div>
+        </form>
+        <style>
+            .startHidden {
+                display: none;
+            }
+        </style>
+        <div>
+            <a asp-page="Index">Back to List</a>
+        </div>
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }
+
+
+        <script type="text/javascript" src="../js/radialIndicator.js"></script>
+        <script type="text/javascript">
+
+    var activeQuestionnaireButton = "";
+
+            //Bruges kun til edit siden. dataen skal lige ind rigtigt.
+            function LoadCriteriasAndEmployees() {
+                //opdateres competencekriterie dictionaren
+                for (var questionnaire in QuestionnaireCriterias) {
+                    for (var competenceID in QuestionnaireCriterias[questionnaire]) {
+                            document.getElementById("" + competenceID + "-competenceValue").value = QuestionnaireCriterias[questionnaire][competenceID];
+                        }
+
+                }
+
+                for (var employee in TeamMembers) {
+                    //starter med at loade de rigtige competencer og synergy scores
+                    var questionnaireID = TeamMembers[employee];
+
+                    if (questionnaireID != 0) { //den er kun 0, når employeen ikke er tildelt et bestemt questionnaire at bedømmes ud fra.
+                        var questionnaireButton = "" + questionnaireID + "-questionnaireButton";
+                        showHideRelatedCompetences(questionnaireButton);
+
+
+                        //herefter checker vi checkbox for hver employee der er tilføjet som medlem vha. denne rolle. (questionnaire)
+                        addToMemberList("" + employee + "-employee", true); //true fordi han har en associated questionnaire, da han blev tilføjet.
+                        //document.getElementById("" + employee + "-employee").checked = true;
+                    }
+                    else {
+                        addToMemberList("" + employee + "-employee", false);
+                    }
+                    
+                    
+                }
+                calculateTeamSynergy();
+                 createRadar();
+            }
+
+
+function addToMemberList(employee, AssignedQuestionnaire) {
+    var employeeID = employee.split("-")[0];
+    var elementExists = document.getElementById("" + employeeID + "-teamMember");
+
+    if (elementExists == null) {
+        var name = document.getElementById("" + employeeID + "-name").innerHTML;
+        var synergy = document.getElementById(employeeID).innerHTML;
+
+
+        var node = document.createElement("li");
+        node.setAttribute("id", "" + employeeID + "-teamMember");
+
+        var spanSynergy = document.createElement("span");
+        node.setAttribute("id", "" + employeeID + "-teamMember");
+
+        var activeQuestionnaire = "";
+        if (AssignedQuestionnaire) {
+            activeQuestionnaire = document.getElementById(activeQuestionnaireButton).innerText;
+        }
+        else {
+            activeQuestionnaire = "--No Questionnaire Chosen--";
+            synergy = 0;
+        }
+        
+
+        //obs bruger ikke employeeid + memberquestionnaire samlet id'et til noget endnu. så kan være at det skal indeholde noget andet.
+        node.innerHTML="" + name + " - <span id='" + employeeID + "-memberQuestionnaire'>" + activeQuestionnaire + "</span>" + " - <span id='" + employeeID + "-memberSynergy'>" + synergy + "</span> %";
+        document.getElementById("teamMembers").appendChild(node);
+    }
+    else {
+        var item = document.getElementById("" + employeeID + "-teamMember");
+        item.parentNode.removeChild(item);
+    }
+                }
+
+
+                function updateMemberSynergy(employeeID) {
+                    var elementExists = document.getElementById("" + employeeID + "-teamMember");
+                    if (elementExists != null) {
+                        var synergy = document.getElementById(employeeID).innerHTML;
+                        document.getElementById("" + employeeID + "-memberSynergy").innerHTML = synergy;
+                    }
+                }
+
+
+                function checkOrUncheckQuestionnaire(competence) {
+                    var competenceID = competence.split("-")[0];
+                    var chosen = false;
+                    var questionnaireNumber = 0;
+                    for (var i in QuestionnaireCriterias) {
+                        if (QuestionnaireCriterias[i].hasOwnProperty(competenceID)) {
+                            questionnaireNumber = i;
+                        }
+
+                    }
+
+                    for (var k in QuestionnaireCriterias[questionnaireNumber]) {
+                        if (QuestionnaireCriterias[questionnaireNumber][k] > 0) {
+                            chosen = true;
+                        }
+                    }
+
+                    document.getElementById("" + questionnaireNumber + "-questionnaire").checked = chosen;
+                }
+
+
+
+    //Intialiazation
+var radialObj = radialIndicator('#indicatorContainer', {
+    barColor: {
+        0: '#a1ffa7',
+        //33: '#FFFF00',
+        //66: '#0066FF',
+        100: '#00660e'
+    },
+    barWidth: 15,
+    percentage: true,
+    frameTime: 7,
+    initValue : 0
+});
+
+
+
+
+
+    //opdateres ikke.
+    @Model.AllEmpCompetencesString
+
+    //opdateres ikke.
+    @Model.AllEmpQuestionnairesString
+
+   //opdateres live. Ud fra user input i kriterierne.
+    @Model.AllQuestionnairesString
+
+
+
+    //bare et array over alle questionnaires:
+    @Model.AllQuestionnaireTitlesString
+
+
+
+
+    //array over teamet medlemmer. Bruges til at loade dataen korrekt.
+    //stringen betyder: employeeX er tilføjet som questionnaireX, employeeY er tilføjet som questionnaireY osv. sov.
+    @Model.teamMembers
+
+
+    /*
+var QuestionnaireCriterias = {
+	1:{
+		1: 5,
+		2: 3,
+		3: 1
+	},
+	2:{
+		4: 5, //Næste step: få den her data til at opdatere automatisk ud fra hvad brugeren vælger af kriterier. Derefter loop over alle employees. Izzy.
+		5: 5,
+		6: 4
+	}
 }
+*/
+    //hent dem ind ligesom ved de andre, for det eneste der skal ændres er jo priorityen.
+    //når man skal opdatere: get quistionnaireid, get questionnaireComepetenceID. og så sig QuestionnaireCriterias[questionnaireID][questionnaireCompetenceID] = valuen.
+
+
+
+
+
+                //https://stackoverflow.com/questions/5066925/javascript-only-sort-a-bunch-of-divs
+                function sortEmployeesBySynergy() {
+                    var toSort = document.getElementById('employeeList').children;
+                    toSort = Array.prototype.slice.call(toSort, 0);
+
+                    toSort.sort(function(a, b) {
+                        var empID = a.id.split("-")[0];
+                        var aord = +document.getElementById(empID).innerText;
+
+                        var empID2 = b.id.split("-")[0];
+                        var bord = +document.getElementById(empID2).innerText;
+
+                        // two elements never have the same ID hence this is sufficient:
+                        return (aord <= bord) ? 1 : -1;
+                    });
+
+                    var parent = document.getElementById('employeeList');
+                    parent.innerHTML = "";
+
+                    for(var i = 0, l = toSort.length; i < l; i++) {
+                        parent.appendChild(toSort[i]);
+                    }
+                }
+
+
+
+
+
+
+
+//document.getElementById("teamSynergy").innerHTML = EmpQuestionnaires[11][1];
+
+    //find de questionnaires der er vinget af og foreach kør nedenstående
+
+    function calculateTeamSynergy() {
+        var employeeSynergies = selectedEmployees();
+
+        var totalScores = 0;
+        for (var employeeSynergy in employeeSynergies) {
+            totalScores += parseInt(employeeSynergies[employeeSynergy]);
+        }
+        var average = totalScores / employeeSynergies.length;
+        var synergy = Math.round(average);
+
+        if (employeeSynergies.length != 0) {
+            document.getElementById("teamSynergy").value = synergy;
+            radialObj.animate(synergy);
+        }
+        else {
+            document.getElementById("teamSynergy").value = 0;
+        radialObj.animate(0);
+        }
+
+    }
+
+
+
+
+    function showHideRelatedCompetences(questionnaire) {
+        var questionnaireSplit = questionnaire.split("-");
+        var questionnaireID = questionnaireSplit[0];
+
+        //og opdaterer lige en global variabel
+        activeQuestionnaireButton = "" + questionnaireID + "-questionnaireButton";
+        hideAllCompetences();
+        document.getElementById(questionnaire).style.backgroundColor = 'lightblue';
+        var competences = document.getElementsByClassName("" + questionnaireID + "-Qclass");
+        for (var i in competences) {
+            var checkStatus = true;
+                //document.getElementById(questionnaire).checked;
+            if (checkStatus) {
+                try {
+                    competences[i].style.display = 'table-cell';
+                }
+                catch (err) {
+
+                }
+
+            }
+            else {
+                try {
+                    competences[i].style.display = 'none';
+                }
+                catch (err) {
+
+                }
+
+            }
+
+        }
+
+        //skal lige resette employee synergies til 0. pga. man skifter til den nye tab
+        var exampleCompetence = 0;
+        for (var i in QuestionnaireCriterias[questionnaireID]) {
+            exampleCompetence = i;
+        }
+
+        var exampleCompetenceString = "" + exampleCompetence + "-competenceValue";
+        calculateSynergies(exampleCompetenceString);
+   }
+
+                function hideAllCompetences() {
+                    var competences = document.getElementsByClassName("startHidden");
+
+                    for (var i = 0; i < competences.length; i++) {
+                        competences[i].style.display = 'none';
+                    }
+
+                    var questionnaireButtons = document.getElementsByClassName("questionnaireButton");
+
+                    for (var i = 0; i < questionnaireButtons.length; i++) {
+                        questionnaireButtons[i].style.backgroundColor = 'white';
+                    }
+                }
+
+
+
+    function selectedEmployees() {
+        var checkedEmployees = [];
+        for (var employee in EmpQuestionnaires){
+            if (EmpQuestionnaires.hasOwnProperty(employee)) {
+                var temp = document.getElementById("" + employee + "-employee").checked;
+                if (temp) {
+                    var employeeSynergy = document.getElementById(employee).innerHTML;
+                    //alert("employee er" + employee);
+                    //alert("employee synergy er " + employeeSynergy);
+                    checkedEmployees.push(employeeSynergy);
+
+                        }
+                    }
+        }
+        return checkedEmployees;
+    }
+
+
+
+
+
+
+
+    function selectedQuestionnaires() {
+        var checkedQuestionnaires = [];
+        for (var questionnaire in QuestionnaireTitles){
+            if (QuestionnaireTitles.hasOwnProperty(questionnaire)) {
+                var temp = document.getElementById("" + QuestionnaireTitles[questionnaire] + "-questionnaire").checked;
+                if (temp) {
+                    checkedQuestionnaires.push(QuestionnaireTitles[questionnaire]);
+
+                        }
+                    }
+        }
+        return checkedQuestionnaires;
+    }
+
+
+
+                function calculateSynergies(competence) {
+                    var competenceID = competence.split("-")[0];
+                    var questionnaireNumber = 0;
+                    for (var i in QuestionnaireCriterias) {
+                        if (QuestionnaireCriterias[i].hasOwnProperty(competenceID)) {
+                            questionnaireNumber = i;
+                        }
+
+                    }
+
+                    questionnaireID = parseInt(questionnaireNumber);
+                    //alert("" + questionnaireID + " er det her.");
+
+                    updateQuestionnaireCriterias();
+                    var maxScore = calculateMaxScore(questionnaireID);
+
+                for (var employee in EmpQuestionnaires) {
+                    if (EmpQuestionnaires.hasOwnProperty(employee)) {
+                        var employeeID = parseInt(employee);
+
+                        if (EmpQuestionnaires[employee].includes(questionnaireID)) { //altså hvis employeen er tilknyttet det givne questionnaire
+
+                            calculateEmployeeSynergy(employeeID, questionnaireID, maxScore);
+                            updateMemberSynergy(employeeID);
+                            //alert("max score er igen: " + maxScore + " " + typeof maxScore);
+                        }
+                        else if (document.getElementById("" + employee + "-teamMember") == null) {
+                            //hvis han ikke i forvejen er valgt, skal hans synergy sættes til 0.
+                            //alert("han er ikke med i spørgeskemaet og heller ikke teamet");
+                             document.getElementById("" + employee).innerHTML = 0;
+
+                        }
+                        else {
+                            //alert("han er ikke med i spørgeskemaet, men han er med i teamet.");
+                            //derfor gør vi ingenting
+                        }
+                    }
+                    }
+                    sortEmployeesBySynergy(); //og til sidst vil vi så sortere employees efter synergy
+}
+
+                /*function calculateSynergies() {
+        var chosenQuestionnaires = selectedQuestionnaires();
+        updateQuestionnaireCriterias();
+        for (var questionnaire in chosenQuestionnaires){
+            if (chosenQuestionnaires.hasOwnProperty(questionnaire)) {
+
+                var questionnaireID = parseInt(chosenQuestionnaires[questionnaire]);
+                var maxScore = calculateMaxScore(questionnaireID);
+
+                for (var employee in EmpQuestionnaires) {
+                    if (EmpQuestionnaires.hasOwnProperty(employee)) {
+                        if (EmpQuestionnaires[employee].includes(questionnaireID)) { //altså hvis employeen er tilknyttet det givne questionnaire
+                            var employeeID = parseInt(employee);
+                            calculateEmployeeSynergy(employeeID, questionnaireID, maxScore);
+                            updateMemberSynergy(employeeID);
+                            //alert("max score er igen: " + maxScore + " " + typeof maxScore);
+                        }
+
+                    }
+                }
+
+            }
+        }
+
+
+
+    }*/
+
+
+    function updateQuestionnaireCriterias() {
+        var target = QuestionnaireCriterias;
+	    for (var questionnaire in target){
+        if (target.hasOwnProperty(questionnaire)) {
+                var target2 = QuestionnaireCriterias[questionnaire];
+	             for (var competence in target2){
+                    if (target2.hasOwnProperty(competence)) {
+                        var temp = document.getElementById("" + competence + "-competenceValue").value;
+                        QuestionnaireCriterias[questionnaire][competence] = temp;
+                    }
+                 }
+            }
+        }
+    }
+
+
+
+    function calculateEmployeeSynergy(employee, questionnaire, max_score) {
+        var memberInChosenQuestionnaire = false;
+
+        try {
+            var memberQuestionnaireTitle = document.getElementById("" + employee + "-memberQuestionnaire").innerText;
+            var currentQuestionnaire = document.getElementById(activeQuestionnaireButton).innerText;
+
+            if (memberQuestionnaireTitle == currentQuestionnaire) {
+                memberInChosenQuestionnaire = true;
+            }
+        }
+        catch (err) {
+
+        }
+
+
+
+
+        if (document.getElementById("" + employee + "-teamMember") == null || memberInChosenQuestionnaire) {
+            var totalScore = 0;
+            var target = QuestionnaireCriterias[questionnaire];
+            for (var competence in target) {
+                if (target.hasOwnProperty(competence)) {
+                    //alert("Key is " + competence + ", value is " + target[competence]);
+                    var competenceInt = parseInt(competence);
+                    var temp = EmpCompetences[employee][competenceInt];
+
+
+                    var tempInt = parseInt(temp);
+                    if (tempInt > target[competenceInt]) {
+                        tempInt = parseInt(target[competenceInt]);
+                    }
+                    totalScore += tempInt;
+
+                }
+            }
+            //return totalScore;
+            var tempSynergy = totalScore / max_score * 100;
+            var synergy = Math.round(tempSynergy);
+
+            if (Number.isInteger(synergy)) {
+                document.getElementById("" + employee).innerHTML = synergy;
+            }
+            else {
+                document.getElementById("" + employee).innerHTML = 0;
+            }
+        }
+        else if (memberInChosenQuestionnaire == false) {
+
+        }
+
+
+}
+
+
+
+
+function calculateMaxScore(questionnaire) {
+	var maxScore = 0;
+	var target = QuestionnaireCriterias[questionnaire];
+
+	for (var competence in target){
+    if (target.hasOwnProperty(competence)) {
+
+        var temp = target[competence];
+         maxScore += parseInt(temp);
+    }
+}
+return maxScore;
+}
+
+
+
+//til sidst loader vi lige dataen ind ordentligt            
+window.onload = LoadCriteriasAndEmployees;
+
+        </script>
+

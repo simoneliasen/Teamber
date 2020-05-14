@@ -57,9 +57,17 @@ namespace ContosoUniversity.Pages.Teams
                 newTeam.EmpTeams = new List<EmpTeam>();
                 foreach (var employee in selectedEmployees)
                 {
+                    string[] employeeSplit = employee.Split("-");
+                    string employeeIDString = employeeSplit[0];
+                    string employeeField = employeeSplit[employeeSplit.Length -1]; //altså den sidste.
+
+
                     var employeeToAdd = new EmpTeam
                     {
-                        EmployeeID = int.Parse(employee)
+
+                        //questionnaireRole = employee.
+                        EmployeeID = int.Parse(employeeIDString),
+                        questionnaireRole = employeeField
                     };
                     newTeam.EmpTeams.Add(employeeToAdd);
                 }

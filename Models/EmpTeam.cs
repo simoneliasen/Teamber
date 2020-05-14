@@ -7,6 +7,8 @@
         public int TeamID { get; set; }
         public int EmployeeID { get; set; }
 
+        public string questionnaireRole { get; set; }
+
 
 
         public Team Team { get; set; }
