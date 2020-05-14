@@ -354,7 +354,9 @@
             <script type="text/javascript" src="../js/radialIndicator.js"></script>
             <script type="text/javascript">
 
-    var activeQuestionnaireButton = "";
+    //sættes bare til det første questionnaire for at undgå fejl når man tilføjer uden at have valgt questionnaire.
+                var activeQuestionnaireButton = "";
+                
 
 
 
@@ -791,5 +793,13 @@ return maxScore;
 
 
 
-
+            //til at starte med sættes activeQuestionnaireButton til det første questionnaire for at undgå trælse fejl.
+                console.log("questionnairetitles 0 er " + QuestionnaireTitles[0]);
+                try {
+                    console.log("questionnairetitles 0 er " + QuestionnaireTitles[0]);
+                    activeQuestionnaireButton = "" + QuestionnaireTitles[0] + "-questionnaireButton";
+                }
+                catch (err) {
+                    console.log("no questionnaires in the database.");
+                }
             </script>
