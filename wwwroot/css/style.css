@@ -1,0 +1,225 @@
+html, body {
+    height: 100%;
+}
+
+/* https://medium.com/cloud-native-the-gathering/how-to-use-css-to-fade-in-and-fade-out-html-text-and-pictures-f45c11364f08 */
+.fade-in {
+    animation: fadeIn ease 1s;
+    -webkit-animation: fadeIn ease 1s;
+    -moz-animation: fadeIn ease 1s;
+    -o-animation: fadeIn ease 1s;
+    -ms-animation: fadeIn ease 1s;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-o-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-ms-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.montserrat {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.navbar {
+    padding: 1% 20%;
+}
+
+.bg-image-full { /* Full width image https://startbootstrap.com/templates/full-width-pics/ */
+    background: no-repeat center center scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+.border {
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.padOne {
+    padding: 1%;
+}
+
+.padTwo {
+    padding: 2%;
+}
+
+.padThree {
+    padding: 3%;
+}
+
+.padOneTop {
+    padding-top: 1%;
+}
+
+
+.padTwoTop {
+    padding-top: 2%;
+}
+
+.padThreeTop {
+    padding-top: 3%;
+}
+
+.margOne {
+    margin: 1%;
+}
+
+.margTwo {
+    margin: 2%;
+}
+
+.margTwoTop {
+    margin-top: 2%;
+}
+
+
+.skillPad {
+    margin: 0.5%
+}
+
+.removePad {
+    padding: 0;
+}
+
+.headBlock {
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    padding: 2%;
+}
+
+.bodyBlock {
+    padding: 2%;
+}
+
+.darkBG {
+    background-color: #f2f2f2;
+}
+
+.darkerBG {
+    background-color: #d9d9d9;
+}
+
+.lightBG {
+    background-color: #fff;
+}
+
+.round {
+    border-radius: 3px;
+}
+
+.sRound {
+    border-radius: 5px;
+}
+
+.navItem {
+    color: #212529;
+}
+
+    .navItem:hover {
+        color: #212529;
+    }
+
+.checkboxContainer {
+    height: 10em;
+    overflow: auto;
+    width: 100%;
+}
+
+.employeeContainer {
+    height: 20em;
+    overflow: auto;
+    width: 100%;
+}
+
+.ratioStyle {
+    transform: scale(2);
+    margin: 0% 2%;
+    padding-bottom: 1%
+}
+
+.fadeBG {
+    background: rgb(40,146,64);
+    background: linear-gradient(90deg, rgba(40,146,64,1) 0%, rgba(56,210,91,1) 48%, rgba(40,146,64,1) 100%);
+}
+
+.buttonPad {
+    padding: 1.5% 6%;
+}
+
+.center {
+    display: inline-block;
+    margin: 0 auto;
+}
+
+.thick {
+    font-weight: 900;
+}
+
+.faded {
+    color: #909090;
+}
+
+.dropShadow {
+    -webkit-box-shadow: -1px 4px 5px 2px rgba(0,0,0,0.25);
+    -moz-box-shadow: -1px 4px 5px 2px rgba(0,0,0,0.25);
+    box-shadow: -1px 4px 5px 2px rgba(0,0,0,0.25);
+}
+
+.headerAlign {
+    padding-left: 1%;
+}
+
+.headerAlignBig {
+    padding-left: 2.5%;
+}
