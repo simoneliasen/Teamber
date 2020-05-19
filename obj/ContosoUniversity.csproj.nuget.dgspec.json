@@ -1,25 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\teamberting\\v2\\ContosoUniversity.csproj": {}
+    "C:\\Users\\Daniel\\Teamber\\ContosoUniversity.csproj": {}
   },
   "projects": {
-    "D:\\teamberting\\v2\\ContosoUniversity.csproj": {
+    "C:\\Users\\Daniel\\Teamber\\ContosoUniversity.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\teamberting\\v2\\ContosoUniversity.csproj",
+        "projectUniqueName": "C:\\Users\\Daniel\\Teamber\\ContosoUniversity.csproj",
         "projectName": "ContosoUniversity",
-        "projectPath": "D:\\teamberting\\v2\\ContosoUniversity.csproj",
-        "packagesPath": "C:\\Users\\Thomas\\.nuget\\packages\\",
-        "outputPath": "D:\\teamberting\\v2\\obj\\",
+        "projectPath": "C:\\Users\\Daniel\\Teamber\\ContosoUniversity.csproj",
+        "packagesPath": "C:\\Users\\Daniel\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Daniel\\Teamber\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "D:\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Thomas\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Daniel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.0"

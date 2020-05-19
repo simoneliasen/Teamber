@@ -7,133 +7,151 @@
 
 }
 
-<h1>Create</h1>
-
-<h4>Team</h4>
-<hr />
-<form method="post">
-    <div class="row">
-        <div class="col-md-4" style="background-color: lightgray;">
-
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="form-group">
-                <label asp-for="Team.Title" class="control-label"></label>
-                <input asp-for="Team.Title" class="form-control" />
-                <span asp-validation-for="Team.Title" class="text-danger"></span>
-            </div>
-            <input type="hidden" asp-for="Team.Synergy" class="form-control" id="teamSynergy" />
-            <!--
-            <div class="form-group">
-                <label asp-for="Team.Synergy" class="control-label"></label>
-                <input asp-for="Team.Synergy" class="form-control" id="teamSynergy" />
-                <span asp-validation-for="Team.Synergy" class="text-danger"></span>
-            </div>-->
-            <div>
-                <p>Questionnaires</p>
-
-                @{
-
-                    foreach (var questionnaire in Model.AssignedQuestionnaireDataList)
-                    {
-                        if (true)
-                        {
-                            @:
-                        }
-                        @:
-                        <button type="button" onclick="showHideRelatedCompetences(this.id)"
-                                id="@questionnaire.QuestionnaireID-questionnaireButton" class="questionnaireButton">
-                            @questionnaire.Title
-                        </button>
-
-                        @:
-                    }
-                    @:
-                }
-            </div>
-            <div class="form-group" style="display: none">
-                <div class="table">
-                    <table>
-                        <tr>
-                            Questionnaires
-                        </tr>
-                        <tr>
-                            @{
-                                int cnt2 = 0;
-
-                                foreach (var questionnaire in Model.AssignedQuestionnaireDataList)
-                                {
-                                    if (cnt2++ % 3 == 0)
-                                    {
-                                    @:</tr><tr>
-                                    }
-                                    @:<td>
-                                        <input type="checkbox"
-                                               name="selectedQuestionnaires"
-                                               onclick="showHideRelatedCompetences(this.id)"
-                                               id="@questionnaire.QuestionnaireID-questionnaire"
-                                               value="@questionnaire.QuestionnaireID"
-                                               @(Html.Raw(questionnaire.Assigned ? "checked=\"checked\"" : "")) />
-                                        @questionnaire.Title
-                                    @:</td>
-                                }
-                            @:</tr>
-                            }
-                        </table>
-                    </div>
+    <body class="fade-in">
+        <div class="container removePad" style="padding-bottom: 1%">
+            <div class="row row-cols-3 darkBG" style="margin-left: 1.2%;">
+                <div class="col-1.5 padOne">
+                    <h2 class="padTwoTop">Manage Team:</h2>
                 </div>
-                <div class="form-group">
-                    <div class="table">
-                        <table>
-                            <tr>
-                                Competences
-                            </tr>
-                            <tr>
+                <div class="col-1.5 padOne">
+                    <h2 class="padTwoTop">Team Composition</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row row-cols-2">
+                <div class="col-4">
+                    <form class="darkBG padThree" method="post">
+
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <h4>Team Name</h4>
+                            <div class="form-group">
+                                <!--<label asp-for="Team.Title" class="control-label"></label>-->
+                                <input asp-for="Team.Title" class="form-control" />
+                                <span asp-validation-for="Team.Title" class="text-danger"></span>
+                            </div>
+                            <input type="hidden" asp-for="Team.Synergy" class="form-control" id="teamSynergy" />
+                            <!--
+    <div class="form-group">
+        <label asp-for="Team.Synergy" class="control-label"></label>
+        <input asp-for="Team.Synergy" class="form-control" id="teamSynergy" />
+        <span asp-validation-for="Team.Synergy" class="text-danger"></span>
+    </div>-->
+
+                            <hr>
+                            <div>
+                                <p>Questionnaires</p>
+
                                 @{
-                                    int cnt3 = 0;
 
-                                    foreach (var competence in Model.AllCompetencesDataList)
+                                    foreach (var questionnaire in Model.AssignedQuestionnaireDataList)
                                     {
-                                        if (cnt3++ % 3 == 0)
+                                        if (true)
                                         {
-                                        @:</tr><tr>
+                                            @:
                                         }
-                                        @:<td class="@competence.QuestionnaireID-Qclass startHidden">
-                                            <input type="checkbox"
-                                                   style="display: none;"
-                                                   name="selectedCompetences"
-                                                   id="@competence.QuestionnaireCompetenceID-competence"
-                                                   value="@competence.QuestionnaireCompetenceID"
-                                                   checked="checked" />
-                                            @competence.Criteria
-                                        @:</td>
-                                        @:<td class="@competence.QuestionnaireID-Qclass startHidden">
-                                            <input type="number" min="0" max="5"
-                                                   name="selectedCompetencesValue"
-                                                   onchange="calculateSynergies(this.id); calculateTeamSynergy(); checkOrUncheckQuestionnaire(this.id)"
-                                                   id="@competence.QuestionnaireCompetenceID-competenceValue"
-                                                   value="0"
-                                                   @(Html.Raw(competence.Assigned ? "checked=\"checked\"" : "")) />
-                                        @:</td>
+                                        @:
+                                        <button type="button" onclick="showHideRelatedCompetences(this.id)"
+                                                id="@questionnaire.QuestionnaireID-questionnaireButton" class="questionnaireButton">
+                                            @questionnaire.Title
+                                        </button>
+
+                                        @:
                                     }
-                                @:</tr>
+                                    @:
                                 }
-                            </table>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
-                    </div>
+                            </div>
+                            <div class="form-group" style="display: none">
+                                <div class="table">
+                                    <table>
+                                        <tr>
+                                            Questionnaires
+                                        </tr>
+                                        <tr>
+                                            @{
+                                                int cnt2 = 0;
 
+                                                foreach (var questionnaire in Model.AssignedQuestionnaireDataList)
+                                                {
+                                                    if (cnt2++ % 3 == 0)
+                                                    {
+                                                    @:</tr><tr>
+                                                    }
+                                                    @:<td>
+                                                        <input type="checkbox"
+                                                               name="selectedQuestionnaires"
+                                                               onclick="showHideRelatedCompetences(this.id)"
+                                                               id="@questionnaire.QuestionnaireID-questionnaire"
+                                                               value="@questionnaire.QuestionnaireID"
+                                                               @(Html.Raw(questionnaire.Assigned ? "checked=\"checked\"" : "")) />
+                                                        @questionnaire.Title
+                                                    @:</td>
+                                                }
+                                            @:</tr>
+                                            }
+                                        </table>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="form-group">
+                                    <div class="table">
+                                        <table>
+                                            <tr>
+                                                Competences
+                                            </tr>
+                                            <tr>
+                                                @{
+                                                    int cnt3 = 0;
+
+                                                    foreach (var competence in Model.AllCompetencesDataList)
+                                                    {
+                                                        if (cnt3++ % 2 == 0)
+                                                        {
+                                                        @:</tr><tr>
+                                                        }
+                                                        @:<td class="@competence.QuestionnaireID-Qclass startHidden">
+                                                            <input type="checkbox"
+                                                                   style="display: none;"
+                                                                   name="selectedCompetences"
+                                                                   id="@competence.QuestionnaireCompetenceID-competence"
+                                                                   value="@competence.QuestionnaireCompetenceID"
+                                                                   checked="checked" />
+                                                            @competence.Criteria
+                                                        @:</td>
+                                                        @:<td class="@competence.QuestionnaireID-Qclass startHidden">
+                                                            <input type="number" min="0" max="5"
+                                                                   name="selectedCompetencesValue"
+                                                                   onchange="calculateSynergies(this.id); calculateTeamSynergy(); checkOrUncheckQuestionnaire(this.id)"
+                                                                   id="@competence.QuestionnaireCompetenceID-competenceValue"
+                                                                   value="0"
+                                                                   @(Html.Raw(competence.Assigned ? "checked=\"checked\"" : "")) />
+                                                        @:</td>
+                                                    }
+                                                @:</tr>
+                                                }
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" value="Create" class="btn btn-success" />
+                                    </div>
+
+                        <hr>
+                    </form>
                 </div>
-
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div id="indicatorContainer">
+                <div class="col-8">
+                    <div class="row row-cols-2">
+                        <div class="col" align="center">
+                            <h4>Competence synergy</h4>
+                            <div class="col-md-6">
+                                <div id="indicatorContainer">
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+
+                        <div class="col" align="center">
+                            <h4>Personality overview</h4>
                             <!-- radar start kode-->
                             <!-- Import chart.js framework-->
                             <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
@@ -289,13 +307,34 @@
                         </div>
                     </div>
 
-                    <div>
-                        Team members
-                        <ul id="teamMembers">
-                        </ul>
+                    <br>
+                    <div class="row">
+                        <h4>Team overview</h4>
+                        <table class="table table-striped">
+                            <tr>
+                                <td>
+                                    <span id="teamMembers"></span>
+                                </td>
+                            </tr>
+                        </table>
+
                     </div>
-                    Employees
-                    <div class="row" id="employeeList">
+                    <br />
+
+
+                    <div class="row">
+                        <h4>Suggested team members</h4>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Synergy-score</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <div class="row" id="employeeList">
                                     @{
                                         int cnt = 0;
 
@@ -303,48 +342,54 @@
                                         {
                                             if (cnt++ % 3 == 0)
                                             {
-                                            @:
+                                                @:
                                             }
-                                            @:<div class="col-md-4" id="@employee.EmployeeID-outerDiv"> <!-- måske tilføj en class her?-->
-                                                <input type="checkbox"
-                                                       onchange="calculateTeamSynergy(); createRadar(); addToMemberList(this.id);"
-                                                       name="selectedEmployees"
-                                                       id="@employee.EmployeeID-employee"
-                                                       value="@employee.EmployeeID"
-                                                       @(Html.Raw(employee.Assigned ? "checked=\"checked\"" : ""))
-                                                       class="@(Html.Raw(employee.PersonalityType))" />
+                                            @:<div class="col-md-4" id="@employee.EmployeeID-outerDiv">
+                                            <!-- måske tilføj en class her?-->
                                                 <p>
-                                                    <span id="@employee.EmployeeID-name">@employee.FullName</span><br />
-                                                    <span>@employee.JobTitle</span><br />
-                                                    <span id="personality">@employee.PersonalityType</span><br />
-
-                                                    <span id="@employee.EmployeeID">0</span> %
+                                                    <tr>
+                                                        <td ><span id="@employee.EmployeeID-name">@employee.FullName</span></td>
+                                                        <td><span id="@employee.EmployeeID">0</span> %</td>
+                                                        <td><span>@employee.JobTitle</span></td>
+                                                        <td><input type="checkbox"
+       onchange="calculateTeamSynergy(); createRadar(); addToMemberList(this.id);"
+       name="selectedEmployees"
+       id="@employee.EmployeeID-employee"
+       value="@employee.EmployeeID"
+       @(Html.Raw(employee.Assigned ? "checked=\"checked\"" : ""))
+       class="@(Html.Raw(employee.PersonalityType))" /></td>
+                                                    </tr>
                                                 </p>
                                             @:</div>
                                         }
-                                    @:
+                                        @:
                                     }
-                        </div>
-
-
-
-
-
-
-
-
+                                </div>
+                            </tbody>
+                        </table>
                     </div>
-
                 </div>
-            </form>
+            </div>
+
+        </div>
+        <br>
+        </div>
+        <br><br>
+        </div>
+        </div>
+        </div>
+
+        <footer id="sticky-footer" class="py-4 bg-dark text-white-50 fixed-bottom">
+            <div class="container text-center">
+                <small>Copyright &copy; Teamber 2020</small>
+            </div>
+        </footer>
+    </body>
             <style>
                 .startHidden {
                     display: none;
                 }
             </style>
-            <div>
-                <a asp-page="Index">Back to List</a>
-            </div>
             @section Scripts {
                 @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
             }

@@ -4,9 +4,107 @@
 @{
     ViewData["Title"] = "Index";
     if (String.IsNullOrEmpty(Model.Login) || String.IsNullOrEmpty(Model.Manager))
-                Response.Redirect("/Login/Login");
+        Response.Redirect("/Login/Login");
 }
+<body class="fade-in">
+    <div class="container removePad" style="padding-bottom: 1%">
+        <div class="row headerAlignBig">
+            <div class="col-1.5">
+                <h2 class="padTwoTop">Teams </h2>
+            </div>
+            <div class="col">
+                <div class="row">
+                    <div class="input-group col-md-4">
+                        <input class="form-control py-2" type="search" value="Search" id="example-search-input" style="height:100%">
+                        <span class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button">
+                                <i class="fa fa-search">
+                                    <svg class="bi bi-search" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 011.415 0l3.85 3.85a1 1 0 01-1.414 1.415l-3.85-3.85a1 1 0 010-1.415z" clip-rule="evenodd" />
+                                        <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM13 6.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" clip-rule="evenodd" />
+                                    </svg>
+                                </i>
+                            </button>
+                        </span>
+                    </div>
+                    <div class="col">
 
+                        <button type="button" class="btn btn-success dropShadow" style="margin-bottom: 5px; height:100%">
+                            <a href="Teams/Create" class="navItem" style="color:white;">Create team</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row row-cols-3">
+            @foreach (var item in Model.Team)
+            {
+                <div class="col drop">
+                    <div class="headblock border padTwo lightBG dropShadow">
+                        <div class="headBlock">
+                            <h3 class="padOne"><b>@Html.DisplayFor(modelItem => item.Title)</b></h3>
+                            <div class="row row-cols-2" style="padding: 0 2%;">
+                                <div class="col" align="center">
+                                    <p>Amount of People:</p>
+                                    <img src="images/team.png" style="width:80%">
+                                </div>
+                                <div class="col" align="center">
+                                    <p>Synergy Score:</p>
+                                    @Html.DisplayFor(modelItem => item.Synergy) PLACEHOLDER
+                                    <img style="width:80%" src="images/circle.png">
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class=" row row-cols-2 text-center" style="padding: 0 2%;">
+                                <div class="col">
+                                    <button type="button" class="btn btn-success margOne" style="margin-right:5%; width:90%; ">
+                                        <a asp-page="./Edit" asp-route-id="@item.TeamID" style="color: white;">Manage</a>
+                                    </button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" style="width:90%" class="btn btn-success">
+                                        <a asp-page="./Delete" asp-route-id="@item.TeamID" style="color: white;">Delete</a>
+                                    </button>
+                                </div>
+                                <!--<a asp-page="./Details" asp-route-id="@item.TeamID">Details</a>-->
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+            <br>
+        </div>
+
+
+
+
+        <div class="row">
+            <div class="col" align="center">
+                <br>
+                <button type="button" class="btn btn-success dropShadow">
+                    Show all
+                </button>
+            </div>
+        </div>
+        <br><br>
+    </div>
+    </div>
+    </div>
+
+    <footer id="sticky-footer" class="py-4 bg-dark text-white-50 fixed-bottom">
+        <div class="container text-center">
+            <small>Copyright &copy; Teamber 2020</small>
+        </div>
+    </footer>
+</body>
+
+<!--
 <h1>Index</h1>
 
 <p>
@@ -42,3 +140,4 @@
 }
     </tbody>
 </table>
+-->

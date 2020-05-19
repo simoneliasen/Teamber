@@ -3,33 +3,41 @@
 @{
     ViewBag.Title = "Login";
 }
+    <body class="fadeBG fade-in" style="width:99%">
+        <div class="row row-cols-3">
+            <div class="col"> </div>
+            <div class="col border padTwo darkBG dropShadow" style="margin-top: 20%;">
+                <div class="text-center">
+                    <h3><a href="index.php" class="navItem">Teamber</a></h3>
+                    <h6>Dashboard Login</h6>
+                </div><br>
+                      <div>
+                          @Model.Msg
+                          <form method="post" asp-page="Login">
+                              <label>User ID</label><br>
+                              <div class="text-center">
+                                  <input type="text" asp-for="@Model.Username" class="padTwo" placeholder="Enter User ID" style="width:100%" required><br><br>
+                              </div>
+                              <label>Password</label><br>
+                              <input type="password" asp-for="@Model.Password" class="padTwo" placeholder="*******" style="width:100%">
+                              
+                              <div class="text-center padTwo">
+                                  <p class="faded">Forgot your password? Contact your manager</p>
+                              </div>
+                              
+                              <div class="text-center">
+                                  <button type="button" class="btn btn-success buttonPad dropShadow" style="margin-bottom: 5px; margin-right:3%;" onclick="window.location.href = '../Index';">
+                                      Back
+                                  </button>
+                                  <td>&nbsp;</td>
+                                  <button type="submit" value="Login" class="btn btn-success buttonPad dropShadow" style="margin-bottom: 5px" onclick="window.location.href = 'ManagerLogin';">
+                                      Login
+                                  </button>
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-
-    <h3>Login Form</h3>
-    @Model.Msg
-    <form method="post" asp-page="Login">
-        <table>
-            <tr>
-                <td>Username</td>
-                <td><input type="text" asp-for="@Model.Username" /></td>
-            </tr>
-            <tr>
-                <td>Password</td>
-                <td><input type="password" asp-for="@Model.Password" /></td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-                <td><input type="submit" value="Login" /></td>
-            </tr>
-        </table>
-    </form>
-</body>
-</html>
+                              </div>
+                          </form>
+                      </div>
+            </div>
+            <div class="col"> </div>
+        </div>
+    </body>

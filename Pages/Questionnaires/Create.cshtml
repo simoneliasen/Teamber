@@ -3,77 +3,91 @@
 
 @{
     ViewData["Title"] = "Create";
-   //if (String.IsNullOrEmpty(Model.Login) || String.IsNullOrEmpty(Model.Manager))
-     //  Response.Redirect("/Login/Login");
+    //if (String.IsNullOrEmpty(Model.Login) || String.IsNullOrEmpty(Model.Manager))
+    //  Response.Redirect("/Login/Login");
 }
 
 <script src="~/js/tagify/tagify.min.js"></script>
 <script src="~/js/tagify/tagify.polyfills.min.js"></script>
 <link href="~/js/tagify/tagify.css" rel="stylesheet" type="text/css" />
 
-
-<h1>Create</h1>
-
-<h4>Questionnaire</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Questionnaire.Title" class="control-label"></label>
-                <input asp-for="Questionnaire.Title" class="form-control" />
-                <span asp-validation-for="Questionnaire.Title" class="text-danger"></span>
+<body class="fade-in">
+    <br>
+    <div class="container removePad" style="padding-bottom: 1%">
+        <div class="row row-cols-3">
+            <div class="col-3">
+                &#8205;
             </div>
-            <div class="form-group">
-                <label asp-for="Questionnaire.Cycle" class="control-label"></label>
-                <input asp-for="Questionnaire.Cycle" class="form-control" />
-                <span asp-validation-for="Questionnaire.Cycle" class="text-danger"></span>
+            <div class="col-6">
+                <h2 class="padTwoTop">Create Questionnaire</h2>
+                <hr />
+                <div class="row">
+                    <div class="col">
+                        <form method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Questionnaire.Title" class="control-label"></label>
+                                <input asp-for="Questionnaire.Title" class="form-control" />
+                                <span asp-validation-for="Questionnaire.Title" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Questionnaire.Cycle" class="control-label"></label>
+                                <input asp-for="Questionnaire.Cycle" class="form-control" />
+                                <span asp-validation-for="Questionnaire.Cycle" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Competences</label>
+                                <input asp-for="Questionnaire.CompetencesString" name='tagify' placeholder='+Add competences' class="form-control" />
+                                <!-- hidden input: intermediary between the javascript tags and the controller-->
+                                <input type="hidden" id="myField" name="myField" value="Questionnaire.CompetencesString" />
+                                <span asp-validation-for="Questionnaire.CompetencesString" class="text-danger"></span>
+                            </div>
+
+                            <script>
+
+                                // The DOM element to replace with Tagify (tag-input), and intialization of tagify with input refference
+                                var tagInput = document.querySelector('input[name=tagify]');
+                                new Tagify(tagInput)
+
+                                // Update content stored on each change in tags
+                                tagInput.addEventListener('change', onChange)
+
+                                function onChange(event) {
+                                    // Parse values of input to javascript object
+                                    var tagObjects = JSON.parse(tagInput.value);
+                                    // make properties of the objects an array and convert to string with ','-sepperation to output into c#
+                                    var tagStrings = tagObjects.map(val => { return " " + val.value }).toString().trim();
+                                    // Append output to value of hidden input, to convert to c#.
+                                    document.getElementById('myField').value = tagStrings;
+                                }
+
+                                // Pass string of elements to c#
+                                function appendTagsToTeamCompetences() {
+                                    var output = JSON.parse(tagInput.value).map(val => { return " " + val.value }).toString().trim();
+                                    document.getElementById('myField').value = output;
+                                }
+
+                            </script>
+
+                            <div class="form-group">
+                                <input type="submit" value="Create" class="btn btn-success" style="width:15%;" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label>Competences</label>
-                <input asp-for="Questionnaire.CompetencesString" name='tagify' placeholder='+Add competences' class="form-control" />
-                <!-- hidden input: intermediary between the javascript tags and the controller-->
-                <input type="hidden" id="myField" name="myField" value="Questionnaire.CompetencesString" />
-                <span asp-validation-for="Questionnaire.CompetencesString" class="text-danger"></span>
+            <div class="col-3">
+                &#8205;
             </div>
-
-            <script>
-
-                // The DOM element to replace with Tagify (tag-input), and intialization of tagify with input refference
-                var tagInput = document.querySelector('input[name=tagify]');
-                new Tagify(tagInput)
-
-                // Update content stored on each change in tags
-                tagInput.addEventListener('change', onChange)
-
-                function onChange(event) {
-                    // Parse values of input to javascript object
-                    var tagObjects = JSON.parse(tagInput.value);
-                    // make properties of the objects an array and convert to string with ','-sepperation to output into c#
-                    var tagStrings = tagObjects.map(val => { return " " + val.value }).toString().trim();
-                    // Append output to value of hidden input, to convert to c#.
-                    document.getElementById('myField').value = tagStrings;
-                }
-
-                // Pass string of elements to c#
-                function appendTagsToTeamCompetences() {
-                    var output = JSON.parse(tagInput.value).map(val => { return " " + val.value }).toString().trim();
-                    document.getElementById('myField').value = output;
-                }
-
-            </script>
-
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-page="Index">Back to List</a>
-</div>
+    <br><br>
+    <footer id="sticky-footer" class="py-4 bg-dark text-white-50 fixed-bottom">
+        <div class="container text-center">
+            <small>Copyright &copy; Teamber 2020</small>
+        </div>
+    </footer>
+</body>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
