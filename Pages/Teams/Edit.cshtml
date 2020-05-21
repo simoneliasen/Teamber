@@ -8,119 +8,78 @@
 }
     <body class="fade-in">
         <div class="container removePad" style="padding-bottom: 1%">
-            <div class="row row-cols-3 darkBG" style="margin-left: 1.2%;">
+            <div class="row row-cols-3 greenBG" style="margin-left: 1.2%;">
                 <div class="col-1.5 padOne">
-                    <h2 class="padTwoTop">Manage Team:</h2>
-                </div>
-                <div class="col-1.5 padOne">
-                    <h2 class="padTwoTop">Team Composition</h2>
+                    <h2 class="padTwoTop">Manage Team</h2>
                 </div>
             </div>
         </div>
+        
         <div class="container">
-            <div class="row row-cols-2">
-                <div class="col-4">
-                    <form class="darkBG padThree" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <h4>Team Name</h4>
-                        <div class="form-group">
-                            <input asp-for="Team.Title" class="form-control" />
-                            <span asp-validation-for="Team.Title" class="text-danger"></span>
-                        </div>
-                        <input type="hidden" asp-for="Team.Synergy" class="form-control" id="teamSynergy" />
-                        <!--
-            <div class="form-group">
-                <label asp-for="Team.Synergy" class="control-label"></label>
-                <input asp-for="Team.Synergy" class="form-control" id="teamSynergy" />
-                <span asp-validation-for="Team.Synergy" class="text-danger"></span>
-            </div>-->
-                        <hr />
-                        <div>
-                            <h4>Questionnaires</h4>
+            <form method="post">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="darkBG padThree">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <h4>Team Name</h4>
+                            <div class="form-group">
+                                <input asp-for="Team.Title" class="form-control" />
+                                <span asp-validation-for="Team.Title" class="text-danger"></span>
+                            </div>
+                            <input type="hidden" asp-for="Team.Synergy" class="form-control" id="teamSynergy" />
+                            <!--
+    <div class="form-group">
+        <label asp-for="Team.Synergy" class="control-label"></label>
+        <input asp-for="Team.Synergy" class="form-control" id="teamSynergy" />
+        <span asp-validation-for="Team.Synergy" class="text-danger"></span>
+    </div>-->
+                            <hr />
+                            <div>
+                                <h4>Questionnaires</h4>
 
-                            @{
+                                @{
 
-                                foreach (var questionnaire in Model.AssignedQuestionnaireDataList)
-                                {
-                                    if (true)
+                                    foreach (var questionnaire in Model.AssignedQuestionnaireDataList)
                                     {
+                                        if (true)
+                                        {
+                                            @:
+                                        }
+                                        @:
+                                        <button type="button" onclick="showHideRelatedCompetences(this.id)"
+                                                id="@questionnaire.QuestionnaireID-questionnaireButton" class="questionnaireButton">
+                                            @questionnaire.Title
+                                        </button>
+
                                         @:
                                     }
                                     @:
-                                    <button type="button" onclick="showHideRelatedCompetences(this.id)"
-                                            id="@questionnaire.QuestionnaireID-questionnaireButton" class="questionnaireButton">
-                                        @questionnaire.Title
-                                    </button>
-
-                                    @:
                                 }
-                                @:
-                            }
-                        </div>
-                        <div class="form-group" style="display: none">
-                            <div class="table">
-                                <table>
-                                    <tr>
-                                        Questionnaires
-                                    </tr>
-                                    <tr>
-                                        @{
-                                            int cnt2 = 0;
-
-                                            foreach (var questionnaire in Model.AssignedQuestionnaireDataList)
-                                            {
-                                                if (cnt2++ % 2 == 0)
-                                                {
-                                                @:</tr><tr>
-                                                }
-                                                @:<td>
-                                                    <input type="checkbox"
-                                                           name="selectedQuestionnaires"
-                                                           onclick="showHideRelatedCompetences(this.id)"
-                                                           id="@questionnaire.QuestionnaireID-questionnaire"
-                                                           value="@questionnaire.QuestionnaireID"
-                                                           @(Html.Raw(questionnaire.Assigned ? "checked=\"checked\"" : "")) />
-                                                    @questionnaire.Title
-                                                @:</td>
-                                            }
-                                        @:</tr>
-                                        }
-                                    </table>
-                                </div>
                             </div>
-                            <br />
-                            <div class="form-group">
+                            <div class="form-group" style="display: none">
                                 <div class="table">
                                     <table>
                                         <tr>
-                                            <h4>Competences</h4>
+                                            Questionnaires
                                         </tr>
                                         <tr>
                                             @{
-                                                int cnt3 = 0;
+                                                int cnt2 = 0;
 
-                                                foreach (var competence in Model.AllCompetencesDataList)
+                                                foreach (var questionnaire in Model.AssignedQuestionnaireDataList)
                                                 {
-                                                    if (cnt3++ % 2 == 0)
+                                                    if (cnt2++ % 2 == 0)
                                                     {
                                                     @:</tr><tr>
                                                     }
-                                                    @:<td class="@competence.QuestionnaireID-Qclass startHidden">
+                                                    @:<td>
                                                         <input type="checkbox"
-                                                               style="display: none;"
-                                                               name="selectedCompetences"
-                                                               id="@competence.QuestionnaireCompetenceID-competence"
-                                                               value="@competence.QuestionnaireCompetenceID"
-                                                               checked="checked" />
-                                                        @competence.Criteria
-                                                    @:</td>
-                                                    @:<td class="@competence.QuestionnaireID-Qclass startHidden">
-                                                        <input type="number" min="0" max="5"
-                                                               name="selectedCompetencesValue"
-                                                               onchange="calculateSynergies(this.id); calculateTeamSynergy(); checkOrUncheckQuestionnaire(this.id)"
-                                                               id="@competence.QuestionnaireCompetenceID-competenceValue"
-                                                               value="0"
-                                                               @(Html.Raw(competence.Assigned ? "checked=\"checked\"" : "")) />
+                                                               name="selectedQuestionnaires"
+                                                               onclick="showHideRelatedCompetences(this.id)"
+                                                               id="@questionnaire.QuestionnaireID-questionnaire"
+                                                               value="@questionnaire.QuestionnaireID"
+                                                               @(Html.Raw(questionnaire.Assigned ? "checked=\"checked\"" : "")) />
+                                                        @questionnaire.Title
                                                     @:</td>
                                                 }
                                             @:</tr>
@@ -128,258 +87,305 @@
                                         </table>
                                     </div>
                                 </div>
+                                <br />
                                 <div class="form-group">
-                                    <input type="submit" value="Create" class="btn btn-success" />
+                                    <div class="table">
+                                        <table>
+                                            <tr>
+                                                <h4>Competences</h4>
+                                            </tr>
+                                            <tr>
+                                                @{
+                                                    int cnt3 = 0;
+
+                                                    foreach (var competence in Model.AllCompetencesDataList)
+                                                    {
+                                                        if (cnt3++ % 2 == 0)
+                                                        {
+                                                        @:</tr><tr>
+                                                        }
+                                                        @:<td class="@competence.QuestionnaireID-Qclass startHidden">
+                                                            <input type="checkbox"
+                                                                   style="display: none;"
+                                                                   name="selectedCompetences"
+                                                                   id="@competence.QuestionnaireCompetenceID-competence"
+                                                                   value="@competence.QuestionnaireCompetenceID"
+                                                                   checked="checked" />
+                                                            @competence.Criteria
+                                                        @:</td>
+                                                        @:<td class="@competence.QuestionnaireID-Qclass startHidden">
+                                                            <input type="number" min="0" max="5"
+                                                                   name="selectedCompetencesValue"
+                                                                   onchange="calculateSynergies(this.id); calculateTeamSynergy(); checkOrUncheckQuestionnaire(this.id)"
+                                                                   id="@competence.QuestionnaireCompetenceID-competenceValue"
+                                                                   value="0"
+                                                                   @(Html.Raw(competence.Assigned ? "checked=\"checked\"" : "")) />
+                                                        @:</td>
+                                                    }
+                                                @:</tr>
+                                                }
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" value="Save changes" class="btn btn-success" />
+                                    </div>
+
                                 </div>
-                            </form>
                         </div>
 
 
-                <div class="col-md-8">
-                    <div class="row row-cols-2">
-                        <div class="col" align="center">
-                            <h4>Competence synergy</h4>
-                            <div id="indicatorContainer">
-                            </div>
-                        </div>
+                        <div class="col-md-8">
+                            <div class="row row-cols-2">
+                                <div class="col" align="center">
+                                    <h4>Competence synergy</h4>
+                                    <div id="indicatorContainer">
+                                    </div>
+                                </div>
 
-                        <div class="col" align="center">
-                            <h4>Personality Overview</h4>
-                            <!-- radar start kode-->
-                            <!-- Import chart.js framework-->
-                            <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+                                <div class="col" align="center">
+                                    <h4>Personality Overview</h4>
+                                    <!-- radar start kode-->
+                                    <!-- Import chart.js framework-->
+                                    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
-                            <!-- Import icons-->
-                            <script src="https://kit.fontawesome.com/c869845de6.js" crossorigin="anonymous"></script>
+                                    <!-- Import icons-->
+                                    <script src="https://kit.fontawesome.com/c869845de6.js" crossorigin="anonymous"></script>
 
-                            <!-- Stacked canvases provinding a customized radar chart.-->
-                            <div class="canvasWrapper" width="300" heigth="300">
-                                <canvas id="myCanvas" width="300" height="300"></canvas>
-                                <canvas id="myChart" width="300" height="300"></canvas>
+                                    <!-- Stacked canvases provinding a customized radar chart.-->
+                                    <div class="canvasWrapper" width="300" heigth="300">
+                                        <canvas id="myCanvas" width="300" height="300"></canvas>
+                                        <canvas id="myChart" width="300" height="300"></canvas>
 
-                                <p id="Analysts">
-                                    Analysts
-                                    <i class="far fa-question-circle" type="button" data-toggle="tooltip" data-placement="top"
-                                       title="Intuitive (N) and Thinking (T) personality types, known for their rationality, impartiality and intellectual excellence">
-                                    </i>
-                                </p>
+                                        <p id="Analysts">
+                                            Analysts
+                                            <i class="far fa-question-circle" type="button" data-toggle="tooltip" data-placement="top"
+                                               title="Intuitive (N) and Thinking (T) personality types, known for their rationality, impartiality and intellectual excellence">
+                                            </i>
+                                        </p>
 
-                                <p id="Diplomats">
-                                    Diplomats
-                                    <i class="far fa-question-circle" type="button" data-toggle="tooltip" data-placement="top"
-                                       title="Intuitive (N) and Feeling (F) personality types, known for their empathy, diplomatic skills, and passionate idealism">
-                                    </i>
-                                </p>
+                                        <p id="Diplomats">
+                                            Diplomats
+                                            <i class="far fa-question-circle" type="button" data-toggle="tooltip" data-placement="top"
+                                               title="Intuitive (N) and Feeling (F) personality types, known for their empathy, diplomatic skills, and passionate idealism">
+                                            </i>
+                                        </p>
 
-                                <p id="Sentinels">
-                                    Sentinels
-                                    <i class="far fa-question-circle" type="button" data-toggle="tooltip" data-placement="top"
-                                       title="Observant (S) and Judging (J) personality types, known for their practicality and focus on order, security, and stability">
-                                    </i>
-                                </p>
+                                        <p id="Sentinels">
+                                            Sentinels
+                                            <i class="far fa-question-circle" type="button" data-toggle="tooltip" data-placement="top"
+                                               title="Observant (S) and Judging (J) personality types, known for their practicality and focus on order, security, and stability">
+                                            </i>
+                                        </p>
 
-                                <p id="Explorers">
-                                    Explorers
-                                    <i class="far fa-question-circle" type="button" data-toggle="tooltip" data-placement="top"
-                                       title="Observant (S) and Prespecting (P) persoanlity types, known for their spontaneity, ingenuity, and ability to live in the moments">
-                                    </i>
-                                </p>
-                            </div>
-                            </tr>
+                                        <p id="Explorers">
+                                            Explorers
+                                            <i class="far fa-question-circle" type="button" data-toggle="tooltip" data-placement="top"
+                                               title="Observant (S) and Prespecting (P) persoanlity types, known for their spontaneity, ingenuity, and ability to live in the moments">
+                                            </i>
+                                        </p>
+                                    </div>
+                                    </tr>
 
-                            <!--Configuration of radar chart-->
-                            <script>
-                                function createRadar() {
-                                    // initialize arrays to populate radarchart
-                                    const personalityoptions = ["INTJ", "INTP", "ENTJ", "ENTP", "ISTP", "ISFP", "ESTP", "ESFP", "ISTJ", "ISFJ", "ESTJ", "ESFJ", "INFJ", "INFP", "ENFJ", "ENFP"];
-                                    var personalityOccurence = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                                    // get data from all checked employee checkboxes
-                                    var checkedCheckBoxes = document.querySelectorAll('input[name=selectedEmployees]:checked');
+                                    <!--Configuration of radar chart-->
+                                    <script>
+                                        function createRadar() {
+                                            // initialize arrays to populate radarchart
+                                            const personalityoptions = ["INTJ", "INTP", "ENTJ", "ENTP", "ISTP", "ISFP", "ESTP", "ESFP", "ISTJ", "ISFJ", "ESTJ", "ESFJ", "INFJ", "INFP", "ENFJ", "ENFP"];
+                                            var personalityOccurence = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                                            // get data from all checked employee checkboxes
+                                            var checkedCheckBoxes = document.querySelectorAll('input[name=selectedEmployees]:checked');
 
-                                    // for each personalitytype
-                                    for (var i = 0; i < personalityoptions.length; i++) {
+                                            // for each personalitytype
+                                            for (var i = 0; i < personalityoptions.length; i++) {
 
-                                        // for earch checked employee
-                                        for (var x = 0; x < checkedCheckBoxes.length; x++) {
+                                                // for earch checked employee
+                                                for (var x = 0; x < checkedCheckBoxes.length; x++) {
 
-                                            try {
-                                                var testvar = personalityoptions[i] == checkedCheckBoxes[x].attributes[6].nodeValue;
+                                                    try {
+                                                        var testvar = personalityoptions[i] == checkedCheckBoxes[x].attributes[6].nodeValue;
 
-                                                if (personalityoptions[i] == checkedCheckBoxes[x].attributes[6].nodeValue) {
-                                                    personalityOccurence[i] += 1;
+                                                        if (personalityoptions[i] == checkedCheckBoxes[x].attributes[6].nodeValue) {
+                                                            personalityOccurence[i] += 1;
+                                                        }
+                                                    }
+                                                    catch (err) {
+                                                        // if checked employee box matches a personality from list, add +1 in occurence array
+                                                        if (personalityoptions[i] == checkedCheckBoxes[x].attributes[5].nodeValue) {
+                                                            personalityOccurence[i] += 1;
+                                                        }
+                                                    }
+
                                                 }
                                             }
-                                            catch (err) {
-                                                // if checked employee box matches a personality from list, add +1 in occurence array
-                                                if (personalityoptions[i] == checkedCheckBoxes[x].attributes[5].nodeValue) {
-                                                    personalityOccurence[i] += 1;
-                                                }
-                                            }
 
+
+                                            Chart.defaults.global.legend.display = false;
+                                            var ctx = document.getElementById("myChart").getContext("2d");
+                                            var myRadarChart = new Chart(ctx, {
+                                                type: 'radar',
+                                                options: {
+                                                    startAngle: 12,
+                                                    scale: {
+                                                        ticks: {
+                                                            display: false,
+                                                        }
+                                                    }
+                                                },
+                                                data: {
+                                                    labels: personalityoptions,
+                                                    datasets: [{
+                                                        data: personalityOccurence,
+                                                        backgroundColor: "rgba(40, 167, 69, 0.2)",
+                                                        borderColor: "rgba(40, 167, 69, 1)",
+                                                        responsive: true
+                                                    }],
+                                                }
+                                            });
+
+                                            // Stacked canvas to provide an axis to categorize personality types.
+                                            var c = document.getElementById("myCanvas");
+                                            var ctx = c.getContext("2d");
+                                            ctx.setLineDash([5]);
+                                            // X-axis
+                                            ctx.moveTo(0, 150);
+                                            ctx.lineTo(300, 150);
+                                            ctx.stroke();
+                                            // Y-axis
+                                            ctx.moveTo(150, 0);
+                                            ctx.lineTo(150, 300);
+                                            ctx.stroke();
                                         }
-                                    }
+                                        window.onload = createRadar;
+                                    </script>
 
-
-                                    Chart.defaults.global.legend.display = false;
-                                    var ctx = document.getElementById("myChart").getContext("2d");
-                                    var myRadarChart = new Chart(ctx, {
-                                        type: 'radar',
-                                        options: {
-                                            startAngle: 12,
-                                            scale: {
-                                                ticks: {
-                                                    display: false,
-                                                }
-                                            }
-                                        },
-                                        data: {
-                                            labels: personalityoptions,
-                                            datasets: [{
-                                                data: personalityOccurence,
-                                                backgroundColor: "rgba(40, 167, 69, 0.2)",
-                                                borderColor: "rgba(40, 167, 69, 1)",
-                                                responsive: true
-                                            }],
+                                    <style>
+                                        .canvasWrapper {
+                                            position: relative;
+                                            width: 300px;
+                                            height: 300px;
                                         }
-                                    });
 
-                                    // Stacked canvas to provide an axis to categorize personality types.
-                                    var c = document.getElementById("myCanvas");
-                                    var ctx = c.getContext("2d");
-                                    ctx.setLineDash([5]);
-                                    // X-axis
-                                    ctx.moveTo(0, 150);
-                                    ctx.lineTo(300, 150);
-                                    ctx.stroke();
-                                    // Y-axis
-                                    ctx.moveTo(150, 0);
-                                    ctx.lineTo(150, 300);
-                                    ctx.stroke();
-                                }
-                                window.onload = createRadar;
-                            </script>
-
-                            <style>
-                                .canvasWrapper {
-                                    position: relative;
-                                    width: 300px;
-                                    height: 300px;
-                                }
-
-                                    .canvasWrapper canvas {
-                                        position: absolute;
-                                        text-align: center;
-                                        align-items: center;
-                                        align-content: center;
-                                        top: 0;
-                                        left: 0;
-                                    }
-
-                                #Analysts {
-                                    position: absolute;
-                                    top: 0;
-                                    right: 0;
-                                }
-
-                                #Diplomats {
-                                    position: absolute;
-                                    top: 0;
-                                    left: 0;
-                                }
-
-                                #Sentinels {
-                                    position: absolute;
-                                    bottom: 0;
-                                    left: 0;
-                                }
-
-                                #Explorers {
-                                    position: absolute;
-                                    bottom: 0;
-                                    right: 0;
-                                }
-
-                                .fa-question-circle:hover {
-                                    color: lightgrey;
-                                }
-                            </style>
-
-
-
-                            <!-- radar slut kode-->
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <h4>Team overview</h4>
-                        <table class="table table-striped">
-                            <tr>
-                                <td>
-                                    <span id="teamMembers"></span>
-                                </td>
-                            </tr>
-                        </table>
-
-                    </div>
-                    <br />
-                    <div class="row">
-                        <h4>Suggested team members</h4>
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Synergy-Score</th>
-                                    <th scope="col">Title</th>
-                                    <th scope="col"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <div class="row" id="employeeList">
-                                    @{
-                                        int cnt = 0;
-
-                                        foreach (var employee in Model.AssignedEmployeeDataList)
-                                        {
-                                            if (cnt++ % 3 == 0)
-                                            {
-                                                @:
+                                            .canvasWrapper canvas {
+                                                position: absolute;
+                                                text-align: center;
+                                                align-items: center;
+                                                align-content: center;
+                                                top: 0;
+                                                left: 0;
                                             }
-                                            @:<div class="col-md-4" id="@employee.EmployeeID-outerDiv">
+
+                                        #Analysts {
+                                            position: absolute;
+                                            top: 0;
+                                            right: 0;
+                                        }
+
+                                        #Diplomats {
+                                            position: absolute;
+                                            top: 0;
+                                            left: 0;
+                                        }
+
+                                        #Sentinels {
+                                            position: absolute;
+                                            bottom: 0;
+                                            left: 0;
+                                        }
+
+                                        #Explorers {
+                                            position: absolute;
+                                            bottom: 0;
+                                            right: 0;
+                                        }
+
+                                        .fa-question-circle:hover {
+                                            color: lightgrey;
+                                        }
+                                    </style>
+
+
+
+                                    <!-- radar slut kode-->
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <h4>Team overview</h4>
+                                <table class="table table-striped">
+                                    <tr>
+                                        <td>
+                                            <span id="teamMembers"></span>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                            <br />
+                            <div class="row">
+                                <h4>Suggested team members</h4>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Synergy-Score</th>
+                                            <th scope="col">Job Title</th>
+                                            <th scope="col"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="employeeList">
+                                        <div class="row">
+                                            @{
+                                                int cnt = 0;
+
+                                                foreach (var employee in Model.AssignedEmployeeDataList)
+                                                {
+                                                    if (cnt++ % 3 == 0)
+                                                    {
+                                                        @:
+                                                    }
+                                                    @:<div class="col-md-4">
  <!-- måske tilføj en class her?-->
-                                                <p>
-                                                    <tr>
-                                                        <td><span id="@employee.EmployeeID-name">@employee.FullName</span></td>
-                                                        <td><span id="@employee.EmployeeID">0</span> %</td>
-                                                        <td><span>@employee.JobTitle</span><br /></td>
-                                                        <td><input type="checkbox"
-       onchange="calculateTeamSynergy(); createRadar(); addToMemberList(this.id, true);"
-       name="selectedEmployees"
-       id="@employee.EmployeeID-employee"
-       value="@employee.EmployeeID"
-       @(Html.Raw(employee.Assigned ? "checked=\"checked\"" : ""))
-       class="@(Html.Raw(employee.PersonalityType))" /></td>
-                                                    </tr>
-                                                </p>
-                                            @:
-                                        }
-                                        @:
-                                    }
-                                </div>
+
+                                                        <tr id="@employee.EmployeeID-outerDiv">
+                                                            <td><span id="@employee.EmployeeID-name">@employee.FullName</span></td>
+                                                            <td><span id="@employee.EmployeeID">0</span> %</td>
+                                                            <td><span>@employee.JobTitle</span><br /></td>
+                                                            <td>
+                                                                <input type="checkbox"
+                                                                       onchange="calculateTeamSynergy(); createRadar(); addToMemberList(this.id, true);"
+                                                                       name="selectedEmployees"
+                                                                       id="@employee.EmployeeID-employee"
+                                                                       value="@employee.EmployeeID"
+                                                                       @(Html.Raw(employee.Assigned ? "checked=\"checked\"" : ""))
+                                                                       class="@(Html.Raw(employee.PersonalityType))" />
+                                                            </td>
+                                                        </tr>
+
+                                                        @:
+                                                    }
+                                                    @:
+                                            }
+                                        </div>
                                 </tbody>
                             </table>
+                        </div>
                     </div>
+                </form>
                 </div>
+        
+                
 
-                            <style>
-                                .startHidden {
-                                    display: none;
-                                }
-                            </style>
-                            <footer id="sticky-footer" class="py-4 bg-dark text-white-50 fixed-bottom">
-                                <div class="container text-center">
-                                    <small>Copyright &copy; Teamber 2020</small>
-                                </div>
-                            </footer>
+                <style>
+                    .startHidden {
+                        display: none;
+                    }
+                </style>
+                <footer id="sticky-footer" class="py-4 bg-dark text-white-50 fixed-bottom">
+                    <div class="container text-center">
+                        <small>Copyright &copy; Teamber 2020</small>
+                    </div>
+                </footer>
 </body>
                             @section Scripts {
                                 @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
