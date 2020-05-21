@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace ContosoUniversity.Pages.Teams
 {
-    public class IndexModel : PageModel
+    public class IndexModel : TeamEmployeesPageModel
     {
         private readonly ContosoUniversity.Data.SchoolContext _context;
 
@@ -29,6 +29,8 @@ namespace ContosoUniversity.Pages.Teams
             Manager = HttpContext.Session.GetString("Manager");
 
             Team = await _context.Teams.ToListAsync();
+
+            PopulateTeamMemberCount(_context);
         }
     }
 }

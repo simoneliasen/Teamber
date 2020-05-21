@@ -25,6 +25,44 @@ namespace ContosoUniversity.Pages.Teams
         //til edit siderne
         public string teamMembers;
 
+        //for team members on the team/index page
+        public string teamMemberCount;
+
+        public void PopulateTeamMemberCount(SchoolContext context)
+        {
+            var allTeamIDs = context.Teams.Select(i => i.TeamID);
+            var allTeamMembers = context.EmpTeams;
+
+            int[] memberCount = new int[allTeamIDs.Count()];
+
+            var counter = 0;
+
+            foreach (var teamID in allTeamIDs) //loops through all teams
+            {
+                
+                foreach (var member in allTeamMembers)//loops through all empteam rows
+                {
+                    if (teamID == member.TeamID)
+                    {
+                        memberCount[counter]++;
+                    }
+                }
+                counter++;
+                
+            }
+
+            //converts to javascript string
+            var result = "var teamMemberCount = [";
+            foreach (var item in memberCount)
+            {
+                result += $"{item}, ";
+            }
+            result += "]; ";
+            teamMemberCount = result;
+        }
+
+
+
         public void PopulateTeamMembers(Team team)
         {
            

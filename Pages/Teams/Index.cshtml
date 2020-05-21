@@ -35,12 +35,15 @@
                             <h3 class="padOne"><b>@Html.DisplayFor(modelItem => item.Title)</b></h3>
                             <div class="row row-cols-2" style="padding: 0 2%;">
                                 <div class="col" align="center">
-                                    <p>Amount of People:</p>
-                                    @Html.DisplayFor(modelItem => item.Title)
+                                    <p>Amount of Members:<p>
+                                    <p><span class="memberCount" style="font-size: 35px;"></span></p>
+                                    
                                 </div>
                                 <div class="col" align="center">
                                     <p>Synergy Score:</p>
-                                    @Html.DisplayFor(modelItem => item.Synergy)
+                                    <p style="font-size: 35px;">
+                                        @Html.DisplayFor(modelItem => item.Synergy)
+                                    </p>
                                 </div>
                             </div>
 
@@ -114,3 +117,12 @@
     </tbody>
 </table>
 -->
+<script>
+    @Model.teamMemberCount
+
+    var teamMemberCountSpans = document.getElementsByClassName("memberCount");
+    for (var i = 0; i < teamMemberCount.length; i++) {
+        teamMemberCountSpans[i].innerHTML = teamMemberCount[i];
+    }
+
+</script>
