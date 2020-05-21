@@ -395,7 +395,18 @@
                             <script type="text/javascript" src="../js/radialIndicator.js"></script>
                             <script type="text/javascript">
 
-    var activeQuestionnaireButton = "";
+                                var activeQuestionnaireButton = "";
+
+                                try {
+                                    var buttons = document.getElementsByClassName("questionnaireButton");
+                                    var first = buttons[0].id;
+                                    console.log("first er " + first);
+                                    activeQuestionnaireButton = first;
+                                    console.log("active er " + activeQuestionnaireButton);
+                                }
+                                catch (err) {
+                                }
+    
 
             //Bruges kun til edit siden. dataen skal lige ind rigtigt.
             function LoadCriteriasAndEmployees() {
@@ -431,7 +442,7 @@
             }
 
 
-function addToMemberList(employee, AssignedQuestionnaire) {
+                                function addToMemberList(employee, AssignedQuestionnaire) {
     var employeeID = employee.split("-")[0];
     var elementExists = document.getElementById("" + employeeID + "-teamMember");
 

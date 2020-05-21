@@ -401,6 +401,16 @@
 
     //sættes bare til det første questionnaire for at undgå fejl når man tilføjer uden at have valgt questionnaire.
                 var activeQuestionnaireButton = "";
+
+                                try {
+                                    var buttons = document.getElementsByClassName("questionnaireButton");
+                                    var first = buttons[0].id;
+                                    console.log("first er " + first);
+                                    activeQuestionnaireButton = first;
+                                    console.log("active er " + activeQuestionnaireButton);
+                                }
+                                catch (err) {
+                                }
                 
 
 
