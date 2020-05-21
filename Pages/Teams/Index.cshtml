@@ -6,6 +6,7 @@
     if (String.IsNullOrEmpty(Model.Login) || String.IsNullOrEmpty(Model.Manager))
         Response.Redirect("/Login/Login");
 }
+
 <body class="fade-in">
     <div class="container removePad" style="padding-bottom: 1%">
         <div class="row headerAlignBig">
@@ -27,6 +28,7 @@
 
     <div class="container">
         <div class="row row-cols-3">
+            <div id="indicatorContainer"></div>
             @foreach (var item in Model.Team)
             {
                 <div class="div-sizing drop">
@@ -35,15 +37,14 @@
                             <h3 class="padOne"><b>@Html.DisplayFor(modelItem => item.Title)</b></h3>
                             <div class="row row-cols-2" style="padding: 0 2%;">
                                 <div class="col" align="center">
-                                    <p>Amount of Members:<p>
-                                    <p><span class="memberCount" style="font-size: 35px;"></span></p>
+                                    <p>Member Count:<p>
+                                    <p  style="margin-top: 32px;"><span class="memberCount" style="font-size: 35px;"></span></p>
                                     
                                 </div>
                                 <div class="col" align="center">
                                     <p>Synergy Score:</p>
-                                    <p style="font-size: 35px;">
-                                        @Html.DisplayFor(modelItem => item.Synergy)
-                                    </p>
+                                    <div class="indicator" id="indicatorContainer-@Html.DisplayFor(modelItem => item.Synergy)">
+                                    </div>
                                 </div>
                             </div>
 
@@ -117,6 +118,7 @@
     </tbody>
 </table>
 -->
+<script type="text/javascript" src="../js/radialIndicator.js"></script>
 <script>
     @Model.teamMemberCount
 
@@ -124,5 +126,32 @@
     for (var i = 0; i < teamMemberCount.length; i++) {
         teamMemberCountSpans[i].innerHTML = teamMemberCount[i];
     }
+
+    var teamSynergies = document.getElementsByClassName("indicator");
+
+    for (var i = 0; i < teamSynergies.length; i++) {
+        var currentID = teamSynergies[i].id;
+        var currentSynergySplit = currentID.split("-");
+        var currentSynergy = currentSynergySplit[1];
+
+        console.log('id ting er ' + '#indicatorContainer-' + currentID + '');
+        //"#" + currentID
+                //Intialiazation
+var radialObj = radialIndicator('#indicatorContainer-' + currentSynergy + '', {
+    barColor: {
+        0: '#a1ffa7',
+        //33: '#FFFF00',
+        //66: '#0066FF',
+        100: '#00660e'
+    },
+    barWidth: 15,
+    percentage: true,
+    radius: 30,
+    frameTime: 7,
+    initValue : currentSynergy
+});
+    }
+
+
 
 </script>
