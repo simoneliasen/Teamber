@@ -6,87 +6,118 @@
     if (String.IsNullOrEmpty(Model.Login) || String.IsNullOrEmpty(Model.Manager))
         Response.Redirect("/Login/Login");
 }
+<style>
+    footer {
+        display: none;
+    }
+</style>
 
-    <body class="fade-in">
-        <br>
-        <div class="container removePad" style="padding-bottom: 1%">
-            <div class="row row-cols-3">
-                <div class="col-3">
-                    &#8205;
-                </div>
-                <div class="col-6">
-                    <h2 class="padTwoTop">Add Employee</h2>
-                    <hr />
-                    <div class="row">
-                        <div class="col">
-                            <form method="post">
-                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                <div class="form-group">
-                                    <label asp-for="Employee.LastName" class="control-label"></label>
-                                    <input asp-for="Employee.LastName" class="form-control" />
-                                    <span asp-validation-for="Employee.LastName" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="Employee.FirstMidName" class="control-label"></label>
-                                    <input asp-for="Employee.FirstMidName" class="form-control" />
-                                    <span asp-validation-for="Employee.FirstMidName" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="Employee.EmpTeamDate" class="control-label"></label>
-                                    <input asp-for="Employee.EmpTeamDate" class="form-control" />
-                                    <span asp-validation-for="Employee.EmpTeamDate" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="Employee.JobTitle" class="control-label"></label>
-                                    <input asp-for="Employee.JobTitle" class="form-control" />
-                                    <span asp-validation-for="Employee.JobTitle" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <p>Personality type</p>
-                                    <select name="Employee.PersonalityType">
-                                        <option value="">Select a type</option>
-                                        @{ string[] personalityTypes = { "ISTJ", "INFJ", "INTJ", "ENFJ", "ISTP", "ESFJ", "INFP", "ESFP", "ENFP", "ESTP", "ESTJ", "ENTJ", "INTP", "ISFJ", "ENTP", "ISFP" };
-                                            foreach (var personality in personalityTypes)
-                                            {
-                                                <option value="@(Html.Raw(personality))" name="Employee.PersonalityType">@(Html.Raw(personality))</option>
-                                            }
+<body class="fade-in">
+    <br>
+    <div class="container removePad" style="padding-bottom: 1%">
+        <div class="row row-cols-3">
+            <div class="col-3">
+                &#8205;
+            </div>
+            <div class="col-6">
+                <h2 class="padTwoTop">Add Employee</h2>
+                <hr />
+                <div class="row">
+                    <div class="col">
+                        <form method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Employee.LastName" class="control-label"></label>
+                                <input asp-for="Employee.LastName" class="form-control" />
+                                <span asp-validation-for="Employee.LastName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Employee.FirstMidName" class="control-label"></label>
+                                <input asp-for="Employee.FirstMidName" class="form-control" />
+                                <span asp-validation-for="Employee.FirstMidName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Employee.EmpTeamDate" class="control-label"></label>
+                                <input asp-for="Employee.EmpTeamDate" class="form-control" />
+                                <span asp-validation-for="Employee.EmpTeamDate" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Employee.JobTitle" class="control-label"></label>
+                                <input asp-for="Employee.JobTitle" class="form-control" />
+                                <span asp-validation-for="Employee.JobTitle" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <p>Personality type</p>
+                                <select name="Employee.PersonalityType">
+                                    <option value="">Select a type</option>
+                                    @{ string[] personalityTypes = { "ISTJ", "INFJ", "INTJ", "ENFJ", "ISTP", "ESFJ", "INFP", "ESFP", "ENFP", "ESTP", "ESTJ", "ENTJ", "INTP", "ISFJ", "ENTP", "ISFP" };
+                                        foreach (var personality in personalityTypes)
+                                        {
+                                            <option value="@(Html.Raw(personality))" name="Employee.PersonalityType">@(Html.Raw(personality))</option>
                                         }
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="Employee.IsManager" class="control-label"></label>
-                                    <input asp-for="Employee.IsManager" class="form-control" />
-                                    <span asp-validation-for="Employee.IsManager" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="Employee.Username" class="control-label"></label>
-                                    <input asp-for="Employee.Username" class="form-control" />
-                                    <span asp-validation-for="Employee.Username" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="Employee.Password" class="control-label"></label>
-                                    <input asp-for="Employee.Password" class="form-control" />
-                                    <span asp-validation-for="Employee.Password" class="text-danger"></span>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Employee.IsManager" class="control-label"></label>
+                                <input asp-for="Employee.IsManager" class="form-control" />
+                                <span asp-validation-for="Employee.IsManager" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Employee.Username" class="control-label"></label>
+                                <input asp-for="Employee.Username" class="form-control" />
+                                <span asp-validation-for="Employee.Username" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Employee.Password" class="control-label"></label>
+                                <input asp-for="Employee.Password" class="form-control" />
+                                <span asp-validation-for="Employee.Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <div class="table">
+                                    <table>
+                                        <tr>
+                                            @{
+                                                int cnt = 0;
+
+                                                foreach (var team in Model.AssignedTeamDataList)
+                                                {
+                                                    if (cnt++ % 3 == 0)
+                                                    {
+                                                    @:</tr><tr>
+                                                    }
+                                                    @:<td>
+                                                        <input type="checkbox"
+                                                               name="selectedTeams"
+                                                               value="@team.TeamID"
+                                                               @(Html.Raw(team.Assigned ? "checked=\"checked\"" : "")) />
+                                                        @team.TeamID @:  @team.Title
+                                                    @:</td>
+                                                }
+                                            @:</tr>
+                                            }
+                                        </table>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="table">
                                         <table>
                                             <tr>
                                                 @{
-                                                    int cnt = 0;
+                                                    int cnt2 = 0;
 
-                                                    foreach (var team in Model.AssignedTeamDataList)
+                                                    foreach (var questionnaire in Model.AssignedQuestionnaireDataList)
                                                     {
-                                                        if (cnt++ % 3 == 0)
+                                                        if (cnt2++ % 3 == 0)
                                                         {
                                                         @:</tr><tr>
                                                         }
                                                         @:<td>
                                                             <input type="checkbox"
-                                                                   name="selectedTeams"
-                                                                   value="@team.TeamID"
-                                                                   @(Html.Raw(team.Assigned ? "checked=\"checked\"" : "")) />
-                                                            @team.TeamID @:  @team.Title
+                                                                   name="selectedQuestionnaires"
+                                                                   value="@questionnaire.QuestionnaireID"
+                                                                   @(Html.Raw(questionnaire.Assigned ? "checked=\"checked\"" : "")) />
+                                                            @questionnaire.QuestionnaireID @:  @questionnaire.Title
                                                         @:</td>
                                                     }
                                                 @:</tr>
@@ -95,52 +126,26 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="table">
-                                            <table>
-                                                <tr>
-                                                    @{
-                                                        int cnt2 = 0;
+                                        <input type="submit" value="Create" class="btn btn-success" />
+                                    </div>
+                                </form>
 
-                                                        foreach (var questionnaire in Model.AssignedQuestionnaireDataList)
-                                                        {
-                                                            if (cnt2++ % 3 == 0)
-                                                            {
-                                                            @:</tr><tr>
-                                                            }
-                                                            @:<td>
-                                                                <input type="checkbox"
-                                                                       name="selectedQuestionnaires"
-                                                                       value="@questionnaire.QuestionnaireID"
-                                                                       @(Html.Raw(questionnaire.Assigned ? "checked=\"checked\"" : "")) />
-                                                                @questionnaire.QuestionnaireID @:  @questionnaire.Title
-                                                            @:</td>
-                                                        }
-                                                    @:</tr>
-                                                    }
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="submit" value="Create" class="btn btn-success" />
-                                        </div>
-                                    </form>
-
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-3">
-                    &#8205;
+                    <div class="col-3">
+                        &#8205;
+                    </div>
                 </div>
             </div>
-        </div>
-        <br><br>
-        <footer id="sticky-footer" class="py-4 bg-dark text-white-50 fixed-bottom">
-            <div class="container text-center">
-                <small>Copyright &copy; Teamber 2020</small>
-            </div>
-        </footer>
-    </body>
+            <br><br><br><br>
+            <footer id="sticky-footer" class="py-4 bg-dark text-white-50 fixed-bottom">
+                <div class="container text-center">
+                    <small>Copyright &copy; Teamber 2020</small>
+                </div>
+            </footer>
+        </body>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }

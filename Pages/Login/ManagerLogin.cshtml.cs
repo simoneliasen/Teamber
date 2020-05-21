@@ -21,7 +21,7 @@ namespace ContosoUniversity.Pages.Login
         public IActionResult OnPost(string submitchoice)
         {
 
-            if (submitchoice == "LoginAsManager")
+            if (submitchoice == "Manager")
             {
 
                 HttpContext.Session.SetString("Manager", Managerlogin);

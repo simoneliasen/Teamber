@@ -23,7 +23,6 @@
             <div class="row row-cols-2">
                 <div class="col-4">
                     <form class="darkBG padThree" method="post">
-
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <h4>Team Name</h4>
                             <div class="form-group">
@@ -41,7 +40,7 @@
 
                             <hr>
                             <div>
-                                <p>Questionnaires</p>
+                                <h4>Questionnaires</h4>
 
                                 @{
 
@@ -98,7 +97,7 @@
                                     <div class="table">
                                         <table>
                                             <tr>
-                                                Competences
+                                                <h4>Competences</h4>
                                             </tr>
                                             <tr>
                                                 @{
@@ -136,8 +135,6 @@
                                     <div class="form-group">
                                         <input type="submit" value="Create" class="btn btn-success" />
                                     </div>
-
-                        <hr>
                     </form>
                 </div>
                 <div class="col-8">
@@ -327,9 +324,9 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th scope="col">ID</th>
                                     <th scope="col">Name</th>
-                                    <th scope="col">Synergy-score</th>
+                                    <th scope="col">Synergy-Score</th>
+                                    <th scope="col">Title</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
@@ -357,7 +354,7 @@
        id="@employee.EmployeeID-employee"
        value="@employee.EmployeeID"
        @(Html.Raw(employee.Assigned ? "checked=\"checked\"" : ""))
-       class="@(Html.Raw(employee.PersonalityType))" /></td>
+       class="@(Html.Raw(employee.PersonalityType))" style="transform: scale(2);" /></td>
                                                     </tr>
                                                 </p>
                                             @:</div>

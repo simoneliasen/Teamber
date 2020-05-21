@@ -3,67 +3,98 @@
 @{
     ViewData["Title"] = "Dashboard";
 }
+<body class="fade-in">
 
-<div>
-    <h4>Your information</h4>
+    <div class="container removePad" style="padding-bottom: 1%">
+        <div class="row">
+            <div class="col-xl">
+                <h2 class="padTwoTop headerAlign">Employee dashboard</h2>
+            </div>
+        </div>
+    </div>
 
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Employee.LastName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Employee.LastName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Employee.FirstMidName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Employee.FirstMidName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Employee.EmpTeamDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Employee.EmpTeamDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Employee.JobTitle)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Employee.JobTitle)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Employee.PersonalityType)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Employee.PersonalityType)
-        </dd>
-    </dl>
+    <div class="container-fluid padTwo">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="border padTwo lightBG dropShadow">
+                        <div class="bodyBlock">
+                            <h4>Employee info</h4>
+                            <dl class="row">
+                                <dt class="col-sm-2">
+                                    @Html.DisplayNameFor(model => model.Employee.LastName)
+                                </dt>
+                                <dd class="col-sm-10">
+                                    @Html.DisplayFor(model => model.Employee.LastName)
+                                </dd>
+                                <dt class="col-sm-2">
+                                    @Html.DisplayNameFor(model => model.Employee.FirstMidName)
+                                </dt>
+                                <dd class="col-sm-10">
+                                    @Html.DisplayFor(model => model.Employee.FirstMidName)
+                                </dd>
+                                <dt class="col-sm-2">
+                                    @Html.DisplayNameFor(model => model.Employee.EmpTeamDate)
+                                </dt>
+                                <dd class="col-sm-10">
+                                    @Html.DisplayFor(model => model.Employee.EmpTeamDate)
+                                </dd>
+                                <dt class="col-sm-2">
+                                    @Html.DisplayNameFor(model => model.Employee.JobTitle)
+                                </dt>
+                                <dd class="col-sm-10">
+                                    @Html.DisplayFor(model => model.Employee.JobTitle)
+                                </dd>
+                                <dt class="col-sm-2">
+                                    @Html.DisplayNameFor(model => model.Employee.PersonalityType)
+                                </dt>
+                                <dd class="col-sm-10">
+                                    @Html.DisplayFor(model => model.Employee.PersonalityType)
+                                </dd>
+                            </dl>
+                            <hr />
+                            <h4>Your teams</h4>
 
-    <table class="table">
-        <tr>
-            <th>Your team/teams</th>
-        </tr>
-        @foreach (var item in Model.Employee.EmpTeams)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Team.Title)
-            </td>
-        </tr>
-        }
-    </table>
-</div>
-@if (Model.Id.Count != 0)
-{
-<div>
-    <a asp-page="/employees/TakeQuestionnaire">Take Questionaire</a>
-</div>
-}
-else
-{
-<div>
-    <a>All questionaire taken</a>
-</div>
+                            @foreach (var item in Model.Employee.EmpTeams)
+                            {
+                                <ul>@Html.DisplayFor(modelItem => item.Team.Title)</ul>
+                            }
+                            <hr />
 
-}
+                            <h4>Take questionnaires</h4><br>
+                            @if (Model.Id.Count != 0)
+                            {
+                                <div class="border padTwo lightBG dropShadow padThreeTop" style="width:33%">
+                                    <div class="bodyBlock">
+                                        <div class="text-center">
+                                            <b>Questionnaire title</b><br>
+                                            <p class="padThreeTop">
+                                                Due date: 01/04/2020
+                                            </p>
+                                            <button type="button" class="btn btn-success" style="width:80%; margin-top:3%">
+                                                <a asp-page="/employees/TakeQuestionnaire" style="color:white;">Take Questionaire</a>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div>
+                                    <a>All questionaire taken</a>
+                                </div>
+
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+    </div>
+    <footer id="sticky-footer" class="py-4 bg-dark text-white-50 fixed-bottom">
+        <div class="container text-center">
+            <small>Copyright &copy; Teamber 2020</small>
+        </div>
+    </footer>
+</body>
