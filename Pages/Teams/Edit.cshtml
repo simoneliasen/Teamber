@@ -426,8 +426,14 @@
                     var questionnaireID = TeamMembers[employee];
 
                     if (questionnaireID != 0) { //den er kun 0, når employeen ikke er tildelt et bestemt questionnaire at bedømmes ud fra.
-                        var questionnaireButton = "" + questionnaireID + "-questionnaireButton";
-                        showHideRelatedCompetences(questionnaireButton);
+                        try {
+                            var questionnaireButton = "" + questionnaireID + "-questionnaireButton";
+                            showHideRelatedCompetences(questionnaireButton);
+                        }
+                        catch (err) {
+                            console.log("error loading employees as some of the associated questionnaires were deleted");
+                        }
+                        
 
 
                         //herefter checker vi checkbox for hver employee der er tilføjet som medlem vha. denne rolle. (questionnaire)
@@ -634,9 +640,13 @@ var QuestionnaireCriterias = {
     function showHideRelatedCompetences(questionnaire) {
         var questionnaireSplit = questionnaire.split("-");
         var questionnaireID = questionnaireSplit[0];
-
+        console.log("den nye questionnaire fejl questionnaire værid er " + questionnaire);
         //og opdaterer lige en global variabel
-        activeQuestionnaireButton = "" + questionnaireID + "-questionnaireButton";
+
+        if (document.getElementById("" + questionnaireID + "-questionnaireButton") != null) { //checks if the button exists
+            activeQuestionnaireButton = "" + questionnaireID + "-questionnaireButton";
+        }
+        
         hideAllCompetences();
         document.getElementById(questionnaire).style.backgroundColor = 'lightblue';
         var competences = document.getElementsByClassName("" + questionnaireID + "-Qclass");
