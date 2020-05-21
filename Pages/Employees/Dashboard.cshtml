@@ -61,16 +61,12 @@
                             }
                             <hr />
 
-                            <h4>Take questionnaires</h4><br>
+                            <h4>Take questionnaire</h4><br>
                             @if (Model.Id.Count != 0)
                             {
                                 <div class="border padTwo lightBG dropShadow padThreeTop" style="width:33%">
                                     <div class="bodyBlock">
                                         <div class="text-center">
-                                            <b>Questionnaire title</b><br>
-                                            <p class="padThreeTop">
-                                                Due date: 01/04/2020
-                                            </p>
                                             <button type="button" class="btn btn-success" style="width:80%; margin-top:3%">
                                                 <a asp-page="/employees/TakeQuestionnaire" style="color:white;">Take Questionaire</a>
                                             </button>

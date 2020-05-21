@@ -3,8 +3,8 @@
 
 @{
     ViewData["Title"] = "Edit";
-    //if (String.IsNullOrEmpty(Model.Login) || String.IsNullOrEmpty(Model.Manager))
-      //          Response.Redirect("/Login/Login");
+    if (String.IsNullOrEmpty(Model.Login) || String.IsNullOrEmpty(Model.Manager))
+                Response.Redirect("/Login/Login");
 }
 
     <body class="fade-in">
@@ -15,7 +15,7 @@
                     &#8205;
                 </div>
                 <div class="col-6">
-                    <h2 class="padTwoTop">Edit Employee</h2>
+                    <h2 class="padTwoTop">Edit Questionnaire</h2>
                     <hr />
                     <div class="row">
                         <div class="col">
@@ -64,9 +64,12 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" style="display: inline; margin-right: 20px;">
                                         <input type="submit" value="Save" class="btn btn-success" />
                                     </div>
+                                    <button type="button" class="btn btn-success" style="background-color: red; border-color: red;">
+                                        <a asp-page="./Delete" asp-route-id="@Model.Questionnaire.QuestionnaireID" style="color: white;">Delete</a>
+                                    </button>
                                 </form>
 
                                 </div>

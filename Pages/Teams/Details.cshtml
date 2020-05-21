@@ -74,57 +74,59 @@
                 </tr>
                 @foreach (var criteria in Model.AssignedTeamCriteriaDataList)
                 {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => criteria.Criteria)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => criteria.Priority)
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => criteria.Criteria)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => criteria.Priority)
+                        </td>
+                    </tr>
                 }
             </table>
+
+
+            <!-- Import chart.js framework-->
+            <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+            <!-- Import icons-->
+            <script src="https://kit.fontawesome.com/c869845de6.js" crossorigin="anonymous"></script>
+
+            <!-- Stacked canvases provinding a customized radar chart.-->
+            <div class="canvasWrapper" width="400" heigth="400">
+                <canvas id="myCanvas" width="400" height="400"></canvas>
+                <canvas id="myChart" width="400" height="400"></canvas>
+
+                <p id="Analysts">
+                    Analysts
+                    <i class="far fa-question-circle" type="button" data-toggle="tooltip" data-placement="top"
+                       title="Intuitive (N) and Thinking (T) personality types, known for their rationality, impartiality and intellectual excellence">
+                    </i>
+                </p>
+
+                <p id="Diplomats">
+                    Diplomats
+                    <i class="far fa-question-circle" type="button" data-toggle="tooltip" data-placement="top"
+                       title="Intuitive (N) and Feeling (F) personality types, known for their empathy, diplomatic skills, and passionate idealism">
+                    </i>
+                </p>
+
+                <p id="Sentinels">
+                    Sentinels
+                    <i class="far fa-question-circle" type="button" data-toggle="tooltip" data-placement="top"
+                       title="Observant (S) and Judging (J) personality types, known for their practicality and focus on order, security, and stability">
+                    </i>
+                </p>
+
+                <p id="Explorers">
+                    Explorers
+                    <i class="far fa-question-circle" type="button" data-toggle="tooltip" data-placement="top"
+                       title="Observant (S) and Prespecting (P) persoanlity types, known for their spontaneity, ingenuity, and ability to live in the moments">
+                    </i>
+                </p>
+            </div>
         </dd>
 
-        <!-- Import chart.js framework-->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-
-        <!-- Import icons-->
-        <script src="https://kit.fontawesome.com/c869845de6.js" crossorigin="anonymous"></script>
-
-        <!-- Stacked canvases provinding a customized radar chart.-->
-        <div class="canvasWrapper" width="400" heigth="400">
-            <canvas id="myCanvas" width="400" height="400"></canvas>
-            <canvas id="myChart" width="400" height="400"></canvas>
-
-            <p id="Analysts">
-                Analysts
-                <i class="far fa-question-circle" type="button" data-toggle="tooltip" data-placement="top"
-                   title="Intuitive (N) and Thinking (T) personality types, known for their rationality, impartiality and intellectual excellence">
-                </i>
-            </p>
-
-            <p id="Diplomats">
-                Diplomats
-                <i class="far fa-question-circle" type="button" data-toggle="tooltip" data-placement="top"
-                   title="Intuitive (N) and Feeling (F) personality types, known for their empathy, diplomatic skills, and passionate idealism">
-                </i>
-            </p>
-
-            <p id="Sentinels">
-                Sentinels
-                <i class="far fa-question-circle" type="button" data-toggle="tooltip" data-placement="top"
-                   title="Observant (S) and Judging (J) personality types, known for their practicality and focus on order, security, and stability">
-                </i>
-            </p>
-
-            <p id="Explorers">
-                Explorers
-                <i class="far fa-question-circle" type="button" data-toggle="tooltip" data-placement="top"
-                   title="Observant (S) and Prespecting (P) persoanlity types, known for their spontaneity, ingenuity, and ability to live in the moments">
-                </i>
-            </p>
-        </div>
         </tr>
 
         @{
