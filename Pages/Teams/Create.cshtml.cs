@@ -4,14 +4,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace ContosoUniversity.Pages.Teams
-{
+namespace ContosoUniversity.Pages.Teams {
+    public class CreateModel : TeamEmployeesPageModel {
+        private readonly ContosoUniversity.Data.TeamberContext _context;
 
-    public class CreateModel : TeamEmployeesPageModel
-    {
-        private readonly ContosoUniversity.Data.SchoolContext _context;
-
-        public CreateModel(ContosoUniversity.Data.SchoolContext context)
+        public CreateModel(ContosoUniversity.Data.TeamberContext context)
         {
             _context = context;
         }
@@ -42,16 +39,13 @@ namespace ContosoUniversity.Pages.Teams
             return Page();
         }
 
-
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [BindProperty]
         public Team Team { get; set; }
-
 
         public async Task<IActionResult> OnPostAsync(string[] selectedEmployees, string[] selectedQuestionnaires, string[] selectedCompetences, int[] selectedCompetencesValue) //skal det være string eller int?
         {
             var newTeam = new Team();
+
             if (selectedEmployees != null)
             {
                 newTeam.EmpTeams = new List<EmpTeam>();
@@ -59,13 +53,10 @@ namespace ContosoUniversity.Pages.Teams
                 {
                     string[] employeeSplit = employee.Split("-");
                     string employeeIDString = employeeSplit[0];
-                    string employeeField = employeeSplit[employeeSplit.Length -1]; //altså den sidste.
-
+                    string employeeField = employeeSplit[employeeSplit.Length - 1]; //altså den sidste.
 
                     var employeeToAdd = new EmpTeam
                     {
-
-                        //questionnaireRole = employee.
                         EmployeeID = int.Parse(employeeIDString),
                         questionnaireRole = employeeField
                     };
@@ -85,7 +76,6 @@ namespace ContosoUniversity.Pages.Teams
                     newTeam.TeamQuestionnaires.Add(questionnaireToAdd);
                 }
 
-
                 //tilføjer kriterier for de enkelte felter for de tilhørende questionnaires.
                 newTeam.TeamCriterias = new List<TeamCriteria>();
                 for (int i = 0; i < selectedCompetences.Length; i++)
@@ -104,16 +94,11 @@ namespace ContosoUniversity.Pages.Teams
                 }
             }
 
-
-
-
-
             await TryUpdateModelAsync<Team>(
                 newTeam,
                 "Team",
                 i => i.Title, i => i.Synergy);
             {
-
                 _context.Teams.Add(newTeam);
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");

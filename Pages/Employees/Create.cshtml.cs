@@ -11,17 +11,15 @@ namespace ContosoUniversity.Pages.Employees
 {
     public class CreateModel : EmployeeTeamsPageModel
     {
-        private readonly ContosoUniversity.Data.SchoolContext _context;
+        private readonly ContosoUniversity.Data.TeamberContext _context;
 
-        public CreateModel(ContosoUniversity.Data.SchoolContext context)
+        public CreateModel(ContosoUniversity.Data.TeamberContext context)
         {
             _context = context;
         }
 
-
         public string Login { get; set; }
         public string Manager { get; set; }
-
 
         public IActionResult OnGet()
         {
@@ -39,12 +37,10 @@ namespace ContosoUniversity.Pages.Employees
             return Page();
         }
 
-
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [BindProperty]
         public Employee Employee { get; set; }
-
 
         public async Task<IActionResult> OnPostAsync(string[] selectedTeams, string[] selectedQuestionnaires)
         {
@@ -83,9 +79,7 @@ namespace ContosoUniversity.Pages.Employees
 
                 for (int i = 0; i < allCompetencesQuestionnaireIDs.Count(); i++)
                 {
-
-                    if (newEmployee.EmpQuestionnaires.Select(i => i.QuestionnaireID).Contains(allCompetencesQuestionnaireIDs[i])) //hvis competencens tilhørende questionnaireID er i employeens quenstionnaireID'er vil vi tilføje
-                                                                                                                                  //competencen med en værdi på 1, til vores employeeCompetences.
+                    if (newEmployee.EmpQuestionnaires.Select(i => i.QuestionnaireID).Contains(allCompetencesQuestionnaireIDs[i])) //hvis competencens tilhørende questionnaireID er i employeens quenstionnaireID'er vil vi tilføje                                                                                                   //competencen med en værdi på 1, til vores employeeCompetences.
                     {
                         var competenceToAdd = new EmployeeCompetence
                         {
@@ -95,15 +89,10 @@ namespace ContosoUniversity.Pages.Employees
                         };
 
                         newEmployee.EmployeeCompetences.Add(competenceToAdd);
-
                     }
-
-
-
-
-
                 }
             }
+
             // If statement slettet
             await TryUpdateModelAsync<Employee>(
                 newEmployee,

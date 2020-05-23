@@ -6,10 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 
-namespace ContosoUniversity.Pages.Teams
-{
-    public class TeamEmployeesPageModel : PageModel
-    {
+namespace ContosoUniversity.Pages.Teams {
+    public class TeamEmployeesPageModel : PageModel {
 
         public List<AssignedEmployeeData> AssignedEmployeeDataList;
         public List<AssignedQuestionnaireData> AssignedQuestionnaireDataList;
@@ -28,7 +26,7 @@ namespace ContosoUniversity.Pages.Teams
         //for team members on the team/index page
         public string teamMemberCount;
 
-        public void PopulateTeamMemberCount(SchoolContext context)
+        public void PopulateTeamMemberCount(TeamberContext context)
         {
             var allTeamIDs = context.Teams.Select(i => i.TeamID);
             var allTeamMembers = context.EmpTeams;
@@ -39,7 +37,7 @@ namespace ContosoUniversity.Pages.Teams
 
             foreach (var teamID in allTeamIDs) //loops through all teams
             {
-                
+
                 foreach (var member in allTeamMembers)//loops through all empteam rows
                 {
                     if (teamID == member.TeamID)
@@ -48,7 +46,7 @@ namespace ContosoUniversity.Pages.Teams
                     }
                 }
                 counter++;
-                
+
             }
 
             //converts to javascript string
@@ -65,14 +63,14 @@ namespace ContosoUniversity.Pages.Teams
 
         public void PopulateTeamMembers(Team team)
         {
-           
+
             var teamEmployees = team.EmpTeams;
 
             string result = "var TeamMembers = { ";
 
             foreach (var employee in teamEmployees) //looper gennem alle employees
             {
-                if(employee.questionnaireRole != null)
+                if (employee.questionnaireRole != null)
                 {
                     result += $"{employee.EmployeeID.ToString()}: {employee.questionnaireRole}, ";//questionnaireRole er et id
                 }
@@ -80,8 +78,8 @@ namespace ContosoUniversity.Pages.Teams
                 {
                     result += $"{employee.EmployeeID.ToString()}: 0, ";
                 }
-               
-                
+
+
             }
 
             result += "}; ";
@@ -91,7 +89,7 @@ namespace ContosoUniversity.Pages.Teams
         }
 
 
-        public void PopulateAssignedEmployeeData(SchoolContext context,
+        public void PopulateAssignedEmployeeData(TeamberContext context,
                                                Team team)
         {
             var allEmployees = context.Employees;
@@ -111,7 +109,7 @@ namespace ContosoUniversity.Pages.Teams
             }
         }
 
-        public void PopulateAssignedQuestionnaireData(SchoolContext context,
+        public void PopulateAssignedQuestionnaireData(TeamberContext context,
                                               Team team)
         {
             var allQuestionnaires = context.Questionnaires;
@@ -129,7 +127,7 @@ namespace ContosoUniversity.Pages.Teams
             }
         }
 
-        public void PopulateAllCompetencesData(SchoolContext context,
+        public void PopulateAllCompetencesData(TeamberContext context,
                                                Team team)
         {
             var allCompetences = context.QuestionnaireCompetences; //rettet herfra idet, den skal indeholde alle competencer. ikke alle criterier. ret nedenfor også!
@@ -153,7 +151,7 @@ namespace ContosoUniversity.Pages.Teams
             }
         }
 
-        public void PopulateAllEmpCompetencesString(SchoolContext context)
+        public void PopulateAllEmpCompetencesString(TeamberContext context)
         {
             var allEmployeeIDs = context.Employees.Select(i => i.ID);
             var allEmployeeCompetences = context.EmployeeCompetences;
@@ -179,7 +177,7 @@ namespace ContosoUniversity.Pages.Teams
         }
 
 
-        public void PopulateAllEmpQuestionnairesString(SchoolContext context)
+        public void PopulateAllEmpQuestionnairesString(TeamberContext context)
         {
             var allEmployeeIDs = context.Employees.Select(i => i.ID);
             var allEmployeeQuestionnaires = context.EmpQuestionnaires;
@@ -205,7 +203,7 @@ namespace ContosoUniversity.Pages.Teams
         }
 
 
-        public void PopulateAllQuestionnairesString(SchoolContext context)
+        public void PopulateAllQuestionnairesString(TeamberContext context)
         {
             var allQuestionnaireIDs = context.Questionnaires.Select(i => i.QuestionnaireID);
             var allQuestionnaireCompetences = context.QuestionnaireCompetences;
@@ -232,7 +230,7 @@ namespace ContosoUniversity.Pages.Teams
 
 
 
-        public void PopulateAllQuestionnairesStringForEdit(SchoolContext context, Team team)
+        public void PopulateAllQuestionnairesStringForEdit(TeamberContext context, Team team)
         {
             var allQuestionnaireIDs = context.Questionnaires.Select(i => i.QuestionnaireID);
             var allQuestionnaireCompetences = context.QuestionnaireCompetences;
@@ -247,11 +245,13 @@ namespace ContosoUniversity.Pages.Teams
                 foreach (var competence in allQuestionnaireCompetences)//looper gennem alle competencer
                 {
                     if (questionnaireID == competence.QuestionnaireID)
-                    { int priority = 0;
-                        try {
+                    {
+                        int priority = 0;
+                        try
+                        {
                             priority = currentCriterias.Where(i => i.QuestionnaireCompetenceID == competence.QuestionnaireCompetenceID).Select(i => i.PriorityValue).FirstOrDefault();
                         }
-                        catch(Exception)
+                        catch (Exception)
                         {
                         }
                         result += $"{competence.QuestionnaireCompetenceID.ToString()}: {priority}, ";
@@ -266,7 +266,7 @@ namespace ContosoUniversity.Pages.Teams
         }
 
 
-        public void PopulateAllQuestionnaireTitlesString(SchoolContext context)
+        public void PopulateAllQuestionnaireTitlesString(TeamberContext context)
         {
             var allQuestionnaireIDs = context.Questionnaires.Select(i => i.QuestionnaireID);
 
@@ -283,7 +283,7 @@ namespace ContosoUniversity.Pages.Teams
         }
 
 
-        public void PopulateAssignedTeamCriteriaData(SchoolContext context,
+        public void PopulateAssignedTeamCriteriaData(TeamberContext context,
                                                Team team)
         {
             var questionnaireCompetences = new HashSet<int>(
@@ -315,7 +315,7 @@ namespace ContosoUniversity.Pages.Teams
         }
 
 
-        public void UpdateTeamQuestionnaires(SchoolContext context,
+        public void UpdateTeamQuestionnaires(TeamberContext context,
             string[] selectedQuestionnaires, Team teamToUpdate)
         {
             if (selectedQuestionnaires == null)
@@ -355,7 +355,7 @@ namespace ContosoUniversity.Pages.Teams
             }
         }
 
-        public void UpdateTeamEmployees(SchoolContext context,
+        public void UpdateTeamEmployees(TeamberContext context,
             string[] selectedEmployees, Team teamToUpdate)
         {
             if (selectedEmployees == null)

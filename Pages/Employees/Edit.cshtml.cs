@@ -5,16 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-
 namespace ContosoUniversity.Pages.Employees
 {
-
-
     public class EditModel : EmployeeTeamsPageModel
     {
-        private readonly ContosoUniversity.Data.SchoolContext _context;
+        private readonly ContosoUniversity.Data.TeamberContext _context;
 
-        public EditModel(ContosoUniversity.Data.SchoolContext context)
+        public EditModel(ContosoUniversity.Data.TeamberContext context)
         {
             _context = context;
         }
@@ -27,7 +24,6 @@ namespace ContosoUniversity.Pages.Employees
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-
             Login = HttpContext.Session.GetString("username");
             Manager = HttpContext.Session.GetString("Manager");
 
@@ -41,7 +37,6 @@ namespace ContosoUniversity.Pages.Employees
                 .AsNoTracking()
                 .Include(k => k.EmpQuestionnaires).ThenInclude(k => k.Questionnaire)
                 .FirstOrDefaultAsync(m => m.ID == id);
-
 
             // Employee = await _context.Employees.FindAsync(id);
 
@@ -84,10 +79,6 @@ namespace ContosoUniversity.Pages.Employees
                 i => i.PersonalityType, i => i.IsManager,
                 i => i.Username, i => i.Password);
             {
-
-
-
-
                 UpdateEmployeeTeams(_context, selectedTeams, employeeToUpdate);
                 UpdateEmployeeQuestionnaires(_context, selectedQuestionnaires, employeeToUpdate);
                 await _context.SaveChangesAsync();

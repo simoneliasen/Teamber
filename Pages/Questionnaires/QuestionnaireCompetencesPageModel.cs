@@ -11,7 +11,7 @@ namespace ContosoUniversity.Pages.Questionnaires
     {
         public List<AssignedQuestionnaireCompetenceData> AssignedQuestionnaireCompetenceDataList;
 
-        public void PopulateAssignedQuestionnaireCompetenceData(SchoolContext context,
+        public void PopulateAssignedQuestionnaireCompetenceData(TeamberContext context,
                                                Questionnaire questionnaire)
         {
             var allQuestionnaireCompetences = context.QuestionnaireCompetences;
@@ -34,8 +34,7 @@ namespace ContosoUniversity.Pages.Questionnaires
             }
         }
 
-
-        public void UpdateQuestionnaireCompetences(SchoolContext context,
+        public void UpdateQuestionnaireCompetences(TeamberContext context,
             string[] selectedQuestionnaireCompetences, Questionnaire questionnaireToUpdate)
         {
             if (selectedQuestionnaireCompetences == null)
@@ -47,6 +46,7 @@ namespace ContosoUniversity.Pages.Questionnaires
             var selectedCompetencesHS = new HashSet<string>(selectedQuestionnaireCompetences);
             var questionnaireCompetences = new HashSet<string>
                 (questionnaireToUpdate.QuestionnaireCompetences.Select(c => c.Competence));
+
             foreach (var questionnaireCompetence in context.QuestionnaireCompetences)
             {
                 if (selectedCompetencesHS.Contains(questionnaireCompetence.Competence))

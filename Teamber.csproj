@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+    <AssemblyName>Teamber</AssemblyName>
+    <RootNamespace>Teamber</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

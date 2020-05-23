@@ -10,9 +10,9 @@ namespace ContosoUniversity.Pages.Employees
 {
     public class TakeQuestionnaireModel : EmployeeTeamsPageModel
     {
-        private readonly ContosoUniversity.Data.SchoolContext _context;
+        private readonly ContosoUniversity.Data.TeamberContext _context;
 
-        public TakeQuestionnaireModel(ContosoUniversity.Data.SchoolContext context)
+        public TakeQuestionnaireModel(ContosoUniversity.Data.TeamberContext context)
         {
             _context = context;
         }

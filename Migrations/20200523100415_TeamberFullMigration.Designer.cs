@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace ContosoUniversity.Migrations
+namespace Teamber.Migrations
 {
-    [DbContext(typeof(SchoolContext))]
-    [Migration("20200523085751_TeamberMigrationFull")]
-    partial class TeamberMigrationFull
+    [DbContext(typeof(TeamberContext))]
+    [Migration("20200523100415_TeamberFullMigration")]
+    partial class TeamberFullMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

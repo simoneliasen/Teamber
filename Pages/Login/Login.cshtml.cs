@@ -8,9 +8,9 @@ using System.Linq;
 namespace ContosoUniversity.Pages.Login {
     public class LoginModel : PageModel {
 
-        private readonly ContosoUniversity.Data.SchoolContext _context;
+        private readonly ContosoUniversity.Data.TeamberContext _context;
 
-        public LoginModel(ContosoUniversity.Data.SchoolContext context)
+        public LoginModel(ContosoUniversity.Data.TeamberContext context)
         {
             _context = context;
         }
@@ -23,7 +23,6 @@ namespace ContosoUniversity.Pages.Login {
 
         [BindProperty]
         public string Password { get; set; }
-
 
         public string ErrorMessage { get; set; }
 
@@ -40,19 +39,15 @@ namespace ContosoUniversity.Pages.Login {
         // If not empty the page redirect user to frontpage.
         public void OnGet()
         {
-
             Login = HttpContext.Session.GetString("username");
             Manager = HttpContext.Session.GetString("Manager");
-
         }
 
         public IActionResult OnPost()
         {
-
             // New list which contain the employee that mathces username in database. 
             var usernameExist = new List<Employee>(
                 _context.Employees.Where(c => c.Username == Username));
-
 
             // The exception makes sure the system dont crash, if no employee was found above.
             try
@@ -66,11 +61,9 @@ namespace ContosoUniversity.Pages.Login {
                 return Page();
             }
 
-
             // The if statement checks if the entered password in page, matches the password of the found username in db. 
             if (LoginPassword == Password)
             {
-
                 // checks if the user thats logs in is manager.
                 if (usernameExist[0].IsManager == true)
                 {

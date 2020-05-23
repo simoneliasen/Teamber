@@ -15,7 +15,7 @@ namespace ContosoUniversity.Pages.Employees
         public List<AssignedEmployeeCompetenceData> AssignedEmployeeCompetenceDataList;
         public List<AssignedEmployeeCompetenceData> AssignedEmployeeCompetenceValuesDataList;
 
-        public void PopulateAssignedTeamData(SchoolContext context,
+        public void PopulateAssignedTeamData(TeamberContext context,
                                                Employee employee)
         {
             var allTeams = context.Teams;
@@ -33,7 +33,7 @@ namespace ContosoUniversity.Pages.Employees
             }
         }
 
-        public void PopulateAssignedQuestionnaireData(SchoolContext context,
+        public void PopulateAssignedQuestionnaireData(TeamberContext context,
                                                Employee employee)
         {
             var allQuestionnaires = context.Questionnaires;
@@ -53,7 +53,7 @@ namespace ContosoUniversity.Pages.Employees
 
 
         //til at tage spørgeskema
-        public void PopulateAssignedEmployeeCompetenceData(SchoolContext context,
+        public void PopulateAssignedEmployeeCompetenceData(TeamberContext context,
                                                Employee employee)
         {
             var questionnaireCompetences = new HashSet<int>(
@@ -86,7 +86,7 @@ namespace ContosoUniversity.Pages.Employees
         }
 
         //til at vise details siden.
-        public void PopulateAssignedEmployeeCompetenceValuesData(SchoolContext context,
+        public void PopulateAssignedEmployeeCompetenceValuesData(TeamberContext context,
                                                Employee employee)
         {
             var questionnaireCompetences = new HashSet<int>(
@@ -141,7 +141,7 @@ namespace ContosoUniversity.Pages.Employees
 
 
 
-        public void UpdateEmployeeTeams(SchoolContext context,
+        public void UpdateEmployeeTeams(TeamberContext context,
             string[] selectedTeams, Employee employeeToUpdate)
         {
             if (selectedTeams == null)
@@ -181,7 +181,7 @@ namespace ContosoUniversity.Pages.Employees
             }
         }
 
-        public void UpdateEmployeeQuestionnaires(SchoolContext context,
+        public void UpdateEmployeeQuestionnaires(TeamberContext context,
             string[] selectedQuestionnaires, Employee employeeToUpdate)
         {
             if (selectedQuestionnaires == null)
@@ -223,7 +223,7 @@ namespace ContosoUniversity.Pages.Employees
 
 
 
-        public void UpdateEmployeeCompetences(SchoolContext context, int[] selectedCompetenceValues, Employee employeeToUpdate)
+        public void UpdateEmployeeCompetences(TeamberContext context, int[] selectedCompetenceValues, Employee employeeToUpdate)
         {
             var employeeQuestionnaires = context.EmpQuestionnaires.Where(i => i.EmployeeID == employeeToUpdate.ID).Select(i => i.QuestionnaireID); //de questionnaires som employeen er medlem af
             var allQuestionnaireCompetences = context.QuestionnaireCompetences.Where(i => employeeQuestionnaires.Contains(i.QuestionnaireID)).Select(i => i.QuestionnaireCompetenceID);

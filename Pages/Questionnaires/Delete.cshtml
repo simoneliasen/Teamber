@@ -8,7 +8,6 @@
 }
 
 <h1>Delete</h1>
-
 <h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>Questionnaire</h4>
@@ -27,7 +26,6 @@
             @Html.DisplayFor(model => model.Questionnaire.Cycle)
         </dd>
     </dl>
-    
     <form method="post">
         <input type="hidden" asp-for="Questionnaire.QuestionnaireID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |

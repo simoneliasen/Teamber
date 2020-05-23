@@ -3,11 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ContosoUniversity.Data
 {
-    public class SchoolContext : DbContext
+    public class TeamberContext : DbContext
     {
-        public SchoolContext(DbContextOptions<SchoolContext> options) : base(options)
-        {
-        }
+        public TeamberContext(DbContextOptions<TeamberContext> options) : base(options){}
 
         public DbSet<Team> Teams { get; set; }
         public DbSet<EmpTeam> EmpTeams { get; set; }
@@ -31,7 +29,6 @@ namespace ContosoUniversity.Data
             modelBuilder.Entity<QuestionnaireCompetence>().ToTable("QuestionnaireCompetence");
             modelBuilder.Entity<TeamCriteria>().ToTable("TeamCriteria");
             modelBuilder.Entity<EmployeeCompetence>().ToTable("EmployeeCompetence");
-
         }
     }
 }

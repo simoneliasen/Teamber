@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace ContosoUniversity {
     public class CreateModel : PageModel {
-        private readonly ContosoUniversity.Data.SchoolContext _context;
+        private readonly ContosoUniversity.Data.TeamberContext _context;
 
-        public CreateModel(ContosoUniversity.Data.SchoolContext context)
+        public CreateModel(ContosoUniversity.Data.TeamberContext context)
         {
             _context = context;
         }

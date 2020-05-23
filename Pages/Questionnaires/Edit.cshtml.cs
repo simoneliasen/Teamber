@@ -11,9 +11,9 @@ namespace ContosoUniversity.Pages.Questionnaires
 {
     public class EditModel : QuestionnaireCompetencesPageModel
     {
-        private readonly ContosoUniversity.Data.SchoolContext _context;
+        private readonly ContosoUniversity.Data.TeamberContext _context;
 
-        public EditModel(ContosoUniversity.Data.SchoolContext context)
+        public EditModel(ContosoUniversity.Data.TeamberContext context)
         {
             _context = context;
         }
@@ -23,7 +23,6 @@ namespace ContosoUniversity.Pages.Questionnaires
 
         public string Login { get; set; }
         public string Manager { get; set; }
-
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {

@@ -10,9 +10,9 @@ namespace ContosoUniversity.Pages.Teams
 
     public class EditModel : TeamEmployeesPageModel
     {
-        private readonly ContosoUniversity.Data.SchoolContext _context;
+        private readonly ContosoUniversity.Data.TeamberContext _context;
 
-        public EditModel(ContosoUniversity.Data.SchoolContext context)
+        public EditModel(ContosoUniversity.Data.TeamberContext context)
         {
             _context = context;
         }

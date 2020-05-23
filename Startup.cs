@@ -23,7 +23,7 @@ namespace ContosoUniversity
         {
             services.AddRazorPages();
 
-            services.AddDbContext<SchoolContext>(options =>
+            services.AddDbContext<TeamberContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("SchoolContext")));
 
             // Added session for the login

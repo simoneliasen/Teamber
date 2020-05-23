@@ -13,9 +13,9 @@ namespace ContosoUniversity.Pages.Employees
 {
     public class DashboardModel : EmployeeTeamsPageModel
     {
-        private readonly ContosoUniversity.Data.SchoolContext _context;
+        private readonly ContosoUniversity.Data.TeamberContext _context;
 
-        public DashboardModel(ContosoUniversity.Data.SchoolContext context)
+        public DashboardModel(ContosoUniversity.Data.TeamberContext context)
         {
             _context = context;
         }

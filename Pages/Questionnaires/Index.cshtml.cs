@@ -5,23 +5,19 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-
-
-
 namespace ContosoUniversity
 {
     public class IndexModel : PageModel
     {
-        private readonly ContosoUniversity.Data.SchoolContext _context;
+        private readonly ContosoUniversity.Data.TeamberContext _context;
 
-        public IndexModel(ContosoUniversity.Data.SchoolContext context)
+        public IndexModel(ContosoUniversity.Data.TeamberContext context)
         {
             _context = context;
         }
 
         public string Login { get; set; }
         public string Manager { get; set; }
-
 
         public IList<Questionnaire> Questionnaire { get; set; }
 

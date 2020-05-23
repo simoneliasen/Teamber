@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ContosoUniversity.Migrations
+namespace Teamber.Migrations
 {
-    public partial class TeamberMigrationFull : Migration
+    public partial class TeamberFullMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
