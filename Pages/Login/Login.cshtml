@@ -16,11 +16,10 @@
             <div class="col"> </div>
             <div class="col border padTwo darkBG dropShadow" style="margin-top: 20%;">
                 <div class="text-center">
-                    <h3><a href="index.php" class="navItem"><b>Teamber</b></a></h3>
-                    <h6>Dashboard Login</h6>
+                    <h3><b>Teamber</b></h3>
                 </div><br>
                 <div>
-                    @Model.ErrorMessage
+                    <p style="color:red">@Model.ErrorMessage</p>
                     <form method="post" asp-page="Login">
                         <label>Username</label><br>
                         <div class="text-center">
