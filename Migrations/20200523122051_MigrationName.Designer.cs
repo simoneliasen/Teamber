@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Teamber.Migrations
 {
     [DbContext(typeof(TeamberContext))]
-    [Migration("20200523105147_TeamberMigration")]
-    partial class TeamberMigration
+    [Migration("20200523122051_MigrationName")]
+    partial class MigrationName
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

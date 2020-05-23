@@ -1,23 +1,19 @@
 ﻿using ContosoUniversity.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ContosoUniversity.Data
-{
-    public class TeamberContext : DbContext
-    {
-        public TeamberContext(DbContextOptions<TeamberContext> options) : base(options){}
+namespace ContosoUniversity.Data {
+    public class TeamberContext : DbContext {
+        public TeamberContext(DbContextOptions<TeamberContext> options) : base(options) { }
 
         public DbSet<Team> Teams { get; set; }
         public DbSet<EmpTeam> EmpTeams { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Questionnaire> Questionnaires { get; set; }
         public DbSet<EmpQuestionnaire> EmpQuestionnaires { get; set; }
-
         public DbSet<QuestionnaireCompetence> QuestionnaireCompetences { get; set; }
         public DbSet<TeamCriteria> TeamCriterias { get; set; }
         public DbSet<EmployeeCompetence> EmployeeCompetences { get; set; }
-
-        //tror vi skal tilføje teamQuestionnaire hertil for ellers gemmer den vel ikke i databasen
+        public DbSet<TeamQuestionnaire> TeamQuestionnaires { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,6 +25,7 @@ namespace ContosoUniversity.Data
             modelBuilder.Entity<QuestionnaireCompetence>().ToTable("QuestionnaireCompetence");
             modelBuilder.Entity<TeamCriteria>().ToTable("TeamCriteria");
             modelBuilder.Entity<EmployeeCompetence>().ToTable("EmployeeCompetence");
+            modelBuilder.Entity<TeamQuestionnaire>().ToTable("TeamQuestionnaire");
         }
     }
 }

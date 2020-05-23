@@ -89,65 +89,6 @@ html {
   line-height: 60px; /* Vertically center the text there */
 }
 
-/* https://medium.com/cloud-native-the-gathering/how-to-use-css-to-fade-in-and-fade-out-html-text-and-pictures-f45c11364f08 
-.fade-in {
-    animation: fadeIn ease 1s;
-    -webkit-animation: fadeIn ease 1s;
-    -moz-animation: fadeIn ease 1s;
-    -o-animation: fadeIn ease 1s;
-    -ms-animation: fadeIn ease 1s;
-}
-
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
-    }
-}
-
-@-moz-keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
-    }
-}
-
-@-webkit-keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
-    }
-}
-
-@-o-keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
-    }
-}
-
-@-ms-keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
-    }
-}
-*/
 * {
     font-family: 'Open Sans', sans-serif;
 }
@@ -156,10 +97,7 @@ html {
     font-family: 'Montserrat', sans-serif;
 }
 
-/*.navbar {
-    padding: 1% 20%;
-}
-    */
+
 
 .bg-image-full { /* Full width image https://startbootstrap.com/templates/full-width-pics/ */
     background: no-repeat center center scroll;
@@ -270,11 +208,7 @@ html {
     width: 100%;
 }
 
-.ratioStyle {
-    transform: scale(2);
-    margin: 0% 2%;
-    padding-bottom: 1%
-}
+
 
 .fadeBG {
     background: rgb(40,146,64);
@@ -310,4 +244,9 @@ html {
 
 .headerAlignBig {
     padding-left: 2.5%;
+}
+
+.tagify {
+    overflow: auto;
+    flex-wrap: unset;
 }

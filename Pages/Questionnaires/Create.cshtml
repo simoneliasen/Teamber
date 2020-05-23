@@ -34,7 +34,7 @@
 
                             <div class="form-group">
                                 <label>Competences</label>
-                                <input asp-for="Questionnaire.CompetencesString" name='tagify' placeholder='+Add competences' class="form-control" />
+                                <input asp-for="Questionnaire.CompetencesString" name='tagify' placeholder='+Add competences' class="form-control" style="overflow: auto;"/>
                                 <!-- hidden input: intermediary between the javascript tags and the page model-->
                                 <input type="hidden" id="myField" name="myField" value="Questionnaire.CompetencesString" />
                                 <span asp-validation-for="Questionnaire.CompetencesString" class="text-danger"></span>
@@ -83,6 +83,14 @@
         </div>
     </footer>
 </body>
+
+<style>
+    .tagify {
+         /* Add These: */
+  overflow: auto;
+  flex-wrap: unset;
+    }
+</style>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
