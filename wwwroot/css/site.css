@@ -1,6 +1,4 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-footer.footer {
+﻿footer.footer {
     /*display: none; */
     margin-top: 40px;
 }
@@ -62,6 +60,7 @@ html {
 .border-top {
   border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
   border-bottom: 1px solid #e5e5e5;
 }
@@ -90,8 +89,7 @@ html {
   line-height: 60px; /* Vertically center the text there */
 }
 
-
-/* https://medium.com/cloud-native-the-gathering/how-to-use-css-to-fade-in-and-fade-out-html-text-and-pictures-f45c11364f08 */
+/* https://medium.com/cloud-native-the-gathering/how-to-use-css-to-fade-in-and-fade-out-html-text-and-pictures-f45c11364f08 
 .fade-in {
     animation: fadeIn ease 1s;
     -webkit-animation: fadeIn ease 1s;
@@ -149,7 +147,7 @@ html {
         opacity: 1;
     }
 }
-
+*/
 * {
     font-family: 'Open Sans', sans-serif;
 }
