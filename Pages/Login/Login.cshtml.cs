@@ -5,10 +5,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ContosoUniversity.Pages.Login
-{
-    public class LoginModel : PageModel
-    {
+namespace ContosoUniversity.Pages.Login {
+    public class LoginModel : PageModel {
 
         private readonly ContosoUniversity.Data.SchoolContext _context;
 
@@ -16,9 +14,9 @@ namespace ContosoUniversity.Pages.Login
         {
             _context = context;
         }
-        [BindProperty]
-        public Employee employee { get; set; }
 
+        [BindProperty]
+        public Employee Employee { get; set; }
 
         [BindProperty]
         public string Username { get; set; }
@@ -26,11 +24,20 @@ namespace ContosoUniversity.Pages.Login
         [BindProperty]
         public string Password { get; set; }
 
-        public string Msg { get; set; }
 
+        public string ErrorMessage { get; set; }
+
+        // Contain Session value, if user logged in.
         public string Login { get; set; }
+
+        //Contain session value, if manager logged in. 
         public string Manager { get; set; }
 
+        private string LoginPassword { get; set; }
+
+        // Sets the two properties values with the sessions variables. 
+        // It then checks on page, if properties are empty. 
+        // If not empty the page redirect user to frontpage.
         public void OnGet()
         {
 
@@ -41,40 +48,47 @@ namespace ContosoUniversity.Pages.Login
 
         public IActionResult OnPost()
         {
-            //var allUsername = new List<string>(
-            //     _context.Employees.Select(c => c.Username));
 
-            //var allPasswords = new List<string>(
-            //    _context.Employees.Select(c => c.Password));
-
-            var allUs = new List<Employee>(
+            // New list which contain the employee that mathces username in database. 
+            var usernameExist = new List<Employee>(
                 _context.Employees.Where(c => c.Username == Username));
 
-            var allPass = allUs[0].Password;
+
+            // The exception makes sure the system dont crash, if no employee was found above.
+            try
+            {
+                // Gets the password in db from the entered username. 
+                LoginPassword = usernameExist[0].Password;
+            }
+            catch
+            {
+                ErrorMessage = "Username or Password invalid";
+                return Page();
+            }
 
 
-            if (allPass == Password)
+            // The if statement checks if the entered password in page, matches the password of the found username in db. 
+            if (LoginPassword == Password)
             {
 
-                if (allUs[0].IsManager == true)
+                // checks if the user thats logs in is manager.
+                if (usernameExist[0].IsManager == true)
                 {
                     HttpContext.Session.SetString("username", Username);
                     return RedirectToPage("/Login/ManagerLogin");
-
                 }
+                // If the user is not manager, the user is logged in as regular employee. 
                 else
                 {
                     HttpContext.Session.SetString("username", Username);
                     return RedirectToPage("/Employees/Dashboard");
-
-
                 }
             }
             else
+            // If entered password does not match password in db, the same page is returned with errormessage. 
             {
-                Msg = "Username or Password invalid";
+                ErrorMessage = "Username or Password invalid";
                 return Page();
-
             }
         }
     }

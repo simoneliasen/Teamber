@@ -5,10 +5,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
-namespace ContosoUniversity
-{
-    public class DeleteModel : PageModel
-    {
+namespace ContosoUniversity {
+    public class DeleteModel : PageModel {
         private readonly ContosoUniversity.Data.SchoolContext _context;
 
         public DeleteModel(ContosoUniversity.Data.SchoolContext context)
@@ -16,10 +14,8 @@ namespace ContosoUniversity
             _context = context;
         }
 
-
         public string Login { get; set; }
         public string Manager { get; set; }
-
 
         [BindProperty]
         public Questionnaire Questionnaire { get; set; }
@@ -40,6 +36,7 @@ namespace ContosoUniversity
             {
                 return NotFound();
             }
+
             return Page();
         }
 

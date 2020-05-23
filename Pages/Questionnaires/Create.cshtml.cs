@@ -7,10 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ContosoUniversity
-{
-    public class CreateModel : PageModel
-    {
+namespace ContosoUniversity {
+    public class CreateModel : PageModel {
         private readonly ContosoUniversity.Data.SchoolContext _context;
 
         public CreateModel(ContosoUniversity.Data.SchoolContext context)
@@ -21,20 +19,16 @@ namespace ContosoUniversity
         public string Login { get; set; }
         public string Manager { get; set; }
 
-
         public IActionResult OnGet()
         {
             Login = HttpContext.Session.GetString("username");
             Manager = HttpContext.Session.GetString("Manager");
-
             return Page();
         }
 
         [BindProperty]
         public Questionnaire Questionnaire { get; set; }
 
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
             //evt lav første array til "c#, php, php", "".
@@ -44,7 +38,6 @@ namespace ContosoUniversity
             //get competences from form, and add as string
             string tagOutput = Request.Form["myField"];
             Questionnaire.CompetencesString = tagOutput;
-
 
             if (Questionnaire.CompetencesString != null)
             {
@@ -86,7 +79,6 @@ namespace ContosoUniversity
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
             }
-
 
         }
     }

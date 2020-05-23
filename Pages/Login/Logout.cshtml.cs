@@ -2,10 +2,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ContosoUniversity.Pages.Login
-{
-    public class LogoutModel : PageModel
-    {
+namespace ContosoUniversity.Pages.Login {
+    public class LogoutModel : PageModel {
         public string Login { get; set; }
         public string Manager { get; set; }
 
@@ -15,6 +13,5 @@ namespace ContosoUniversity.Pages.Login
             HttpContext.Session.Remove("Manager");
             return RedirectToPage("/Index");
         }
-
     }
 }
