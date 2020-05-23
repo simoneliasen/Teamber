@@ -6,56 +6,73 @@
     //Removes defualt styling:
     Layout = null;
 }
-    <head>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-        <link href="@Url.Content("~/css/style.css")" rel="stylesheet" type="text/css" />
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link href="@Url.Content("~/css/style.css")" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
 
-        <title>Teamber</title>
-    </head>
+    <title>Teamber</title>
+</head>
 
 <body class="fade-in bg-light">
-    <div class="container bg-light">
-        <nav class="navbar navbar-light bg-light">
-            <a class="navbar-brand">Teamber</a>
-            <button class="btn btn-outline-secondary my-2 my-sm-0" onclick="window.location.href = 'Login/Login';">Login</button>
-        </nav>
+    <div class="wrapperFullWidth" style="width: 100%; background-color: #27ae60 !important;">
+        <div class="container bg-light" style="background-color: #27ae60 !important;">
+            <nav class="navbar navbar-light bg-light" style="background-color: #27ae60 !important; padding-top: 6px;">
+                <a class="navbar-brand" style="margin-bottom: 13px"><img src="~/img/logo.png" style="width: 160px; height: auto;" /></a>
+                <button class="btn btn-outline-light my-2 my-sm-0" onclick="window.location.href = 'Login/Login';">Login</button>
+            </nav>
+        </div>
     </div>
 
-    <section class="py-5 bg-image-full" style="background-image: url('https://images.pexels.com/photos/416405/pexels-photo-416405.jpeg'); height: 30em;">
+    <section class="py-5 bg-image-full" style="background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1651&q=80'); height: 35em;">
         <div></div>
     </section>
 
     <div class="container removePad" style="padding-bottom: 1%">
         <div class="row">
             <div class="col-xl" align="center">
-                <h2 class="padTwoTop">Headline</h2>
+                <h2 class="padTwoTop" style="margin-top:30px; color: #27ae60;">Composition Makes Precision</h2>
             </div>
         </div>
 
-        <div class="row" style="padding-bottom:12%; text-align: center">
+        <div class="row" style="padding-bottom:8%; text-align: center; margin-top: 24px;">
+
             <div class="col-sm-4 padTwoTop">
-                    <img src="https://picsum.photos/350" class="rounded dropShadow" style="width: 80%">
-                    <h4 class="padThreeTop">
-                        Smaller Headline</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
-                
+                <img src="~/img/ikonfront1.png" class="rounded dropShadow" style="width: 100%; max-height: 230px">
+                <h4 class="padThreeTop" style="padding-top: 10px;">
+                    Watch Your Employees Grow
+                </h4>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                </p>
             </div>
+
             <div class="col-sm-4 padTwoTop">
-                <img src="https://picsum.photos/350" class="rounded dropShadow" style="width: 80%"%>
-                <h4 class="padThreeTop">
-                    Smaller Headline</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+                <img src="~/img/ikonfront3.png" class="rounded dropShadow" style="width: 100%; max-height: 230px">
+                <h4 class="padThreeTop" style="padding-top: 10px;">
+                    Increase Productivity
+                </h4>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                </p>
             </div>
-            <div class="col-sm-4 padTwoTop"">
-                <img src="https://picsum.photos/350" class="rounded dropShadow" style="width: 80%">
-                <h4 class="padThreeTop">
-                    Smaller Headline</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+
+            <div class="col-sm-4 padTwoTop">
+                <img src="~/img/ikonfront2.png" class="rounded dropShadow" style="width: 100%; max-height: 230px">
+                <h4 class="padThreeTop" style="padding-top: 10px;">
+                    Happier Employees
+                </h4>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                </p>
             </div>
+
         </div>
     </div>
 

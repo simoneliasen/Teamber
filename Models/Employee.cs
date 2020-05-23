@@ -19,7 +19,7 @@ namespace ContosoUniversity.Models
         public string FirstMidName { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display(Name = "EmpTeam Date")]
+        [Display(Name = "Date of hire")]
         public DateTime EmpTeamDate { get; set; }
         [Display(Name = "Full Name")]
         public string FullName
@@ -41,7 +41,7 @@ namespace ContosoUniversity.Models
 
         [Required]
         [Column("IsManager")]
-        [Display(Name = "Is Manager")]
+        [Display(Name = "Is a Manager")]
         public bool IsManager { get; set; }
 
         [Required]

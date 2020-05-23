@@ -4,7 +4,6 @@
     ViewData["Title"] = "Create";
     if (String.IsNullOrEmpty(Model.Login) || String.IsNullOrEmpty(Model.Manager))
         Response.Redirect("/Login/Login");
-
 }
 
 <body class="fade-in">
@@ -140,7 +139,7 @@
 
                                 <div class="col" align="center">
                                     <h4>Personality overview</h4>
-                                    <!-- radar start kode-->
+                                    <!-- radar chart code start-->
                                     <!-- Import chart.js framework-->
                                     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
@@ -292,12 +291,9 @@
                                             margin-top: 44px;
                                             margin-left: -27px;
                                         }
-
                                     </style>
+                                    <!-- radar chart code end-->
 
-
-
-                                    <!-- radar slut kode-->
                                 </div>
                             </div>
 
@@ -742,7 +738,6 @@ var radialObj = radialIndicator('#indicatorContainer', {
         }
 
 
-
         //if the employee is not a member of the team or is associated with the questionnaire. Then the synergy should be calculated again.
         //this basically just means that members who are not associated with the questionnaire, should keep their synergy score.
         if (document.getElementById("" + employee + "-teamMember") == null || memberInChosenQuestionnaire) {
@@ -767,10 +762,10 @@ var radialObj = radialIndicator('#indicatorContainer', {
             var tempSynergy = totalScore / max_score * 100;
             var synergy = Math.round(tempSynergy);
 
-            if (Number.isInteger(synergy)) { //if max_score is zero
+            if (Number.isInteger(synergy)) { 
                 document.getElementById("" + employee).innerHTML = synergy;
             }
-            else {
+            else {//if max_score is zero we get a divide-by-zero error which results in Not-A-Number. If so, we set the score to zero.
                 document.getElementById("" + employee).innerHTML = 0;
             }
         }
@@ -800,10 +795,8 @@ return maxScore;
 
 
 
-            //til at starte med sættes activeQuestionnaireButton til det første questionnaire for at undgå trælse fejl.
-                console.log("questionnairetitles 0 er " + QuestionnaireTitles[0]);
+            //At the start the variable activeQuestionnaireButton is set to the first questionnaire to avoid some errors.
                 try {
-                    console.log("questionnairetitles 0 er " + QuestionnaireTitles[0]);
                     activeQuestionnaireButton = "" + QuestionnaireTitles[0] + "-questionnaireButton";
                 }
                 catch (err) {

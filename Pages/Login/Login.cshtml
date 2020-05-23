@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Login";
 }
-    <body class="fadeBG fade-in" style="width:99%">
+    <body class=" fade-in" style="width:99%; background-color:#ecf0f1;">
         <style>
             header {
                 display: none;
@@ -14,30 +14,32 @@
         </style>
         <div class="row row-cols-3">
             <div class="col"> </div>
-            <div class="col border padTwo darkBG dropShadow" style="margin-top: 20%;">
+            <div class="col border padTwo dropShadow" style="margin-top: 20%; background-color: #27ae60;">
                 <div class="text-center">
-                    <h3><b>Teamber</b></h3>
+                    <h3><b><img src="~/img/logo.png" /></b></h3>
                 </div><br>
                 <div>
                     <p style="color:red">@Model.ErrorMessage</p>
                     <form method="post" asp-page="Login">
-                        <label>Username</label><br>
+                        <label style="color:white;">Username</label><br>
                         <div class="text-center">
                             <input type="text" asp-for="@Model.Username" class="padTwo" placeholder="Enter Username" style="width:100%" required><br><br>
                         </div>
-                        <label>Password</label><br>
+                        <label style="color:white;">Password</label><br>
                         <input type="password" asp-for="@Model.Password" class="padTwo" placeholder="*******" style="width:100%">
 
                         <div class="text-center padTwo">
-                            <p class="faded">Forgot your password? Contact your manager</p>
+                            <p class="faded" style="color: white; padding-top: 20px; padding-bottom: 10px; font-style: italic;">
+                            Forgot your password? <br /> Please contact your manager
+                            </p>
                         </div>
 
                         <div class="text-center">
-                            <button type="button" class="btn btn-success buttonPad dropShadow" style="margin-bottom: 5px; margin-right:3%;" onclick="window.location.href = '../Index';">
+                            <button type="button" class="btn btn-outline-light buttonPad" style="margin-bottom: 5px; margin-right:3%; border: 1px solid white; background-color: transparent;" onclick="window.location.href = '../Index';">
                                 Back
                             </button>
                             <td>&nbsp;</td>
-                            <button type="submit" value="Login" class="btn btn-success buttonPad dropShadow" style="margin-bottom: 5px" onclick="window.location.href = 'ManagerLogin';">
+                            <button type="submit" value="Login" class="btn btn-outline-light buttonPad" style="margin-bottom: 5px; border: 1px solid white; background-color: transparent;" onclick="window.location.href = 'ManagerLogin';">
                                 Login
                             </button>
 

@@ -208,8 +208,6 @@ html {
     width: 100%;
 }
 
-
-
 .fadeBG {
     background: rgb(40,146,64);
     background: linear-gradient(90deg, rgba(40,146,64,1) 0%, rgba(56,210,91,1) 48%, rgba(40,146,64,1) 100%);
@@ -249,5 +247,12 @@ html {
 .tagify {
     overflow: auto;
     flex-wrap: unset;
+    height: auto;
+}
+
+
+
+#logo {
+    width: 160px;
     height: auto;
 }

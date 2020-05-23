@@ -27,19 +27,20 @@
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
 </head>
-<body class="fadeBG fade-in">
+<body class=" fade-in" style="background-color: #ecf0f1;">
     <div class="row row-cols-3">
         <div class="col"> </div>
-        <div class="col border padTwo darkBG dropShadow" style="margin-top: 20%;">
+        <div class="col border padTwo darkBG dropShadow" style="margin-top: 20%; background-color: #27ae60;">
             <div class="text-center">
-                <h3><b>Teamber</b></h3>
-                <h6>Login as manager or employee</h6>
+                <!--  <h3><b>Teamber</b></h3>-->
+                <img src="~/img/logo.png" />
+                <h6 style="padding-top: 16px; color: white;">Login as manager or employee</h6>
             </div><br>
             <div>
                 <form method="post" asp-page="Loginmanager">
                     <div class="text-center">
-                        <input class="btn btn-success buttonPad dropShadow" style="margin-bottom: 5px" type="submit" name="submitchoice" value="Manager" />
-                        <input class="btn btn-success buttonPad dropShadow" style="margin-bottom: 5px" type="submit" name="submitchoice" value="Employee" />
+                        <input class="btn btn-outline-light buttonPad" style="margin: 5px; border: 1px solid white; background-color: transparent;" type="submit" name="submitchoice" value="Manager" />
+                        <input class="btn btn-outline-light buttonPad" style="margin: 5px; border: 1px solid white; background-color: transparent;" type="submit" name="submitchoice" value="Employee" />
                     </div>
                 </form>
             </div>

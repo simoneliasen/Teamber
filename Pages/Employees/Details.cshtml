@@ -44,12 +44,11 @@
             @Html.DisplayFor(model => model.Employee.PersonalityType)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Employee.EmpTeams)
         </dt>
         <dd class="col-sm-10">
             <table class="table">
                 <tr>
-                    <th>Team Title</th>
+                    <th>Teams</th>
                 </tr>
                 @foreach (var item in Model.Employee.EmpTeams)
                 {
@@ -62,12 +61,11 @@
             </table>
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Employee.EmpQuestionnaires)
         </dt>
         <dd class="col-sm-10">
             <table class="table">
                 <tr>
-                    <th>Questionnaire Title</th>
+                    <th>Questionnaires</th>
                 </tr>
                 @foreach (var item in Model.Employee.EmpQuestionnaires)
                 {
@@ -80,7 +78,6 @@
             </table>
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Employee.EmployeeCompetences)
         </dt>
         <dd class="col-sm-10">
             <table class="table">

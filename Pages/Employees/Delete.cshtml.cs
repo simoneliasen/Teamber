@@ -73,23 +73,6 @@ namespace ContosoUniversity.Pages.Employees
 
             await _context.SaveChangesAsync();
 
-
-
-
-            /*
-            try
-            {
-                _context.Employees.Remove(employee);
-                await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
-            }
-            catch (DbUpdateException  //ex//)
-            {
-                //Log the error (uncomment ex variable name and write a log.)
-                return RedirectToAction("./Delete",
-                                     new { id, saveChangesError = true });
-            }
-            */
             return RedirectToPage("./Index");
         }
     }
