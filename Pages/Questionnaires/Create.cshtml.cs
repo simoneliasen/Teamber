@@ -39,7 +39,7 @@ namespace ContosoUniversity {
             string tagOutput = Request.Form["myField"];
             Questionnaire.CompetencesString = tagOutput;
 
-            if (Questionnaire.CompetencesString != null)
+            if (Questionnaire.CompetencesString != null && Questionnaire.CompetencesString != "Questionnaire.CompetencesString")
             {
                 selectedQuestionnaireCompetences = Questionnaire.CompetencesString.Split(", ");
             }

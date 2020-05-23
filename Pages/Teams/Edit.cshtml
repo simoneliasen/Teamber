@@ -89,7 +89,7 @@
                                 </div>
                                 <br />
                                 <div class="form-group">
-                                    <div class="table">
+                                    <div class="table" style="overflow: auto;">
                                         <table>
                                             <tr>
                                                 <h4>Competences</h4>
@@ -304,6 +304,11 @@
 
                                         .fa-question-circle:hover {
                                             color: lightgrey;
+                                        }
+
+                                            #indicatorContainer canvas {
+                                            margin-top: 44px;
+                                            margin-left: -27px;
                                         }
                                     </style>
 
@@ -527,6 +532,7 @@ var radialObj = radialIndicator('#indicatorContainer', {
         100: '#00660e'
     },
     barWidth: 15,
+    radius: 90,
     percentage: true,
     frameTime: 7,
     initValue : 0

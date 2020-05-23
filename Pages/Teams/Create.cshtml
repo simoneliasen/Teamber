@@ -85,7 +85,7 @@
                             </div>
                             <br />
                             <div class="form-group">
-                                <div class="table">
+                                <div class="table" style="overflow: auto;">
                                     <table>
                                         <tr>
                                             <h4>Competences</h4>
@@ -441,7 +441,7 @@ function addToMemberList(employee) {
         var activeQuestionnaireID = activeQuestionnaireButton.split("-")[0];
         document.getElementById("" + employeeID + "-employee").value = "" + employeeID + "-" + activeQuestionnaireID;
     }
-    else {
+    else {//if he is already in the team, we want him removed
         var item = document.getElementById("" + employeeID + "-teamMember");
         item.parentNode.removeChild(item);
     }
@@ -449,25 +449,27 @@ function addToMemberList(employee) {
 
 
                 function updateMemberSynergy(employeeID) {
-                    var elementExists = document.getElementById("" + employeeID + "-teamMember");
-                    if (elementExists != null) {
+                    var elementExists = document.getElementById("" + employeeID + "-teamMember"); //is he a member of the team?
+                    if (elementExists != null) { //is he is a member then update his synergy
                         var synergy = document.getElementById(employeeID).innerHTML;
                         document.getElementById("" + employeeID + "-memberSynergy").innerHTML = synergy;
                     }
                 }
 
-
+                //Used to check which questionnaires that are associated with the team.
+                //fx if a questionnaire called "front end" tests for c# competences, and the team have edited the c# competences to above zero
+                //then the team is associated with the questionnaire "front end".
                 function checkOrUncheckQuestionnaire(competence) {
                     var competenceID = competence.split("-")[0];
                     var chosen = false;
-                    var questionnaireNumber = 0;
+                    var questionnaireNumber = 0; //contains the index of the current questionnaire in the questionnaireCriterias dictionary
                     for (var i in QuestionnaireCriterias) {
                         if (QuestionnaireCriterias[i].hasOwnProperty(competenceID)) {
                             questionnaireNumber = i;
                         }
-
                     }
-
+                    
+                    //is any of the associated criterias above zero? if so, then the questionnaire should be checked.
                     for (var k in QuestionnaireCriterias[questionnaireNumber]) {
                         if (QuestionnaireCriterias[questionnaireNumber][k] > 0) {
                             chosen = true;
@@ -479,7 +481,7 @@ function addToMemberList(employee) {
 
 
 
-    //Intialiazation
+    //Intialiazation of the synergy score indicator.
 var radialObj = radialIndicator('#indicatorContainer', {
     barColor: {
         0: '#a1ffa7',
@@ -496,46 +498,25 @@ var radialObj = radialIndicator('#indicatorContainer', {
 
 
 
+    //These are dictionaries containing dictionaries. Based on id's. So fx employe1 {competence1: answer1}
 
-
-    //opdateres ikke.
+    //Not updated live. Static data from c¤
     @Model.AllEmpCompetencesString
 
-    //opdateres ikke.
+    //Not updated live. Static data from c#
     @Model.AllEmpQuestionnairesString
 
-   //opdateres live. Ud fra user input i kriterierne.
+    //updated live. Based on user input in the criterias.
     @Model.AllQuestionnairesString
 
 
 
-    //bare et array over alle questionnaires:
+    //Just an array containing the questionnaireIDs
     @Model.AllQuestionnaireTitlesString
 
 
-    /*
-var QuestionnaireCriterias = {
-	1:{
-		1: 5,
-		2: 3,
-		3: 1
-	},
-	2:{
-		4: 5, //Næste step: få den her data til at opdatere automatisk ud fra hvad brugeren vælger af kriterier. Derefter loop over alle employees. Izzy.
-		5: 5,
-		6: 4
-	}
-}
-*/
-    //hent dem ind ligesom ved de andre, for det eneste der skal ændres er jo priorityen.
-    //når man skal opdatere: get quistionnaireid, get questionnaireComepetenceID. og så sig QuestionnaireCriterias[questionnaireID][questionnaireCompetenceID] = valuen.
-
-
-
-
-
-                //https://stackoverflow.com/questions/5066925/javascript-only-sort-a-bunch-of-divs
-                function sortEmployeesBySynergy() {
+                //Highly inpirated from https://stackoverflow.com/questions/5066925/javascript-only-sort-a-bunch-of-divs
+                function sortEmployeesBySynergy() { //sorts the table of employees by synergy score.
                     var toSort = document.getElementById('employeeList').children;
                     toSort = Array.prototype.slice.call(toSort, 0);
 
@@ -564,10 +545,7 @@ var QuestionnaireCriterias = {
 
 
 
-//document.getElementById("teamSynergy").innerHTML = EmpQuestionnaires[11][1];
-
-    //find de questionnaires der er vinget af og foreach kør nedenstående
-
+    //Just calculates the average synergy for the team members. 
     function calculateTeamSynergy() {
         var employeeSynergies = selectedEmployees();
 
@@ -591,19 +569,20 @@ var QuestionnaireCriterias = {
 
 
 
-
+    //WHen you click on a questionnaire, the associated competences should be displayed and the rest should be hidden.
+    //function runs when a questionnaire button is clicked.
     function showHideRelatedCompetences(questionnaire) {
         var questionnaireSplit = questionnaire.split("-");
         var questionnaireID = questionnaireSplit[0];
 
-        //og opdaterer lige en global variabel
+        //updates the global variable. So the activeQuestionnaireButton is changed to the one that was clicked.
         activeQuestionnaireButton = "" + questionnaireID + "-questionnaireButton";
         hideAllCompetences();
         document.getElementById(questionnaire).style.backgroundColor = 'lightblue';
-        var competences = document.getElementsByClassName("" + questionnaireID + "-Qclass");
+        var competences = document.getElementsByClassName("" + questionnaireID + "-Qclass");//the associated criterias have this class name.
         for (var i in competences) {
             var checkStatus = true;
-                //document.getElementById(questionnaire).checked;
+            
             if (checkStatus) {
                 try {
                     competences[i].style.display = 'table-cell';
@@ -625,18 +604,18 @@ var QuestionnaireCriterias = {
 
         }
 
-        //skal lige resette employee synergies til 0. pga. man skifter til den nye tab
+        //Employee synergies should be resat to 0, because the questionnaire that the synergy is based on is changed.
         var exampleCompetence = 0;
         for (var i in QuestionnaireCriterias[questionnaireID]) {
             exampleCompetence = i;
         }
 
         var exampleCompetenceString = "" + exampleCompetence + "-competenceValue";
-        calculateSynergies(exampleCompetenceString);
+        calculateSynergies(exampleCompetenceString); //and the the new synergies is calculated
    }
 
                 function hideAllCompetences() {
-                    var competences = document.getElementsByClassName("startHidden");
+                    var competences = document.getElementsByClassName("startHidden"); //all competences have this class.
 
                     for (var i = 0; i < competences.length; i++) {
                         competences[i].style.display = 'none';
@@ -650,18 +629,15 @@ var QuestionnaireCriterias = {
                 }
 
 
-
+    //gets all of the team members.
     function selectedEmployees() {
         var checkedEmployees = [];
-        for (var employee in EmpQuestionnaires){
+        for (var employee in EmpQuestionnaires){ //loops through all employeeIDs
             if (EmpQuestionnaires.hasOwnProperty(employee)) {
-                var temp = document.getElementById("" + employee + "-employee").checked;
+                var temp = document.getElementById("" + employee + "-employee").checked; //is the employee a member of the team?
                 if (temp) {
                     var employeeSynergy = document.getElementById(employee).innerHTML;
-                    //alert("employee er" + employee);
-                    //alert("employee synergy er " + employeeSynergy);
-                    checkedEmployees.push(employeeSynergy);
-
+                    checkedEmployees.push(employeeSynergy); //added to the array
                         }
                     }
         }
@@ -673,10 +649,10 @@ var QuestionnaireCriterias = {
 
 
 
-
+    //Gets the questionnaires that are associated with the team. - those questionnaires with criterias above zero.
     function selectedQuestionnaires() {
         var checkedQuestionnaires = [];
-        for (var questionnaire in QuestionnaireTitles){
+        for (var questionnaire in QuestionnaireTitles){ //loops through all questionnaires
             if (QuestionnaireTitles.hasOwnProperty(questionnaire)) {
                 var temp = document.getElementById("" + QuestionnaireTitles[questionnaire] + "-questionnaire").checked;
                 if (temp) {
@@ -689,83 +665,54 @@ var QuestionnaireCriterias = {
     }
 
 
-
+                //Runs when a criteria is changed.
+                //Calculate all synergies for the employee based on the criterias belonging questionnaire
                 function calculateSynergies(competence) {
                     var competenceID = competence.split("-")[0];
-                    var questionnaireNumber = 0;
+                    var questionnaireNumber = 0; //the key of the questionnaire in the questionnaireCriterias dictionary
                     for (var i in QuestionnaireCriterias) {
-                        if (QuestionnaireCriterias[i].hasOwnProperty(competenceID)) {
-                            questionnaireNumber = i;
+                        if (QuestionnaireCriterias[i].hasOwnProperty(competenceID)) { //if the questionnaire have this competence.
+                            questionnaireNumber = i;                            //then we know that this is the belonging questionnaire
                         }
 
                     }
 
                     questionnaireID = parseInt(questionnaireNumber);
-                    //alert("" + questionnaireID + " er det her.");
-
-                    updateQuestionnaireCriterias();
+                    updateQuestionnaireCriterias(); //updates a dictionary containing team criterias.
                     var maxScore = calculateMaxScore(questionnaireID);
 
-                for (var employee in EmpQuestionnaires) {
+                for (var employee in EmpQuestionnaires) { //dictionary containing all the employees associated questionnaires.
                     if (EmpQuestionnaires.hasOwnProperty(employee)) {
                         var employeeID = parseInt(employee);
 
-                        if (EmpQuestionnaires[employee].includes(questionnaireID)) { //altså hvis employeen er tilknyttet det givne questionnaire
+                        if (EmpQuestionnaires[employee].includes(questionnaireID)) { //if the employee is associatd with the questionnaire
 
-                            calculateEmployeeSynergy(employeeID, questionnaireID, maxScore);
-                            updateMemberSynergy(employeeID);
-                            //alert("max score er igen: " + maxScore + " " + typeof maxScore);
+                            calculateEmployeeSynergy(employeeID, questionnaireID, maxScore); //calculate his synergy
+                            updateMemberSynergy(employeeID); //updates the member list synergy, if he is in the team.
                         }
                         else if (document.getElementById("" + employee + "-teamMember") == null) {
-                            //hvis han ikke i forvejen er valgt, skal hans synergy sættes til 0.
-                            //alert("han er ikke med i spørgeskemaet og heller ikke teamet");
+                            //if the employee dont belong to the questionnaire, then the synergy should be zero. 
                              document.getElementById("" + employee).innerHTML = 0;
 
                         }
                         else {
                             //alert("han er ikke med i spørgeskemaet, men han er med i teamet.");
-                            //derfor gør vi ingenting
+                            //dont do anything
                         }
                     }
                     }
-                    sortEmployeesBySynergy(); //og til sidst vil vi så sortere employees efter synergy
+                    sortEmployeesBySynergy(); //and lastly sort the employees by synergy score.
 }
 
-                /*function calculateSynergies() {
-        var chosenQuestionnaires = selectedQuestionnaires();
-        updateQuestionnaireCriterias();
-        for (var questionnaire in chosenQuestionnaires){
-            if (chosenQuestionnaires.hasOwnProperty(questionnaire)) {
+                
 
-                var questionnaireID = parseInt(chosenQuestionnaires[questionnaire]);
-                var maxScore = calculateMaxScore(questionnaireID);
-
-                for (var employee in EmpQuestionnaires) {
-                    if (EmpQuestionnaires.hasOwnProperty(employee)) {
-                        if (EmpQuestionnaires[employee].includes(questionnaireID)) { //altså hvis employeen er tilknyttet det givne questionnaire
-                            var employeeID = parseInt(employee);
-                            calculateEmployeeSynergy(employeeID, questionnaireID, maxScore);
-                            updateMemberSynergy(employeeID);
-                            //alert("max score er igen: " + maxScore + " " + typeof maxScore);
-                        }
-
-                    }
-                }
-
-            }
-        }
-
-
-
-    }*/
-
-
+    //Updates a dictionary containing dictionaries of criterias.
     function updateQuestionnaireCriterias() {
         var target = QuestionnaireCriterias;
-	    for (var questionnaire in target){
+	    for (var questionnaire in target){ //loops through all questionnaires
         if (target.hasOwnProperty(questionnaire)) {
                 var target2 = QuestionnaireCriterias[questionnaire];
-	             for (var competence in target2){
+	             for (var competence in target2){ //loops through all criterias for this questionnaire.
                     if (target2.hasOwnProperty(competence)) {
                         var temp = document.getElementById("" + competence + "-competenceValue").value;
                         QuestionnaireCriterias[questionnaire][competence] = temp;
@@ -776,8 +723,10 @@ var QuestionnaireCriterias = {
     }
 
 
-
+    //the algorithm that calculates the employee synergy.
     function calculateEmployeeSynergy(employee, questionnaire, max_score) {
+
+        //the first part here checks if the employee is associated with the questionnaire.
         var memberInChosenQuestionnaire = false;
 
         try {
@@ -794,30 +743,31 @@ var QuestionnaireCriterias = {
 
 
 
-
+        //if the employee is not a member of the team or is associated with the questionnaire. Then the synergy should be calculated again.
+        //this basically just means that members who are not associated with the questionnaire, should keep their synergy score.
         if (document.getElementById("" + employee + "-teamMember") == null || memberInChosenQuestionnaire) {
             var totalScore = 0;
             var target = QuestionnaireCriterias[questionnaire];
-            for (var competence in target) {
+            for (var competence in target) { //loops thorugh all of the questionnaire's competences
                 if (target.hasOwnProperty(competence)) {
-                    //alert("Key is " + competence + ", value is " + target[competence]);
                     var competenceInt = parseInt(competence);
-                    var temp = EmpCompetences[employee][competenceInt];
+                    var temp = EmpCompetences[employee][competenceInt]; //What is this employees score for this competence?
 
 
                     var tempInt = parseInt(temp);
-                    if (tempInt > target[competenceInt]) {
+                    if (tempInt > target[competenceInt]) { //the selected criteria value is the max score for this criteria.
                         tempInt = parseInt(target[competenceInt]);
                     }
                     totalScore += tempInt;
 
                 }
             }
-            //return totalScore;
+            
+            //calculates the synergy
             var tempSynergy = totalScore / max_score * 100;
             var synergy = Math.round(tempSynergy);
 
-            if (Number.isInteger(synergy)) {
+            if (Number.isInteger(synergy)) { //if max_score is zero
                 document.getElementById("" + employee).innerHTML = synergy;
             }
             else {

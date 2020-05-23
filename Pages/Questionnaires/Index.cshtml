@@ -4,16 +4,17 @@
 @{
     ViewData["Title"] = "Index";
     if (String.IsNullOrEmpty(Model.Login) || String.IsNullOrEmpty(Model.Manager))
-              Response.Redirect("/Login/Login");
+        Response.Redirect("/Login/Login");
 }
 
 <body class="fade-in">
+
     <div class="container removePad" style="padding-bottom: 1%">
         <div class="row">
             <div class="col-1.5">
-                <h2 class="padTwoTop" >Questionnaire </h2>
+                <h2 class="padTwoTop" style="padding-left:12%">Questionnaire </h2>
             </div>
-            <div class="col">
+            <div class="col" style="padding-left:4%">
                 <div class="row">
                     <div class="col">
                         <button type="button" class="btn btn-success dropShadow" style="margin-bottom: 5px; height:100%" data-toggle="modal" data-target="#exampleModal">
@@ -25,6 +26,7 @@
         </div>
     </div>
 
+
     <div class="container">
         <div class="row row-cols-3">
             @foreach (var item in Model.Questionnaire)
@@ -35,7 +37,7 @@
                         @Html.DisplayFor(modelItem => item.Title)
                     </td>
                     <td>
-                      
+
                     </td>
                     <td>
                         <a asp-page="./Edit" asp-route-id="@item.QuestionnaireID">Edit</a> |
@@ -48,7 +50,7 @@
                     <div class="headblock border padTwo lightBG">
                         <div class="headBlock">
                             <h3 class="padOne"><b>@Html.DisplayFor(modelItem => item.Title)</b></h3>
-                            
+
                             <button type="button" class="btn btn-success margTwo">
                                 <a asp-page="./Edit" asp-route-id="@item.QuestionnaireID" style="color:white;">Manage</a>
                             </button>
@@ -85,7 +87,7 @@
                 @Html.DisplayNameFor(model => model.Questionnaire[0].Title)
             </th>
             <th>
-          
+
             </th>
             <th></th>
         </tr>
@@ -97,7 +99,7 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-           
+
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.QuestionnaireID">Edit</a> |

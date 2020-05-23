@@ -63,7 +63,7 @@ namespace ContosoUniversity.Pages.Questionnaires
 
 
             string[] extraCompetences;
-            if (Questionnaire.CompetencesString != null)
+            if (Questionnaire.CompetencesString != null && Questionnaire.CompetencesString != "Questionnaire.CompetencesString")
             {
                 extraCompetences = Questionnaire.CompetencesString.Split(", ");
             }

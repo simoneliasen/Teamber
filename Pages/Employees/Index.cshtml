@@ -16,7 +16,6 @@
             <div class="col" style="padding-left:4%">
                 <div class="row">
                     <div class="col">
-
                         <button type="button" asp-page="Create" class="btn btn-success dropShadow" style="margin-bottom: 5px; height:100%">
                             <a class="navItem" href="Employees/Create" style="color:white;">Add Employee</a>
                         </button>
@@ -26,35 +25,34 @@
         </div>
     </div>
 
-
     <div class="container">
         <div class="row row-cols-3">
             @foreach (var item in Model.Employee)
             {
                 <!--
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstMidName)
-            </td>
-            <th>
-                @Html.DisplayFor(modelitem => item.EmpTeamDate)
-            </th>
-            <td>
-                @Html.DisplayFor(modelItem => item.JobTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PersonalityType)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-        -->
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstMidName)
+                    </td>
+                    <th>
+                        @Html.DisplayFor(modelitem => item.EmpTeamDate)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.JobTitle)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PersonalityType)
+                    </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                        <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+                    </td>
+                </tr>
+                -->
                 <div class="div-sizing">
                     <div class="headblock border padTwo lightBG">
                         <div class="headBlock">
@@ -78,7 +76,7 @@
     </div>
 
     <br><br>
-  
+
 
     <footer id="sticky-footer" class="py-4 bg-dark text-white-50 fixed-bottom">
         <div class="container text-center">
