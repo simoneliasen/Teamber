@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ContosoUniversity.Migrations
 {
     [DbContext(typeof(SchoolContext))]
-    [Migration("20200502193814_testTeamCriteria")]
-    partial class testTeamCriteria
+    [Migration("20200523085751_TeamberMigrationFull")]
+    partial class TeamberMigrationFull
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -55,6 +55,9 @@ namespace ContosoUniversity.Migrations
 
                     b.Property<int>("TeamID")
                         .HasColumnType("int");
+
+                    b.Property<string>("questionnaireRole")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("EmpTeamID");
 
@@ -112,6 +115,31 @@ namespace ContosoUniversity.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Employee");
+                });
+
+            modelBuilder.Entity("ContosoUniversity.Models.EmployeeCompetence", b =>
+                {
+                    b.Property<int>("EmployeeCompetenceID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("EmployeeID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuestionnaireCompetenceID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("int");
+
+                    b.HasKey("EmployeeCompetenceID");
+
+                    b.HasIndex("EmployeeID");
+
+                    b.HasIndex("QuestionnaireCompetenceID");
+
+                    b.ToTable("EmployeeCompetence");
                 });
 
             modelBuilder.Entity("ContosoUniversity.Models.Questionnaire", b =>
@@ -252,6 +280,21 @@ namespace ContosoUniversity.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ContosoUniversity.Models.EmployeeCompetence", b =>
+                {
+                    b.HasOne("ContosoUniversity.Models.Employee", "Employee")
+                        .WithMany("EmployeeCompetences")
+                        .HasForeignKey("EmployeeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ContosoUniversity.Models.QuestionnaireCompetence", "QuestionnaireCompetence")
+                        .WithMany()
+                        .HasForeignKey("QuestionnaireCompetenceID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ContosoUniversity.Models.QuestionnaireCompetence", b =>
                 {
                     b.HasOne("ContosoUniversity.Models.Questionnaire", "Questionnaire")
@@ -269,7 +312,7 @@ namespace ContosoUniversity.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ContosoUniversity.Models.Team", "Teams")
+                    b.HasOne("ContosoUniversity.Models.Team", "Team")
                         .WithMany("TeamCriterias")
                         .HasForeignKey("TeamID")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -19,7 +19,7 @@ namespace ContosoUniversity.Data
 
             var employees = new Employee[]
             {
-                new Employee{FirstMidName="Carson",LastName="Alexander",EmpTeamDate=DateTime.Parse("2019-09-01"),JobTitle="Pro gamer",PersonalityType="GGGG",IsManager=true,Username="StoreDadler123",Password="hej123"},
+                new Employee{FirstMidName="Carson",LastName="Alexander",EmpTeamDate=DateTime.Parse("2019-09-01"),JobTitle="Pro gamer",PersonalityType="GGGG",IsManager=true,Username="Admin",Password="123"},
 
     };
             
