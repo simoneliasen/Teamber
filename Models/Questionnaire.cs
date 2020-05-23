@@ -11,9 +11,6 @@ namespace ContosoUniversity.Models
         [StringLength(50, MinimumLength = 3)]
         public string Title { get; set; }
 
-
-        public int Cycle { get; set; }
-
         public ICollection<EmpQuestionnaire> EmpQuestionnaires { get; set; }
         public ICollection<TeamQuestionnaire> TeamQuestionnaires { get; set; }
 

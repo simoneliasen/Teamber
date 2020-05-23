@@ -47,8 +47,6 @@ namespace ContosoUniversity.Pages.Questionnaires
             return Page();
         }
 
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync(int? id, int[] selectedQuestionnaireCompetences)
         {
             string[] extraCompetences;
@@ -62,9 +60,6 @@ namespace ContosoUniversity.Pages.Questionnaires
             }
             //den her indeholder de competencer man gerne vil tilføje extra til spørgeskemaet. Altså den kommaseparerede textbox.
 
-
-
-
             if (id == null)
             {
                 return NotFound();
@@ -73,7 +68,6 @@ namespace ContosoUniversity.Pages.Questionnaires
             var questionnaireToUpdate = await _context.Questionnaires
                 .Include(i => i.QuestionnaireCompetences)
                 .FirstOrDefaultAsync(s => s.QuestionnaireID == id);
-
 
             //skal også rettes for create siden!!!!!!!!!!
             //var square = _context.QuestionnaireCompetences.Select(i => i.Competence);
@@ -85,8 +79,6 @@ namespace ContosoUniversity.Pages.Questionnaires
                 //questionnaireToUpdate.QuestionnaireCompetences = new List<QuestionnaireCompetence>();
                 foreach (var competence in extraCompetences)
                 {
-                   
-
                         var competenceToAdd = new QuestionnaireCompetence
                         {
                             Competence = competence
@@ -117,16 +109,6 @@ namespace ContosoUniversity.Pages.Questionnaires
             }
 
 
-
-
-
-
-
-
-
-
-
-
             if (questionnaireToUpdate == null)
             {
                 return NotFound();
@@ -137,10 +119,8 @@ namespace ContosoUniversity.Pages.Questionnaires
             await TryUpdateModelAsync<Questionnaire>(
                 questionnaireToUpdate,
                 "Questionnaire",
-                i => i.Title, i => i.Cycle);
+                i => i.Title);
             {
-
-
 
 
                 //UpdateQuestionnaireCompetences(_context, selectedQuestionnaireCompetences, questionnaireToUpdate);

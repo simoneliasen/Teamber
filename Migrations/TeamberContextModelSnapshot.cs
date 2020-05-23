@@ -150,9 +150,6 @@ namespace Teamber.Migrations
                     b.Property<string>("CompetencesString")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Cycle")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);

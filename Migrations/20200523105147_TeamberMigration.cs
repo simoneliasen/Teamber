@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Teamber.Migrations
 {
-    public partial class TeamberFullMigration : Migration
+    public partial class TeamberMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -34,7 +34,6 @@ namespace Teamber.Migrations
                     QuestionnaireID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(maxLength: 50, nullable: true),
-                    Cycle = table.Column<int>(nullable: false),
                     CompetencesString = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

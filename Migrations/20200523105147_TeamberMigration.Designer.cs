@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Teamber.Migrations
 {
     [DbContext(typeof(TeamberContext))]
-    [Migration("20200523100415_TeamberFullMigration")]
-    partial class TeamberFullMigration
+    [Migration("20200523105147_TeamberMigration")]
+    partial class TeamberMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -151,9 +151,6 @@ namespace Teamber.Migrations
 
                     b.Property<string>("CompetencesString")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Cycle")
-                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(50)")

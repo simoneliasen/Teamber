@@ -72,7 +72,7 @@ namespace ContosoUniversity {
             await TryUpdateModelAsync<Questionnaire>(
                 newQuestionnaire,
                 "Questionnaire",
-                i => i.Title, i => i.Cycle);
+                i => i.Title);
             {
 
                 _context.Questionnaires.Add(newQuestionnaire);
