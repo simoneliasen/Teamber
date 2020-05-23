@@ -47,8 +47,21 @@ namespace ContosoUniversity.Pages.Questionnaires
             return Page();
         }
 
+
+
         public async Task<IActionResult> OnPostAsync(int? id, int[] selectedQuestionnaireCompetences)
         {
+
+            //evt lav første array til "c#, php, php", "".
+            //og så split index 0 op i flere så "c#", "php", "mysql"
+          
+
+            //get competences from form, and add as string
+            string tagOutput = Request.Form["myField"];
+            Questionnaire.CompetencesString = tagOutput;
+
+
+
             string[] extraCompetences;
             if (Questionnaire.CompetencesString != null)
             {

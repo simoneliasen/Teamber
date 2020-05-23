@@ -38,12 +38,12 @@
                             <div class="row row-cols-2" style="padding: 0 2%;">
                                 <div class="col" align="center">
                                     <p>Member Count:<p>
-                                    <p  style="margin-top: 32px;"><span class="memberCount" style="font-size: 35px;"></span></p>
-                                    
+                                    <p style="margin-top: 32px;"><span class="memberCount" style="font-size: 35px;"></span></p>
+
                                 </div>
                                 <div class="col" align="center">
                                     <p>Synergy Score:</p>
-                                    <div class="indicator" id="indicatorContainer-@Html.DisplayFor(modelItem => item.Synergy)">
+                                    <div class="indicator" id="indicatorContainer-@Html.DisplayFor(modelItem => item.Synergy)-@Html.DisplayFor(modelItem => item.TeamID)">
                                     </div>
                                 </div>
                             </div>
@@ -118,6 +118,7 @@
     </tbody>
 </table>
 -->
+
 <script type="text/javascript" src="../js/radialIndicator.js"></script>
 <script>
     @Model.teamMemberCount
@@ -133,11 +134,12 @@
         var currentID = teamSynergies[i].id;
         var currentSynergySplit = currentID.split("-");
         var currentSynergy = currentSynergySplit[1];
+        var teamID = currentSynergySplit[2];
 
         console.log('id ting er ' + '#indicatorContainer-' + currentID + '');
         //"#" + currentID
                 //Intialiazation
-var radialObj = radialIndicator('#indicatorContainer-' + currentSynergy + '', {
+var radialObj = radialIndicator('#indicatorContainer-' + currentSynergy + '-' + teamID + '', {
     barColor: {
         0: '#a1ffa7',
         //33: '#FFFF00',

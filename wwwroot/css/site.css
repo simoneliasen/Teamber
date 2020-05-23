@@ -249,4 +249,5 @@ html {
 .tagify {
     overflow: auto;
     flex-wrap: unset;
+    height: auto;
 }
