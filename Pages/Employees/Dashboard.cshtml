@@ -64,15 +64,9 @@
                             <h4>Take questionnaire</h4><br>
                             @if (Model.Id.Count != 0)
                             {
-                                <div class="border padTwo lightBG dropShadow padThreeTop" style="width:33%">
-                                    <div class="bodyBlock">
-                                        <div class="text-center">
-                                            <button type="button" class="btn btn-success" style="width:80%; margin-top:3%">
-                                                <a asp-page="/employees/TakeQuestionnaire" style="color:white;">Take Questionaire</a>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+                        <button type="button" class="btn btn-success">
+                            <a asp-page="/employees/TakeQuestionnaire" style="color:white;">Take Questionaire</a>
+                        </button>
                             }
                             else
                             {

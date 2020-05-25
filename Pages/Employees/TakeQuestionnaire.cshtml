@@ -14,7 +14,7 @@
 
 <hr />
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-8">
 
         <form method="post" onsubmit=" return ValidateCheckboxes()">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -46,11 +46,11 @@
                     <!-- Rating values-->
                     <tr>
                         <th></th>
-                        <th>Not good</th>
-                        <th>Pretty good</th>
-                        <th>Good</th>
-                        <th>Very good</th>
-                        <th>Excellent</th>
+                        <th>None</th>
+                        <th>Basic</th>
+                        <th>Intermediate</th>
+                        <th>Proficient</th>
+                        <th>Expert</th>
                     </tr>
 
                     <!-- Itterator that gives each checkbox group a unique class, so the javascript can refference it and only make one checkbox clickable in each group-->
