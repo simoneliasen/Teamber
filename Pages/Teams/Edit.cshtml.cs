@@ -86,7 +86,6 @@ namespace Teamber.Pages.Teams
 
                 UpdateTeamEmployees(_context, selectedEmployees, teamToUpdate);
                 UpdateTeamQuestionnaires(_context, selectedQuestionnaires, teamToUpdate);
-                //UpdateTeamCriterias(selectedCompetencesValue, teamToUpdate);
                 UpdateTeamCriterias(_context, selectedCompetences, selectedCompetencesValue, teamToUpdate);
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");

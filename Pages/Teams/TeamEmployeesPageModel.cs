@@ -396,16 +396,6 @@ namespace Teamber.Pages.Teams {
         }
 
 
-        public void UpdateTeamCriteriasOld(int[] selectedCompetenceValues, Team teamToUpdate)
-        {
-            int i = 0;
-            foreach (var criteria in teamToUpdate.TeamCriterias)
-            {
-                criteria.PriorityValue = selectedCompetenceValues[i];
-                i++;
-            }
-        }
-
         public void UpdateTeamCriterias(TeamberContext context, int[] selectedCompetences,
             int[] selectedCompetenceValues, Team teamToUpdate)
         {
