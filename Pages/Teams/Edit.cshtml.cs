@@ -57,7 +57,7 @@ namespace Teamber.Pages.Teams
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id, string[] selectedEmployees, string[] selectedQuestionnaires, string[] selectedCompetences, int[] selectedCompetencesValue)
+        public async Task<IActionResult> OnPostAsync(int? id, string[] selectedEmployees, string[] selectedQuestionnaires, int[] selectedCompetences, int[] selectedCompetencesValue)
         {
             if (id == null)
             {
@@ -86,7 +86,8 @@ namespace Teamber.Pages.Teams
 
                 UpdateTeamEmployees(_context, selectedEmployees, teamToUpdate);
                 UpdateTeamQuestionnaires(_context, selectedQuestionnaires, teamToUpdate);
-                UpdateTeamCriterias(selectedCompetencesValue, teamToUpdate);
+                //UpdateTeamCriterias(selectedCompetencesValue, teamToUpdate);
+                UpdateTeamCriterias(_context, selectedCompetences, selectedCompetencesValue, teamToUpdate);
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
             }

@@ -396,7 +396,7 @@ namespace Teamber.Pages.Teams {
         }
 
 
-        public void UpdateTeamCriterias(int[] selectedCompetenceValues, Team teamToUpdate)
+        public void UpdateTeamCriteriasOld(int[] selectedCompetenceValues, Team teamToUpdate)
         {
             int i = 0;
             foreach (var criteria in teamToUpdate.TeamCriterias)
@@ -406,7 +406,52 @@ namespace Teamber.Pages.Teams {
             }
         }
 
-        
+        public void UpdateTeamCriterias(TeamberContext context, int[] selectedCompetences,
+            int[] selectedCompetenceValues, Team teamToUpdate)
+        {
+            if (selectedCompetenceValues == null)
+            {
+                teamToUpdate.TeamCriterias = new List<TeamCriteria>();
+                return;
+            }
+            
+            
+            //var selectedCompetenceHS = new HashSet<int>(selectedCompetences);
+            //var selectedQuestionnairesHS = new HashSet<int>(context.QuestionnaireCompetences.Where(i => i.QuestionnaireCompetenceID));
+            //var questionnairesHS = new HashSet<int>(context.QuestionnaireCompetences.Where(i => i.QuestionnaireID));
+
+            var teamCompetences = new HashSet<int>
+                (teamToUpdate.TeamCriterias.Select(c => c.QuestionnaireCompetenceID));
+            foreach (var competence in context.QuestionnaireCompetences)
+            {
+                if (selectedCompetences.Contains(competence.QuestionnaireCompetenceID)) //if the current competence is selected
+                {
+                    if (!teamCompetences.Contains(competence.QuestionnaireCompetenceID))
+                    {
+                        int valueIndex = Array.IndexOf(selectedCompetences, competence.QuestionnaireCompetenceID);
+
+                        teamToUpdate.TeamCriterias.Add(
+                            new TeamCriteria
+                            {
+                                TeamID = teamToUpdate.TeamID,
+                                QuestionnaireCompetenceID = competence.QuestionnaireCompetenceID,
+                                PriorityValue = selectedCompetenceValues[valueIndex]
+                            }); ;
+                    }
+                    else
+                    {
+                        var currentCompetence = teamToUpdate.TeamCriterias.Where(i => i.QuestionnaireCompetenceID == competence.QuestionnaireCompetenceID).FirstOrDefault();
+                        int valueIndex = Array.IndexOf(selectedCompetences, competence.QuestionnaireCompetenceID);
+
+                        currentCompetence.PriorityValue = selectedCompetenceValues[valueIndex];
+                    }
+                }
+                
+                
+                
+            }
+            
+        }
 
 
     }
