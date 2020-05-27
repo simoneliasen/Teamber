@@ -51,11 +51,6 @@ namespace Teamber.Pages.Questionnaires
 
         public async Task<IActionResult> OnPostAsync(int? id, int[] selectedQuestionnaireCompetences)
         {
-
-            //evt lav første array til "c#, php, php", "".
-            //og så split index 0 op i flere så "c#", "php", "mysql"
-          
-
             //get competences from form, and add as string
             string tagOutput = Request.Form["myField"];
             Questionnaire.CompetencesString = tagOutput;
@@ -71,7 +66,7 @@ namespace Teamber.Pages.Questionnaires
             {
                 extraCompetences = null;
             }
-            //den her indeholder de competencer man gerne vil tilføje extra til spørgeskemaet. Altså den kommaseparerede textbox.
+            //this variable contains the competences that the user wants to add to the questionnaire. Meaning the commma-separated textbox.
 
             if (id == null)
             {
@@ -82,14 +77,10 @@ namespace Teamber.Pages.Questionnaires
                 .Include(i => i.QuestionnaireCompetences)
                 .FirstOrDefaultAsync(s => s.QuestionnaireID == id);
 
-            //skal også rettes for create siden!!!!!!!!!!
-            //var square = _context.QuestionnaireCompetences.Select(i => i.Competence);
-            //square indeholder alle competencer der er gemt i databasen.
+            //square contains all competences saved in the database.
 
             if (extraCompetences != null)
             {
-                //det skal vel ikke laves til en ny list? det er vel bare derfor den fjerner de andre??????????????????????????????
-                //questionnaireToUpdate.QuestionnaireCompetences = new List<QuestionnaireCompetence>();
                 foreach (var competence in extraCompetences)
                 {
                         var competenceToAdd = new QuestionnaireCompetence
@@ -100,10 +91,10 @@ namespace Teamber.Pages.Questionnaires
                     
                 }
             }
-            //Ovenstående if statement tilføjer de nye competencer der er tilføjet til spørgeskemaet.
+            //the above if statement adds the new competences to the questionnaire
 
 
-            //nu fjerner vi dem der er checked.
+            //This part removes the checked competences. (The user checks the competences that should be removed)
             foreach(var competence in selectedQuestionnaireCompetences)
             {
                 QuestionnaireCompetence competenceToRemove
@@ -127,8 +118,6 @@ namespace Teamber.Pages.Questionnaires
                 return NotFound();
             }
 
-            //Nedenstående var i et if statement før men det gad ikke at virke, så kører bare indholdet altid. easy
-            // se i teams filen
             await TryUpdateModelAsync<Questionnaire>(
                 questionnaireToUpdate,
                 "Questionnaire",
@@ -136,15 +125,9 @@ namespace Teamber.Pages.Questionnaires
             {
 
 
-                //UpdateQuestionnaireCompetences(_context, selectedQuestionnaireCompetences, questionnaireToUpdate);
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
             }
-            //UpdateEmployeeTeams(_context, selectedTeams, employeeToUpdate);
-            //UpdateEmployeeQuestionnaires(_context, selectedQuestionnaires, employeeToUpdate);
-            //PopulateAssignedTeamData(_context, employeeToUpdate);
-            //PopulateAssignedQuestionnaireData(_context, employeeToUpdate);
-            //return Page();
         }
 
         private bool QuestionnaireExists(int id)

@@ -75,43 +75,6 @@
     </footer>
 </body>
 
-<!--
-<h1>Index</h1>
-
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Team[0].Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Team[0].Synergy)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Team) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Synergy)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.TeamID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.TeamID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.TeamID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
--->
 
 <script type="text/javascript" src="../js/radialIndicator.js"></script>
 <script>
@@ -130,14 +93,9 @@
         var currentSynergy = currentSynergySplit[1];
         var teamID = currentSynergySplit[2];
 
-        console.log('id ting er ' + '#indicatorContainer-' + currentID + '');
-        //"#" + currentID
-                //Intialiazation
 var radialObj = radialIndicator('#indicatorContainer-' + currentSynergy + '-' + teamID + '', {
     barColor: {
         0: '#a1ffa7',
-        //33: '#FFFF00',
-        //66: '#0066FF',
         100: '#00660e'
     },
     barWidth: 15,

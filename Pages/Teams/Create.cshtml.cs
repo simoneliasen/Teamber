@@ -53,7 +53,7 @@ namespace Teamber.Pages.Teams {
                 {
                     string[] employeeSplit = employee.Split("-");
                     string employeeIDString = employeeSplit[0];
-                    string employeeField = employeeSplit[employeeSplit.Length - 1]; //altså den sidste.
+                    string employeeField = employeeSplit[employeeSplit.Length - 1]; //meaning the last
 
                     var employeeToAdd = new EmpTeam
                     {
@@ -76,7 +76,7 @@ namespace Teamber.Pages.Teams {
                     newTeam.TeamQuestionnaires.Add(questionnaireToAdd);
                 }
 
-                //tilføjer kriterier for de enkelte felter for de tilhørende questionnaires.
+                //adds criterias for the fields for the associated questionnaires.
                 newTeam.TeamCriterias = new List<TeamCriteria>();
                 for (int i = 0; i < selectedCompetences.Length; i++)
                 {
@@ -86,7 +86,7 @@ namespace Teamber.Pages.Teams {
                         PriorityValue = selectedCompetencesValue[i]
                     };
 
-                    if (criteriaToAdd.PriorityValue > 0) //alle dem der ikke skal bruges sættes bare til 0. Så vi tager kun dem der skal bruges.
+                    if (criteriaToAdd.PriorityValue > 0) //The unnecessary ones are set to 0. Then we only retrieve the ones that should be used.
                     {
                         newTeam.TeamCriterias.Add(criteriaToAdd);
                     }
@@ -103,9 +103,6 @@ namespace Teamber.Pages.Teams {
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
             }
-
-            PopulateAssignedEmployeeData(_context, newTeam);
-            return Page();
         }
     }
 }

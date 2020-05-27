@@ -34,7 +34,7 @@ namespace Teamber.Pages.Employees
 
             var idUsername = allUs[0].ID;
 
-            int id = idUsername; //id'et sættes bare til id't på den employee der er logget ind. izzyyyy
+            int id = idUsername; //the id is just the id of the employee that is currently logged in.
             if (id == null)
             {
                 return NotFound();
@@ -45,7 +45,6 @@ namespace Teamber.Pages.Employees
                 .FirstOrDefaultAsync(m => m.ID == id);
 
 
-            // Employee = await _context.Employees.FindAsync(id);
 
             if (Employee == null)
             {
@@ -75,7 +74,7 @@ namespace Teamber.Pages.Employees
 
             var idUsername = allUs[0].ID;
 
-            int id = idUsername; //id'et sættes bare til id't på den employee der er logget ind. izzyyyy
+            int id = idUsername;
             if (id == null)
             {
                 return NotFound();
@@ -92,7 +91,6 @@ namespace Teamber.Pages.Employees
                 return NotFound();
             }
 
-            //  if (await TryUpdateModelAsync<Team>( ????
             await TryUpdateModelAsync<Employee>(
                 employeeToUpdate,
                 "Employee",
@@ -103,9 +101,6 @@ namespace Teamber.Pages.Employees
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Dashboard");
             }
-            //UpdateTeamEmployees(_context, selectedEmployees, teamToUpdate);
-            //PopulateAssignedEmployeeData(_context, teamToUpdate);
-            return Page();
         }
         private bool TeamExists(int id)
         {

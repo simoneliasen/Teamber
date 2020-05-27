@@ -27,12 +27,7 @@
                                 <span asp-validation-for="Team.Title" class="text-danger"></span>
                             </div>
                             <input type="hidden" asp-for="Team.Synergy" class="form-control" id="teamSynergy" />
-                            <!--
-    <div class="form-group">
-        <label asp-for="Team.Synergy" class="control-label"></label>
-        <input asp-for="Team.Synergy" class="form-control" id="teamSynergy" />
-        <span asp-validation-for="Team.Synergy" class="text-danger"></span>
-    </div>-->
+                            
                             <hr />
                             <div>
                                 <h4>Questionnaires</h4>
@@ -353,7 +348,7 @@
                                                         @:
                                                     }
                                                     @:<div class="col-md-4">
- <!-- måske tilføj en class her?-->
+
 
                                                         <tr id="@employee.EmployeeID-outerDiv">
                                                             <td><span id="@employee.EmployeeID-name">@employee.FullName</span></td>
@@ -400,8 +395,23 @@
                             }
 
 
+
                             <script type="text/javascript" src="../js/radialIndicator.js"></script>
                             <script type="text/javascript">
+                                //!! Important
+                                //
+                                //
+                                //For detailed descriptions of the javascript functions, go to the Teams/Create.cshtml instead
+                                //
+                                //
+                                //
+                                //
+                                //
+                                //
+                                //
+                                //
+                                //These descriptions are shorter, and in danish.
+                                //!!
 
                                 var activeQuestionnaireButton = "";
 

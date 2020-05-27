@@ -31,8 +31,6 @@ namespace Teamber {
 
         public async Task<IActionResult> OnPostAsync()
         {
-            //evt lav første array til "c#, php, php", "".
-            //og så split index 0 op i flere så "c#", "php", "mysql"
             string[] selectedQuestionnaireCompetences;
 
             //get competences from form, and add as string
@@ -49,8 +47,7 @@ namespace Teamber {
             }
 
             var square = _context.QuestionnaireCompetences.Select(i => i.Competence);
-            //square indeholder alle competencer der er gemt i databasen.
-            //drop database og se om det virker.
+            //square all competences saved in the database.
 
             var newQuestionnaire = new Questionnaire();
             if (selectedQuestionnaireCompetences != null)

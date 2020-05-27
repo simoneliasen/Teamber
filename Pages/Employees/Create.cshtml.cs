@@ -69,17 +69,18 @@ namespace Teamber.Pages.Employees
                     newEmployee.EmpQuestionnaires.Add(questionnaireToAdd);
                 }
 
-                //sætter alle employeens competencescores til 1. Så vi nemmere kan redigere i dem, og se at emlpoyeen er oprettet.
+                //sets the employee's competence scores to 0, so that it is easier to edit and see that the employee is registered
                 newEmployee.EmployeeCompetences = new List<EmployeeCompetence>();
                 var allCompetencesQuestionnaireIDs = new List<int>(
-                _context.QuestionnaireCompetences.Select(c => c.QuestionnaireID)); //henter questionnaireID'et for alle competencer.
+                _context.QuestionnaireCompetences.Select(c => c.QuestionnaireID)); //Retrieves the questionnaire id for all competences
 
                 var allCompetences = new List<int>(
-                _context.QuestionnaireCompetences.Select(c => c.QuestionnaireCompetenceID)); //henter questionnaireID'et for alle competencer.
+                _context.QuestionnaireCompetences.Select(c => c.QuestionnaireCompetenceID)); //retrieves the competenceID for all competences
 
                 for (int i = 0; i < allCompetencesQuestionnaireIDs.Count(); i++)
                 {
-                    if (newEmployee.EmpQuestionnaires.Select(i => i.QuestionnaireID).Contains(allCompetencesQuestionnaireIDs[i])) //hvis competencens tilhørende questionnaireID er i employeens quenstionnaireID'er vil vi tilføje                                                                                                   //competencen med en værdi på 1, til vores employeeCompetences.
+                    if (newEmployee.EmpQuestionnaires.Select(i => i.QuestionnaireID).Contains(allCompetencesQuestionnaireIDs[i])) //if the competence's associated questionnaireID is in the list of the employee's associated questionnaires
+                                                                                                            //then we want to add the competence with a value of 0 to the employeeCompetences
                     {
                         var competenceToAdd = new EmployeeCompetence
                         {
@@ -107,10 +108,6 @@ namespace Teamber.Pages.Employees
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
             }
-
-            PopulateAssignedTeamData(_context, newEmployee);
-            PopulateAssignedQuestionnaireData(_context, newEmployee);
-            return Page();
         }
     }
 }

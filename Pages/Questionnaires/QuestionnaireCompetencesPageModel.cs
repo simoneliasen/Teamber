@@ -15,8 +15,8 @@ namespace Teamber.Pages.Questionnaires
                                                Questionnaire questionnaire)
         {
             var allQuestionnaireCompetences = context.QuestionnaireCompetences;
-            var questionnaireCompetences = new HashSet<int>( //læg mærke til at det er et hashset af ints
-                questionnaire.QuestionnaireCompetences.Select(c => c.QuestionnaireCompetenceID)); //og læg mærke til at det er competencer. i form af strings.
+            var questionnaireCompetences = new HashSet<int>( //Note that this is a hashset of INTS
+                questionnaire.QuestionnaireCompetences.Select(c => c.QuestionnaireCompetenceID)); //and note that this is competences in string form
             AssignedQuestionnaireCompetenceDataList = new List<AssignedQuestionnaireCompetenceData>();
             foreach (var questionnaireCompetence in allQuestionnaireCompetences)
             {
@@ -39,7 +39,6 @@ namespace Teamber.Pages.Questionnaires
         {
             if (selectedQuestionnaireCompetences == null)
             {
-                //questionnaireToUpdate.QuestionnaireCompetences = new List<QuestionnaireCompetence>();
                 return;
             }
 
@@ -51,16 +50,7 @@ namespace Teamber.Pages.Questionnaires
             {
                 if (selectedCompetencesHS.Contains(questionnaireCompetence.Competence))
                 {
-                    /*
-                    if (!questionnaireCompetences.Contains(questionnaireCompetence.Competence))
-                    {
-                        questionnaireToUpdate.QuestionnaireCompetences.Add(
-                            new QuestionnaireCompetence
-                            {
-                                QuestionnaireID = questionnaireToUpdate.QuestionnaireID,
-                                Competence = questionnaireCompetence.Competence
-                            });
-                    } */
+                    
                 }
                 else
                 {

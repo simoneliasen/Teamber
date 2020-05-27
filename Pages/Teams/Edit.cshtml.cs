@@ -41,9 +41,6 @@ namespace Teamber.Pages.Teams
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.TeamID == id);
 
-
-            // Employee = await _context.Employees.FindAsync(id);
-
             if (Team == null)
             {
                 return NotFound();
@@ -81,7 +78,6 @@ namespace Teamber.Pages.Teams
                 return NotFound();
             }
 
-            //  if (await TryUpdateModelAsync<Team>( ????
             await TryUpdateModelAsync<Team>(
                 teamToUpdate,
                 "Team",
@@ -94,9 +90,6 @@ namespace Teamber.Pages.Teams
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
             }
-            UpdateTeamEmployees(_context, selectedEmployees, teamToUpdate);
-            PopulateAssignedEmployeeData(_context, teamToUpdate);
-            return Page();
         }
         private bool TeamExists(int id)
         {

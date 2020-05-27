@@ -52,7 +52,7 @@ namespace Teamber.Pages.Employees
         }
 
 
-        //til at tage spørgeskema
+        //for taking a questionnaire
         public void PopulateAssignedEmployeeCompetenceData(TeamberContext context,
                                                Employee employee)
         {
@@ -60,7 +60,7 @@ namespace Teamber.Pages.Employees
                 employee.EmpQuestionnaires.Select(c => c.QuestionnaireID));
 
 
-            //obs: den henter alle competencer - ikke bare employeeCompetences. Dvs. når man tager questionnairet kan man ikke se hvad man svarede sidst.
+            //note: this retrieves all competences - not just the employeeCompetences. Meaning when you take the questionnaire, you cant see your previous answers.
             var allCompetences = context.QuestionnaireCompetences;
 
 
@@ -70,7 +70,7 @@ namespace Teamber.Pages.Employees
                 var questionnaireID = context.QuestionnaireCompetences.Where(i => i.QuestionnaireCompetenceID == competence.QuestionnaireCompetenceID).Select(k => k.QuestionnaireID).FirstOrDefault();
                 var competenceName = context.QuestionnaireCompetences.Where(i => i.QuestionnaireCompetenceID == competence.QuestionnaireCompetenceID).Select(k => k.Competence).FirstOrDefault();
 
-                if (employee.EmpQuestionnaires.Select(i => i.QuestionnaireID).Contains(competence.QuestionnaireID)) //altså hvis den ansatte har et questionnair tilknyttet, hvor competencen er i dette questionnaire.
+                if (employee.EmpQuestionnaires.Select(i => i.QuestionnaireID).Contains(competence.QuestionnaireID)) //meaning, if the employee is associated with a questionnaire, where the competence is in this questionnaire
                 {
                     AssignedEmployeeCompetenceDataList.Add(new AssignedEmployeeCompetenceData
                     {
@@ -78,39 +78,38 @@ namespace Teamber.Pages.Employees
                         Criteria = competenceName,
                         Assigned = true,
                         Priority = 1,
-                        //Priority = allCompetences.Where(i => i.TeamID == team.TeamID).Where(j => j.QuestionnaireCompetenceID == criteria.QuestionnaireCompetenceID).FirstOrDefault().PriorityValue, //cirkemde med questionnairecompetence id i stedet for team id.
                         QuestionnaireCompetenceID = competence.QuestionnaireCompetenceID
                     });
                 }
             }
         }
 
-        //til at vise details siden.
+        //for showing the details page
         public void PopulateAssignedEmployeeCompetenceValuesData(TeamberContext context,
                                                Employee employee)
         {
             var questionnaireCompetences = new HashSet<int>(
-                employee.EmployeeCompetences.Select(c => c.QuestionnaireCompetenceID)); //fjern select statementet.
+                employee.EmployeeCompetences.Select(c => c.QuestionnaireCompetenceID));
 
             var employeeCompetences = context.EmployeeCompetences;
 
            
-            var employeeQuestionnaires = context.EmpQuestionnaires.Where(i => i.EmployeeID == employee.ID).Select(i => i.QuestionnaireID); //de questionnaires som employeen er medlem af
+            var employeeQuestionnaires = context.EmpQuestionnaires.Where(i => i.EmployeeID == employee.ID).Select(i => i.QuestionnaireID); //the questionnaires that are associated with the employee
             var allQuestionnaireCompetences = context.QuestionnaireCompetences.Where(i => employeeQuestionnaires.Contains(i.QuestionnaireID)).Select(i => i.QuestionnaireCompetenceID);
-            //alle employeens questionnaires' kompetencer
-            //bruges til at se om employeen har angivet en værdi for competencen. Hvis nej: så tilføj den med en værdi på 0.
+            //all the employee's questionnaires' competences
+            //is used to check if the employee has rates the competence. If not, then add it with a value of 0.
 
 
             AssignedEmployeeCompetenceValuesDataList = new List<AssignedEmployeeCompetenceData>();
             foreach (var competence in allQuestionnaireCompetences)
             {
-                if(questionnaireCompetences.Contains(competence)) //altså hvis der er registreret noget data med den competence for emploteen
+                if(questionnaireCompetences.Contains(competence)) //meaning, if there is registered any data for this competence for the employee
                 {
                     var questionnaireCompetenceID = context.QuestionnaireCompetences.Where(i => i.QuestionnaireCompetenceID == competence).Select(k => k.QuestionnaireID).FirstOrDefault();
                     var competenceName = context.QuestionnaireCompetences.Where(i => i.QuestionnaireCompetenceID == competence).Select(k => k.Competence).FirstOrDefault();
                     var priority = context.EmployeeCompetences.Where(i => i.QuestionnaireCompetenceID == competence).Where(i => i.EmployeeID == employee.ID).Select(k => k.Score).FirstOrDefault();
 
-                    if (employee.EmployeeCompetences.Select(i => i.QuestionnaireCompetenceID).Contains(competence)) //altså hvis den ansatte har et questionnair tilknyttet, hvor competencen er i dette questionnaire.
+                    if (employee.EmployeeCompetences.Select(i => i.QuestionnaireCompetenceID).Contains(competence)) //meaning, if the employee is associated with a questionnaire, where the competence is inn this questionnaire
                     {
                         AssignedEmployeeCompetenceValuesDataList.Add(new AssignedEmployeeCompetenceData
                         {
@@ -118,12 +117,11 @@ namespace Teamber.Pages.Employees
                             Criteria = competenceName,
                             Assigned = true,
                             Priority = priority
-                            //Priority = allCompetences.Where(i => i.TeamID == team.TeamID).Where(j => j.QuestionnaireCompetenceID == criteria.QuestionnaireCompetenceID).FirstOrDefault().PriorityValue, //cirkemde med questionnairecompetence id i stedet for team id.
 
                         });
                     }
                 }
-                else //så vil vi tilføje den
+                else //then we want to add it
                 {
                     var competenceName = context.QuestionnaireCompetences.Where(i => i.QuestionnaireCompetenceID == competence).Select(k => k.Competence).FirstOrDefault();
                     AssignedEmployeeCompetenceValuesDataList.Add(new AssignedEmployeeCompetenceData
@@ -131,7 +129,7 @@ namespace Teamber.Pages.Employees
                         QuestionnaireCompetenceID = competence,
                         Criteria = competenceName,
                         Assigned = true,
-                        Priority = 0 //læg mærke til at den sættes til 0. Da employeen jo ikke har angivet en værdi
+                        Priority = 0 //note it is set to 0, as the employee havent entered any data.
                     });
                 }
                 
@@ -225,21 +223,20 @@ namespace Teamber.Pages.Employees
 
         public void UpdateEmployeeCompetences(TeamberContext context, int[] selectedCompetenceValues, Employee employeeToUpdate)
         {
-            var employeeQuestionnaires = context.EmpQuestionnaires.Where(i => i.EmployeeID == employeeToUpdate.ID).Select(i => i.QuestionnaireID); //de questionnaires som employeen er medlem af
+            var employeeQuestionnaires = context.EmpQuestionnaires.Where(i => i.EmployeeID == employeeToUpdate.ID).Select(i => i.QuestionnaireID); //the employee's associated questionnaires
             var allQuestionnaireCompetences = context.QuestionnaireCompetences.Where(i => employeeQuestionnaires.Contains(i.QuestionnaireID)).Select(i => i.QuestionnaireCompetenceID);
-            //alle employeens questionnaires' kompetencer
+            //all of the employee's questionnaires' competences
 
 
             int i = 0;
             foreach (var competence in allQuestionnaireCompetences)
             {
-                if(employeeToUpdate.EmployeeCompetences.Select(i => i.QuestionnaireCompetenceID).Contains(competence)) //altså hvis han i for vejen har svaret på denne kompetence
+                if(employeeToUpdate.EmployeeCompetences.Select(i => i.QuestionnaireCompetenceID).Contains(competence)) //meaning, if he already have answered it.
                 {
                     var currentCompetence = context.EmployeeCompetences.Where(i => i.EmployeeID == employeeToUpdate.ID).Where(i => i.QuestionnaireCompetenceID == competence).FirstOrDefault();
                     currentCompetence.Score = selectedCompetenceValues[i];
-                    //competence.Score = selectedCompetenceValues[i];
                 }
-                else //hvis det er en ny kompetence
+                else //if the competence is new
                 {
                     var competenceToAdd = new EmployeeCompetence
                     {

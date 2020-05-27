@@ -31,21 +31,7 @@
         <div class="row row-cols-3">
             @foreach (var item in Model.Questionnaire)
             {
-                <!--
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    <td>
-
-                    </td>
-                    <td>
-                        <a asp-page="./Edit" asp-route-id="@item.QuestionnaireID">Edit</a> |
-                        <a asp-page="./Details" asp-route-id="@item.QuestionnaireID">Details</a> |
-                        <a asp-page="./Delete" asp-route-id="@item.QuestionnaireID">Delete</a>
-                    </td>
-                </tr>
-                -->
+                
                 <div class="div-sizing">
                     <div class="headblock border padTwo lightBG dropShadow">
                         <div class="headBlock">
@@ -73,41 +59,3 @@
         </div>
     </footer>
 </body>
-
-<!--
-<h1>Index</h1>
-
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Questionnaire[0].Title)
-            </th>
-            <th>
-
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Questionnaire) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.QuestionnaireID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.QuestionnaireID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.QuestionnaireID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
--->

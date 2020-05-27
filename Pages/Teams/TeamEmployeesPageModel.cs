@@ -14,13 +14,13 @@ namespace Teamber.Pages.Teams {
         public List<AssignedTeamCriteriaData> AssignedTeamCriteriaDataList;
         public List<AllCompetences> AllCompetencesDataList;
 
-        //Samler en masse data om de anssatte til søgningen. Indsættes som javascript i bunden.
+        //collects a lot of data for the employees for the algorithm. This is inserted as javascript distionairies on the page.
         public string AllEmpCompetencesString;
         public string AllEmpQuestionnairesString;
         public string AllQuestionnairesString;
         public string AllQuestionnaireTitlesString;
 
-        //til edit siderne
+        //for the edit page
         public string teamMembers;
 
         //for team members on the team/index page
@@ -68,11 +68,11 @@ namespace Teamber.Pages.Teams {
 
             string result = "var TeamMembers = { ";
 
-            foreach (var employee in teamEmployees) //looper gennem alle employees
+            foreach (var employee in teamEmployees) //loops through all employees
             {
                 if (employee.questionnaireRole != null)
                 {
-                    result += $"{employee.EmployeeID.ToString()}: {employee.questionnaireRole}, ";//questionnaireRole er et id
+                    result += $"{employee.EmployeeID.ToString()}: {employee.questionnaireRole}, ";//questionnaireRole is an id
                 }
                 else
                 {
@@ -130,7 +130,7 @@ namespace Teamber.Pages.Teams {
         public void PopulateAllCompetencesData(TeamberContext context,
                                                Team team)
         {
-            var allCompetences = context.QuestionnaireCompetences; //rettet herfra idet, den skal indeholde alle competencer. ikke alle criterier. ret nedenfor også!
+            var allCompetences = context.QuestionnaireCompetences;
             var questionnaireCompetences = new HashSet<int>(
                 team.TeamQuestionnaires.Select(c => c.QuestionnaireID));
 
@@ -158,10 +158,10 @@ namespace Teamber.Pages.Teams {
 
             string result = "var EmpCompetences = { ";
 
-            foreach (var employeeID in allEmployeeIDs) //looper gennem alle employees
+            foreach (var employeeID in allEmployeeIDs) //loops through all employees
             {
                 result += $"{employeeID.ToString()}: {{ ";
-                foreach (var employeeCompetence in allEmployeeCompetences)//looper gennem alle competencer
+                foreach (var employeeCompetence in allEmployeeCompetences)//loops through all competences
                 {
                     if (employeeID == employeeCompetence.EmployeeID)
                     {
@@ -184,10 +184,10 @@ namespace Teamber.Pages.Teams {
 
             string result = "var EmpQuestionnaires = { ";
 
-            foreach (var employeeID in allEmployeeIDs) //looper gennem alle employees
+            foreach (var employeeID in allEmployeeIDs) //loops through all employees
             {
                 result += $"{employeeID.ToString()}: [ ";
-                foreach (var employeeQuestionnaire in allEmployeeQuestionnaires)//looper gennem alle competencer
+                foreach (var employeeQuestionnaire in allEmployeeQuestionnaires)
                 {
                     if (employeeID == employeeQuestionnaire.EmployeeID)
                     {
@@ -210,10 +210,10 @@ namespace Teamber.Pages.Teams {
 
             string result = "var QuestionnaireCriterias = { ";
 
-            foreach (var questionnaireID in allQuestionnaireIDs) //looper gennem alle employees
+            foreach (var questionnaireID in allQuestionnaireIDs) //loops though all employees
             {
                 result += $"{questionnaireID.ToString()}: {{ ";
-                foreach (var competence in allQuestionnaireCompetences)//looper gennem alle competencer
+                foreach (var competence in allQuestionnaireCompetences)//loops through all competences
                 {
                     if (questionnaireID == competence.QuestionnaireID)
                     {
@@ -239,10 +239,10 @@ namespace Teamber.Pages.Teams {
 
             string result = "var QuestionnaireCriterias = { ";
 
-            foreach (var questionnaireID in allQuestionnaireIDs) //looper gennem alle employees
+            foreach (var questionnaireID in allQuestionnaireIDs) 
             {
                 result += $"{questionnaireID.ToString()}: {{ ";
-                foreach (var competence in allQuestionnaireCompetences)//looper gennem alle competencer
+                foreach (var competence in allQuestionnaireCompetences)
                 {
                     if (questionnaireID == competence.QuestionnaireID)
                     {
@@ -272,7 +272,7 @@ namespace Teamber.Pages.Teams {
 
             string result = "var QuestionnaireTitles = [ ";
 
-            foreach (var questionnaireID in allQuestionnaireIDs) //looper gennem alle questionnaires
+            foreach (var questionnaireID in allQuestionnaireIDs) //looper through all questionnaires
             {
                 result += $"{questionnaireID.ToString()}, ";
             }
@@ -300,7 +300,7 @@ namespace Teamber.Pages.Teams {
                 var questionnaireID = context.QuestionnaireCompetences.Where(i => i.QuestionnaireCompetenceID == criteria.QuestionnaireCompetenceID).Select(k => k.QuestionnaireID).FirstOrDefault();
                 var criteriaName = context.QuestionnaireCompetences.Where(i => i.QuestionnaireCompetenceID == criteria.QuestionnaireCompetenceID).Select(k => k.Competence).FirstOrDefault();
 
-                if (criteria.TeamID == team.TeamID) //easy?? 
+                if (criteria.TeamID == team.TeamID)
                 {
                     AssignedTeamCriteriaDataList.Add(new AssignedTeamCriteriaData
                     {
@@ -396,8 +396,6 @@ namespace Teamber.Pages.Teams {
         }
 
 
-        //Det her er helt forkert. Fordi det vil tjekke om der er tilføjet flere osv. Men det er der jo ikke
-        //Med denne metode kan der højst skiftes value på PriorityValue.
         public void UpdateTeamCriterias(int[] selectedCompetenceValues, Team teamToUpdate)
         {
             int i = 0;
@@ -407,6 +405,8 @@ namespace Teamber.Pages.Teams {
                 i++;
             }
         }
+
+        
 
 
     }
