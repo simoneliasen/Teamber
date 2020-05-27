@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ContosoUniversity.Pages
+namespace Teamber.Pages
 {
     public class IndexModel : PageModel
     {

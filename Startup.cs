@@ -1,4 +1,4 @@
-﻿using ContosoUniversity.Data;
+﻿using Teamber.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace ContosoUniversity
+namespace Teamber
 {
     public class Startup
     {
@@ -24,7 +24,7 @@ namespace ContosoUniversity
             services.AddRazorPages();
 
             services.AddDbContext<TeamberContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("SchoolContext")));
+                    options.UseSqlServer(Configuration.GetConnectionString("TeamberContext")));
 
             // Added session for the login
             services.AddSession();

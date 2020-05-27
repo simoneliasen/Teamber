@@ -1,7 +1,7 @@
-﻿using ContosoUniversity.Models;
+﻿using Teamber.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ContosoUniversity.Data {
+namespace Teamber.Data {
     public class TeamberContext : DbContext {
         public TeamberContext(DbContextOptions<TeamberContext> options) : base(options) { }
 

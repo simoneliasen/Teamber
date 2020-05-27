@@ -1,17 +1,17 @@
-﻿using ContosoUniversity.Models;
+﻿using Teamber.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace ContosoUniversity.Pages.Teams
+namespace Teamber.Pages.Teams
 {
     public class DeleteModel : PageModel
     {
-        private readonly ContosoUniversity.Data.TeamberContext _context;
+        private readonly Teamber.Data.TeamberContext _context;
 
-        public DeleteModel(ContosoUniversity.Data.TeamberContext context)
+        public DeleteModel(Teamber.Data.TeamberContext context)
         {
             _context = context;
         }

@@ -1,6 +1,6 @@
-﻿namespace ContosoUniversity.Models.SchoolViewModels
+﻿namespace Teamber.Models.TeamberViewModels
 {
-    public class AssignedTeamCriteriaData
+    public class AssignedEmployeeCompetenceData
     {
         public int QuestionnaireID { get; set; }
         public int QuestionnaireCompetenceID { get; set; }

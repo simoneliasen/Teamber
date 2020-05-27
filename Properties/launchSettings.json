@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "ContosoUniversity": {
+    "Teamber": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

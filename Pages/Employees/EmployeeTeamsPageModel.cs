@@ -1,11 +1,11 @@
-﻿using ContosoUniversity.Data;
-using ContosoUniversity.Models;
-using ContosoUniversity.Models.SchoolViewModels;
+﻿using Teamber.Data;
+using Teamber.Models;
+using Teamber.Models.TeamberViewModels;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ContosoUniversity.Pages.Employees
+namespace Teamber.Pages.Employees
 {
     public class EmployeeTeamsPageModel : PageModel
     {

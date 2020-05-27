@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ContosoUniversity.Pages.Login {
+namespace Teamber.Pages.Login {
     public class ManagerLoginModel : PageModel {
         public string Login { get; set; }
         public string Manager { get; set; }

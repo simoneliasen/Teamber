@@ -1,17 +1,17 @@
-﻿using ContosoUniversity.Models;
+﻿using Teamber.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace ContosoUniversity.Pages.Teams
+namespace Teamber.Pages.Teams
 {
     public class IndexModel : TeamEmployeesPageModel
     {
-        private readonly ContosoUniversity.Data.TeamberContext _context;
+        private readonly Teamber.Data.TeamberContext _context;
 
-        public IndexModel(ContosoUniversity.Data.TeamberContext context)
+        public IndexModel(Teamber.Data.TeamberContext context)
         {
             _context = context;
         }

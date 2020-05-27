@@ -1,12 +1,12 @@
-﻿namespace ContosoUniversity.Models.SchoolViewModels
+﻿namespace Teamber.Models.TeamberViewModels
 {
-    public class AssignedEmployeeCompetenceData
+    public class AllCompetences
     {
+
         public int QuestionnaireID { get; set; }
         public int QuestionnaireCompetenceID { get; set; }
         public string Criteria { get; set; }
         public bool Assigned { get; set; }
-
-        public int? Priority { get; set; }
     }
 }
+

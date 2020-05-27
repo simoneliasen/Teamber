@@ -1,17 +1,17 @@
-﻿using ContosoUniversity.Models;
+﻿using Teamber.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace ContosoUniversity.Pages.Employees
+namespace Teamber.Pages.Employees
 {
     public class EditModel : EmployeeTeamsPageModel
     {
-        private readonly ContosoUniversity.Data.TeamberContext _context;
+        private readonly Teamber.Data.TeamberContext _context;
 
-        public EditModel(ContosoUniversity.Data.TeamberContext context)
+        public EditModel(Teamber.Data.TeamberContext context)
         {
             _context = context;
         }

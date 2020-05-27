@@ -1,4 +1,4 @@
-﻿using ContosoUniversity.Models;
+﻿using Teamber.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -7,13 +7,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace ContosoUniversity.Pages.Employees
+namespace Teamber.Pages.Employees
 {
     public class CreateModel : EmployeeTeamsPageModel
     {
-        private readonly ContosoUniversity.Data.TeamberContext _context;
+        private readonly Teamber.Data.TeamberContext _context;
 
-        public CreateModel(ContosoUniversity.Data.TeamberContext context)
+        public CreateModel(Teamber.Data.TeamberContext context)
         {
             _context = context;
         }

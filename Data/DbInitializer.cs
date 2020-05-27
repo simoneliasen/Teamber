@@ -1,8 +1,8 @@
-﻿using ContosoUniversity.Models;
+﻿using Teamber.Models;
 using System;
 using System.Linq;
 
-namespace ContosoUniversity.Data {
+namespace Teamber.Data {
     public static class DbInitializer {
         public static void Initialize(TeamberContext context)
         {

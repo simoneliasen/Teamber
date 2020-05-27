@@ -5,17 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
-using ContosoUniversity.Models;
+using Teamber.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Dynamic;
 
-namespace ContosoUniversity.Pages.Employees
+namespace Teamber.Pages.Employees
 {
     public class DashboardModel : EmployeeTeamsPageModel
     {
-        private readonly ContosoUniversity.Data.TeamberContext _context;
+        private readonly Teamber.Data.TeamberContext _context;
 
-        public DashboardModel(ContosoUniversity.Data.TeamberContext context)
+        public DashboardModel(Teamber.Data.TeamberContext context)
         {
             _context = context;
         }

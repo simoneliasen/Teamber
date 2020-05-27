@@ -1,4 +1,4 @@
-﻿using ContosoUniversity.Models;
+﻿using Teamber.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -6,13 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ContosoUniversity.Pages.Employees
+namespace Teamber.Pages.Employees
 {
     public class TakeQuestionnaireModel : EmployeeTeamsPageModel
     {
-        private readonly ContosoUniversity.Data.TeamberContext _context;
+        private readonly Teamber.Data.TeamberContext _context;
 
-        public TakeQuestionnaireModel(ContosoUniversity.Data.TeamberContext context)
+        public TakeQuestionnaireModel(Teamber.Data.TeamberContext context)
         {
             _context = context;
         }

@@ -1,4 +1,4 @@
-﻿namespace ContosoUniversity.Models.SchoolViewModels
+﻿namespace Teamber.Models.TeamberViewModels
 {
     public class AssignedQuestionnaireCompetenceData
     {

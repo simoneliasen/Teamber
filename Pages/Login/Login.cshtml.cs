@@ -1,16 +1,16 @@
-using ContosoUniversity.Models;
+using Teamber.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ContosoUniversity.Pages.Login {
+namespace Teamber.Pages.Login {
     public class LoginModel : PageModel {
 
-        private readonly ContosoUniversity.Data.TeamberContext _context;
+        private readonly Teamber.Data.TeamberContext _context;
 
-        public LoginModel(ContosoUniversity.Data.TeamberContext context)
+        public LoginModel(Teamber.Data.TeamberContext context)
         {
             _context = context;
         }
