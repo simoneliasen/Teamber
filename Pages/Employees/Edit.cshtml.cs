@@ -22,6 +22,16 @@ namespace Teamber.Pages.Employees
         public string Login { get; set; }
         public string Manager { get; set; }
 
+        /// <summary>
+        /// This function retrieves the nescesary data from the model so that it can be displayed on the webpage.
+        /// The lambda expressions are used to include the correct data.
+        /// So for example: For the employee, the related empteam object sohlud be included. And for the empteam object, the team should be included. As this data is needed.
+        /// 
+        /// Lastly, the two populate functions, populates a list of assigned data, that is used to check whether or not the employee is part of the teams.
+        /// This is seen in the checkboxes on the page. So this list decides of the checkbox should be checked or not checked.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             Login = HttpContext.Session.GetString("username");
@@ -38,7 +48,6 @@ namespace Teamber.Pages.Employees
                 .Include(k => k.EmpQuestionnaires).ThenInclude(k => k.Questionnaire)
                 .FirstOrDefaultAsync(m => m.ID == id);
 
-            // Employee = await _context.Employees.FindAsync(id);
 
             if (Employee == null)
             {
@@ -69,8 +78,6 @@ namespace Teamber.Pages.Employees
                 return NotFound();
             }
 
-            //Nedenstående var i et if statement før men det gad ikke at virke, så kører bare indholdet altid. easy
-            // se i teams filen
             await TryUpdateModelAsync<Employee>(
                 employeeToUpdate,
                 "Employee",
@@ -84,35 +91,7 @@ namespace Teamber.Pages.Employees
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
             }
-            //UpdateEmployeeTeams(_context, selectedTeams, employeeToUpdate);
-            //UpdateEmployeeQuestionnaires(_context, selectedQuestionnaires, employeeToUpdate);
-            //PopulateAssignedTeamData(_context, employeeToUpdate);
-            //PopulateAssignedQuestionnaireData(_context, employeeToUpdate);
-            //return Page();
         }
-
-        /*
-        public async Task<IActionResult> OnPostAsync(int id)
-        {
-            var employeeToUpdate = await _context.Employees.FindAsync(id);
-
-            if (employeeToUpdate == null)
-            {
-                return NotFound();
-            }
-
-            if (await TryUpdateModelAsync<Employee>(
-                employeeToUpdate,
-                "employee",
-                s => s.FirstMidName, s => s.LastName, s => s.EnrollmentDate))
-            {
-                await _context.SaveChangesAsync();
-                return RedirectToPage("./Index");
-            }
-
-            return Page();
-        }
-        */
         private bool EmployeeExists(int id)
         {
             return _context.Employees.Any(e => e.ID == id);

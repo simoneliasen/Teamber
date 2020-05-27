@@ -19,7 +19,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav flex-grow-1" style="position: relative">
                         @if (Model.Manager != null)
                         {
                             <li class="nav-item" id="managerOnly">
@@ -31,7 +31,7 @@
                             <li class="nav-item" id="managerOnly">
                                 <a class="nav-link text-white" asp-area="" asp-page="/Questionnaires/Index">Questionnaires</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item" style="position: absolute; right: 0px;">
                                 <a class="nav-link text-white" asp-area="" asp-page="/Login/Logout">Logout</a>
                             </li>
 
@@ -47,7 +47,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-white" asp-area="" asp-page="/Employees/TakeQuestionnaire">Take Questionnaire</a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item" style="position: absolute; right: 0px;">
                                     <a class="nav-link text-white" asp-area="" asp-page="/Login/Logout">Logout</a>
                                 </li>
 
